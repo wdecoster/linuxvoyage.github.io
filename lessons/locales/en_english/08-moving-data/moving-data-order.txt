@@ -1,0 +1,6 @@
+01-network-file-sharing.md
+02-rsync.md
+03-compressed-archives-tar.md
+04-simple-http-server.md
+05-nfs-network-file-share.md
+06-samba.md

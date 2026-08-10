@@ -1,5 +1,38 @@
 This repository is one of the ways to go through the English Version of [Linux Journey](https://linuxjourney.com) Course - https://linuxvoyage.github.io/
 
+---
+
+## About this fork
+
+This is a fork of [linuxvoyage/linuxvoyage.github.io](https://github.com/linuxvoyage/linuxvoyage.github.io), reworked for students who **ssh into a shared server** rather than installing Linux on their own machine.
+
+### What is different
+
+**Corrections**, all also offered upstream:
+
+* the grep lesson served the env lesson's content ([PR #1](https://github.com/linuxvoyage/linuxvoyage.github.io/pull/1))
+* broken markup, a blank quiz answer, and five misleading statements ([PR #2](https://github.com/linuxvoyage/linuxvoyage.github.io/pull/2))
+
+**Resequenced.** The course now opens with connecting to a server instead of ten pages on choosing a distribution. Text editing moved into the beginner section, tab completion moved to lesson two, `grep` moved to the front of Text-Fu, and the distribution tour, init systems and networking became background reading.
+
+**New lessons**, none of which existed upstream:
+
+| section | lessons |
+| --- | --- |
+| Connecting | ssh, ssh keys, VS Code over ssh |
+| Command Line | filenames and quoting, nano |
+| Scripting | shell variables, your first script, loops over files, exit codes and chaining |
+| Jobs and Processes | interrupting commands, background jobs, screen sessions |
+| Your Environment | PATH and export, installing your own tools |
+
+**Removed.** Two vim lessons that were empty `# Title` placeholders upstream.
+
+**Examples.** The core text-processing lessons (`sort`, `uniq`, `cut`) now work on a sample table rather than lists of animals, and the `sort -n` example no longer sorts words numerically.
+
+### Rebuilding after an edit
+
+Lessons are markdown under `lessons/locales/en_english/<section>/`, and each section has an order file listing its lessons. Both the per-lesson HTML and the static pages under `docs/` are generated, so edit the markdown and regenerate rather than editing HTML by hand.
+
 ### Based on
 
 * [Linux Journey](https://github.com/cindyq/linuxjourney/) is a site dedicated to making learning Linux fun and easy.

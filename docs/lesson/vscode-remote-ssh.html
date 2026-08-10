@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>vscode-remote-ssh</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Connecting</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="connecting-with-ssh.html">
+                        1. Connecting with ssh</a>
+                </li>
+                
+                <li>
+                    <a class="" href="ssh-keys.html">
+                        2. Ssh keys</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="vscode-remote-ssh.html">
+                        3. Vscode remote ssh</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>VS Code over ssh</h3>
+<p>Editing files in a terminal editor is a skill worth having, but for day to day work most people are happier with a real editor window. Visual Studio Code can open a folder <i>on the server</i> and let you edit it as if it were local, while everything still runs remotely.</p>
+<p>Install the <b>Remote - SSH</b> extension in VS Code, then open the command palette with <b>Ctrl-Shift-P</b> (<b>Cmd-Shift-P</b> on a Mac) and pick "Remote-SSH: Connect to Host". Type the same thing you would type after ssh:</p>
+<pre>pete@server.example.org</pre>
+<p>If you set up an ~/.ssh/config entry in the previous lesson, the short name shows up in the list, which is the easiest route. Set up your keys first: VS Code reconnects frequently, and doing that with password prompts is miserable.</p>
+<p>Once connected, the bottom left corner of the window shows the server name. That indicator matters. It tells you where "File, Open Folder" will look, and where the built in terminal is running. Open a terminal with <b>Ctrl-`</b> and you get a shell on the server, in the same window as your files.</p>
+<p>For a walkthrough of the setup, this video covers it well:</p>
+<pre>https://www.youtube.com/watch?v=B-s71n0dHUk</pre>
+<p>A few things worth knowing before you rely on it.</p>
+<p>VS Code is not magic, and it is not a replacement for knowing the shell. When you connect, it installs and runs a small server process in your home directory on the remote machine. That process uses real memory and CPU on the login node. Some sites are strict about this, and a few forbid it outright, so check what your local rules are before leaving several windows connected overnight.</p>
+<p>It also does not always work. Compute nodes behind a job scheduler, hosts you can only reach through a jump box, and locked down firewalls will all defeat it in ways that plain ssh handles fine. Files owned by root cannot be saved from the editor either, because the remote process runs as you.</p>
+<p>So the honest summary is: use VS Code because it is comfortable, and learn nano as well, because sooner or later you will be on a machine where VS Code is not an option and you still need to change one line in a config file.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Install the Remote - SSH extension and connect to your server.</li>
+<li>Open your home directory on the server and confirm the bottom left corner shows the server name.</li>
+<li>Open the built in terminal and run hostname, to check it is running remotely and not on your laptop.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Where does the Remote - SSH server process actually run, on your laptop or on the remote machine?</p>
+<h3>Quiz Answer</h3>
+<p>on the remote machine</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

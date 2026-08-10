@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>background-jobs</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Jobs And Processes</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="interrupting-commands.html">
+                        1. Interrupting commands</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="background-jobs.html">
+                        2. Background jobs</a>
+                </li>
+                
+                <li>
+                    <a class="" href="screen-sessions.html">
+                        3. Screen sessions</a>
+                </li>
+                
+                <li>
+                    <a class="" href="monitor-processes-ps-command.html">
+                        4. Monitor processes ps command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="job-control.html">
+                        5. Job control</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-signals.html">
+                        6. Process signals</a>
+                </li>
+                
+                <li>
+                    <a class="" href="killing-processes.html">
+                        7. Killing processes</a>
+                </li>
+                
+                <li>
+                    <a class="" href="controlling-terminal.html">
+                        8. Controlling terminal</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-details.html">
+                        9. Process details</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-creation.html">
+                        10. Process creation</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-termination.html">
+                        11. Process termination</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-niceness.html">
+                        12. Process niceness</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-states.html">
+                        13. Process states</a>
+                </li>
+                
+                <li>
+                    <a class="" href="proc-filesystem.html">
+                        14. Proc filesystem</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Background jobs</h3>
+<p>A command normally holds your terminal until it finishes. That is fine for ls, and no good at all for something that takes an hour. You can put such a command in the background and carry on working.</p>
+<p>Add an <b>&amp;</b> to the end:</p>
+<pre>
+$ ./align_reads.sh &amp;
+[1] 24601
+$ </pre>
+<p>You get your prompt back straight away. The <b>[1]</b> is the job number, which the shell uses to keep track of it, and <b>24601</b> is the process id, which the whole system uses. The job number is the short one you will use most.</p>
+<p>List what you have running with <b>jobs</b>:</p>
+<pre>
+$ jobs
+[1]+  Running                 ./align_reads.sh &amp;
+[2]-  Stopped                 wc -l enormous.fastq
+</pre>
+<p>Move things between foreground and background with fg and bg, giving the job number with a % in front:</p>
+<pre>
+$ fg %1     bring job 1 back to the foreground
+$ bg %2     let the suspended job 2 continue, in the background
+</pre>
+<p>So the full manoeuvre for "I started something long in the foreground by mistake" is: <b>Ctrl-Z</b> to suspend it, then <b>bg</b> to set it running again in the background. No need to start over.</p>
+<p>There is a catch, and it is the important part of this lesson. A background job is still attached to your terminal. If your ssh connection drops, or you close the laptop, the job usually dies with it. Backgrounding solves "I want my prompt back", not "I want this to survive the night".</p>
+<p><b>nohup</b> is one answer. It detaches the command from the terminal so a hangup does not kill it:</p>
+<pre>
+$ nohup ./align_reads.sh &amp;
+nohup: ignoring input and appending output to 'nohup.out'
+</pre>
+<p>Since there is no terminal to print to, the output goes into a file called nohup.out. Usually you want to choose where it goes yourself, using the redirection you already know:</p>
+<pre>$ nohup ./align_reads.sh &gt; align.log 2&gt;&amp;1 &amp;</pre>
+<p>That says: run it, send stdout to align.log, send stderr to the same place, and put the whole thing in the background. It is a mouthful, but it is a pattern you will use often enough to memorise.</p>
+<p>nohup works, but you cannot get back to the job to see how it is doing, and you cannot type at it. For that there is a better tool, which is the next lesson.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Start a long running command with &amp; and check it with jobs.</li>
+<li>Start one in the foreground, suspend it with Ctrl-Z, and set it running again with bg.</li>
+<li>Run something with nohup, redirect the output to a log file, then log out and back in and check the log.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>What do you add to the end of a command to run it in the background?</p>
+<h3>Quiz Answer</h3>
+<p>&amp;</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>filenames-and-quoting</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Command Line</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="the-shell.html">
+                        1. The shell</a>
+                </li>
+                
+                <li>
+                    <a class="" href="history-and-tab-completion.html">
+                        2. History and tab completion</a>
+                </li>
+                
+                <li>
+                    <a class="" href="print-working-directory-pwd-command.html">
+                        3. Print working directory pwd command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="change-directory-cd-command.html">
+                        4. Change directory cd command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="list-directories-ls-command.html">
+                        5. List directories ls command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="touch-command.html">
+                        6. Touch command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="file-command.html">
+                        7. File command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="cat-command.html">
+                        8. Cat command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="less-command.html">
+                        9. Less command</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="filenames-and-quoting.html">
+                        10. Filenames and quoting</a>
+                </li>
+                
+                <li>
+                    <a class="" href="nano-text-editor.html">
+                        11. Nano text editor</a>
+                </li>
+                
+                <li>
+                    <a class="" href="copy-cp-command.html">
+                        12. Copy cp command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="move-mv-command.html">
+                        13. Move mv command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="make-directory-mkdir-command.html">
+                        14. Make directory mkdir command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="remove-rm-command.html">
+                        15. Remove rm command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="find-command.html">
+                        16. Find command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="help-command.html">
+                        17. Help command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="man-command.html">
+                        18. Man command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="whatis-command.html">
+                        19. Whatis command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="alias-command.html">
+                        20. Alias command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="exit-command.html">
+                        21. Exit command</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Filenames and quoting</h3>
+<p>The shell splits whatever you type into words, using spaces as the separator. That is how it knows that in <b>cp reads.fastq backup/</b> there is a command and two arguments. It is also the source of one of the most common beginner frustrations.</p>
+<p>Suppose someone hands you a file called <b>sample 1.fastq</b>, with a space in the name. Try to look at it:</p>
+<pre>$ cat sample 1.fastq
+cat: sample: No such file or directory
+cat: 1.fastq: No such file or directory</pre>
+<p>The shell split the name in half and handed cat two arguments instead of one. cat did what it was told. To keep the name in one piece, put quotes around it:</p>
+<pre>$ cat "sample 1.fastq"</pre>
+<p>Or escape the space with a backslash, which means "treat the next character literally":</p>
+<pre>$ cat sample\ 1.fastq</pre>
+<p>Both work. Quotes are easier to read, so prefer them.</p>
+<p>Spaces are not the only characters with a meaning of their own. You have already met <b>*</b>, <b>?</b> and <b>&gt;</b>, and there are others such as <b>$</b>, <b>&amp;</b>, <b>|</b>, <b>(</b> and <b>)</b>. If a filename contains any of these, it needs quoting too.</p>
+<p><b>Single quotes and double quotes are not the same.</b> Inside double quotes, the shell still expands things that start with a $. Inside single quotes, nothing is expanded at all:</p>
+<pre>
+$ echo "my home is $HOME"
+my home is /home/pete
+
+$ echo 'my home is $HOME'
+my home is $HOME
+</pre>
+<p>The rule of thumb: use double quotes when you want a variable filled in, and single quotes when you want the text exactly as written.</p>
+<p>Tab completion, from the previous lesson, is your friend here. If you start typing <b>sam</b> and press Tab, the shell fills in the rest and escapes any awkward characters correctly, so you do not have to think about it.</p>
+<p>The best fix, though, is to avoid the problem when you are the one naming things. Stick to letters, digits, dots, dashes and underscores:</p>
+<pre>
+avoid:   my reads (copy).fastq
+prefer:  my_reads_copy.fastq
+</pre>
+<p>One last trap. A leading dash makes a filename look like an option:</p>
+<pre>$ rm -file
+rm: invalid option -- 'l'</pre>
+<p>Quoting does not help, because the problem is not word splitting, it is that rm reads it as flags. Point at the file with a path instead:</p>
+<pre>$ rm ./-file</pre>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Create a file whose name contains a space, using touch and quotes.</li>
+<li>Look at it with cat, first without quotes to see the error, then with quotes.</li>
+<li>Compare the output of echo "$HOME" and echo '$HOME'.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which quotes stop the shell from expanding a variable like $HOME?</p>
+<h3>Quiz Answer</h3>
+<p>single quotes</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

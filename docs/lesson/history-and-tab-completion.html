@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>history-and-tab-completion</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Command Line</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="the-shell.html">
+                        1. The shell</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="history-and-tab-completion.html">
+                        2. History and tab completion</a>
+                </li>
+                
+                <li>
+                    <a class="" href="print-working-directory-pwd-command.html">
+                        3. Print working directory pwd command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="change-directory-cd-command.html">
+                        4. Change directory cd command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="list-directories-ls-command.html">
+                        5. List directories ls command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="touch-command.html">
+                        6. Touch command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="file-command.html">
+                        7. File command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="cat-command.html">
+                        8. Cat command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="less-command.html">
+                        9. Less command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="filenames-and-quoting.html">
+                        10. Filenames and quoting</a>
+                </li>
+                
+                <li>
+                    <a class="" href="nano-text-editor.html">
+                        11. Nano text editor</a>
+                </li>
+                
+                <li>
+                    <a class="" href="copy-cp-command.html">
+                        12. Copy cp command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="move-mv-command.html">
+                        13. Move mv command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="make-directory-mkdir-command.html">
+                        14. Make directory mkdir command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="remove-rm-command.html">
+                        15. Remove rm command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="find-command.html">
+                        16. Find command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="help-command.html">
+                        17. Help command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="man-command.html">
+                        18. Man command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="whatis-command.html">
+                        19. Whatis command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="alias-command.html">
+                        20. Alias command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="exit-command.html">
+                        21. Exit command</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Tab completion and history</h3>
+<p>Before we go any further, two features that will save you more typing than everything else in this course put together. They come this early on purpose: there is no point learning to type long paths by hand when the shell will do it for you.</p>
+<p><b>Tab completion.</b> Start typing the beginning of a command, a file or a directory, press the <b>Tab</b> key, and the shell fills in the rest.</p>
+<pre>$ cd Doc<b>[Tab]</b>
+$ cd Documents/</pre>
+<p>If what you typed is enough to identify one thing, it completes it. If several things match, nothing appears to happen, and pressing Tab a second time lists the candidates so you can type another letter or two and try again.</p>
+<p>This is not just about saving keystrokes. A completed name is a name that exists and is spelled correctly, so a great many "No such file or directory" errors simply never happen. Get into the habit now: type a few characters, press Tab, and only type the whole thing out when Tab refuses.</p>
+<p><b>Command history.</b> The shell remembers what you have already run. The up arrow walks back through it, and the down arrow forwards again, so repeating your last command is one keystroke.</p>
+<p>To see the whole list:</p>
+<pre>$ history</pre>
+<p>Want to run the previous command again without typing it? Use !!. If you typed cat file1 and want to run it again, you can just go !! and it will run the last command you ran.</p>
+<p>The most useful one is <b>Ctrl-R</b>, reverse search. Press it and start typing any part of a command you ran earlier, and the shell finds the most recent match. Press Ctrl-R again to step back through older matches, and press Enter to run the one you want. Once you have a few hundred commands behind you, this is much faster than scrolling with the arrow keys.</p>
+<p>Our terminal is getting a little cluttered no? Let’s do a little cleanup, use the clear command to clear up your display.</p>
+<pre>$ clear</pre>
+<p>There that looks better doesn’t it?</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Type the first two or three letters of a directory in your home and complete it with Tab.</li>
+<li>Press Tab twice on something ambiguous, like just c, and look at the list of candidates.</li>
+<li>Run a few commands, then find one of them again with Ctrl-R instead of the arrow keys.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which key completes a partly typed command or filename?</p>
+<h3>Quiz Answer</h3>
+<p>Tab</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

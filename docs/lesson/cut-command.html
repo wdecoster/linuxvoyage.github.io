@@ -43,43 +43,43 @@
                 </li>
                 
                 <li>
-                    <a class="" href="env-environment.html">
-                        5. Env environment</a>
+                    <a class="" href="grep-command.html">
+                        5. Grep command</a>
                 </li>
                 
                 <li>
-                    <a class="current" href="cut-command.html">
-                        6. Cut command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="paste-command.html">
-                        7. Paste command</a>
+                    <a class="" href="regular-expressions-regex.html">
+                        6. Regular expressions regex</a>
                 </li>
                 
                 <li>
                     <a class="" href="head-command.html">
-                        8. Head command</a>
+                        7. Head command</a>
                 </li>
                 
                 <li>
                     <a class="" href="tail-command.html">
-                        9. Tail command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="expand-unexpand-command.html">
-                        10. Expand unexpand command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="join-split-command.html">
-                        11. Join split command</a>
+                        8. Tail command</a>
                 </li>
                 
                 <li>
                     <a class="" href="sort-command.html">
-                        12. Sort command</a>
+                        9. Sort command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="uniq-unique-command.html">
+                        10. Uniq unique command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="nl-wc-command.html">
+                        11. Nl wc command</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="cut-command.html">
+                        12. Cut command</a>
                 </li>
                 
                 <li>
@@ -88,18 +88,18 @@
                 </li>
                 
                 <li>
-                    <a class="" href="uniq-unique-command.html">
-                        14. Uniq unique command</a>
+                    <a class="" href="paste-command.html">
+                        14. Paste command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="nl-wc-command.html">
-                        15. Nl wc command</a>
+                    <a class="" href="join-split-command.html">
+                        15. Join split command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="grep-command.html">
-                        16. Grep command</a>
+                    <a class="" href="expand-unexpand-command.html">
+                        16. Expand unexpand command</a>
                 </li>
                 
             </ul>
@@ -122,18 +122,54 @@
                         <div class="lesson-content">
                             
 <h3>cut</h3>
-<p>We're gonna learn a couple of useful commands that you can use to process text. Before we get started, let's create a file that we'll be working with. Copy and paste the following command, once you do that add a TAB in between lazy and dog (hold down Ctrl-v + TAB).</p>
-<pre>$ echo 'The quick brown; fox jumps over the lazy  dog' &gt; sample.txt</pre>
-<p>First command we'll be learning about is the cut command. It extracts portions of text from a file. </p>
-<p>To extract contents by a list of characters: </p>
-<pre>$ cut -c 5 sample.txt</pre>
-<p>This outputs the 5th character in each line of the file. In this case it is "q", note that the space also counts as a character. </p>
-<p>To extract the contents by a field, we'll need to do a little modification: </p>
-<pre>$ cut -f 2 sample.txt</pre>
-<p>The -f or field flag cuts text based off of fields, by default it uses TABs as delimiters, so everything separated by a TAB is considered a field. You should see "dog" as your output.</p>
-<p>You can combine the field flag with the delimiter flag to extract the contents by a custom delimiter: </p>
-<pre>$ cut -f 1 -d ";" sample.txt</pre>
-<p>This will change the TAB delimiter to a ";" delimiter and since we are cutting the first field, the result should be "The quick brown".</p>
+<p>The cut command extracts portions of each line of a file. It is what you reach for when your data is in columns and you only want some of them.</p>
+<p>Let's use the sample table again:</p>
+<pre>
+samples.tsv
+sample1   control   12000
+sample2   treated   9500
+sample3   control   8000
+</pre>
+<p>The columns here are separated by tabs, which is what cut expects by default. Pull out a field with <b>-f</b>:</p>
+<pre>$ cut -f 1 samples.tsv
+sample1
+sample2
+sample3</pre>
+<p>You can ask for several, either as a list or as a range:</p>
+<pre>
+$ cut -f 1,3 samples.tsv
+sample1   12000
+sample2   9500
+sample3   8000
+
+$ cut -f 2-3 samples.tsv
+control   12000
+treated   9500
+control   8000
+</pre>
+<p>Not every file uses tabs. For a comma separated file, tell cut what the delimiter is with <b>-d</b>:</p>
+<pre>
+samples.csv
+sample1,control,12000
+
+$ cut -d "," -f 2 samples.csv
+control
+</pre>
+<p>Note the quotes around the delimiter. Some delimiters, such as a semicolon or a space, mean something to the shell, so quoting them is a good habit even when you could get away without it.</p>
+<p>There is also <b>-c</b>, which cuts by character position rather than by field:</p>
+<pre>
+$ cut -c 1-7 samples.tsv
+sample1
+sample2
+sample3
+</pre>
+<p>This is useful for fixed width data, where the columns line up by position rather than being separated by a delimiter. Spaces count as characters.</p>
+<p>Two things to know before you rely on cut.</p>
+<p><b>It does not handle multiple spaces as one separator.</b> If your columns are lined up with a variable number of spaces rather than tabs, cut -d " " will produce empty fields, because it treats every single space as a separator. Tab separated data is the happy case.</p>
+<p><b>It cannot reorder columns.</b> cut -f 3,1 gives you fields 1 and 3 in that order, not 3 then 1. Output is always in file order.</p>
+<p>Where cut really earns its place is in a pipeline. Pull out a column, then count what is in it:</p>
+<pre>$ cut -f 2 samples.tsv | sort | uniq -c</pre>
+<p>That is the frequency table pattern from the uniq lesson, applied to one column of a table, and it is probably the single most useful thing in this section.</p>
 
                         </div>
                     </div>
@@ -141,19 +177,19 @@
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>What does the following command do? Why?</p>
-<pre>$ cut -c 5-10 sample.txt
-$ cut -c 5- sample.txt
-$ cut -c -5 sample.txt
-</pre>
+<ol>
+<li>Create samples.tsv with real tabs between the columns and pull out the first and third fields.</li>
+<li>Make a comma separated version and extract the second field using -d.</li>
+<li>Count how many samples are in each condition with cut, sort and uniq -c.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What command would you use to get the first character of every line in a file?</p>
+<p>Which flag tells cut what character separates the fields?</p>
 <h3>Quiz Answer</h3>
-<p>cut -c 1</p>
+<p>-d</p>
 </div>
 
                         </div>

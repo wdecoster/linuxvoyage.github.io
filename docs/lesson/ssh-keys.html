@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ssh-keys</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Connecting</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="connecting-with-ssh.html">
+                        1. Connecting with ssh</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="ssh-keys.html">
+                        2. Ssh keys</a>
+                </li>
+                
+                <li>
+                    <a class="" href="vscode-remote-ssh.html">
+                        3. Vscode remote ssh</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>ssh keys</h3>
+<p>Typing your password every single time you connect gets old fast, and it gets worse once you start copying files back and forth. The better way is an ssh key pair.</p>
+<p>A key pair is two matching files. The <b>private key</b> stays on your laptop and is yours alone. The <b>public key</b> is the half you hand out, and you put a copy on every server you want to log in to. The server uses the public key to check that you hold the matching private one. The private key never leaves your machine and is never sent to the server.</p>
+<p>Make a pair with ssh-keygen:</p>
+<pre>$ ssh-keygen -t ed25519</pre>
+<p>It asks where to save the key, and the default (~/.ssh/id_ed25519) is fine. Then it asks for a passphrase. It is tempting to leave it empty, but a passphrase means that someone who copies your private key still cannot use it. Your system will usually remember the passphrase for you after the first use each session, so you are not typing it constantly.</p>
+<p>You now have two files:</p>
+<pre>
+~/.ssh/id_ed25519       your private key, keep it secret
+~/.ssh/id_ed25519.pub   your public key, safe to share
+</pre>
+<p>Copy the public half to the server:</p>
+<pre>$ ssh-copy-id pete@server.example.org</pre>
+<p>This asks for your password one last time, then appends your public key to a file on the server called ~/.ssh/authorized_keys. Any key listed in that file is allowed to log in as you. From now on:</p>
+<pre>$ ssh pete@server.example.org</pre>
+<p>goes straight in.</p>
+<p>If it still asks for a password, the usual cause is permissions. ssh deliberately refuses to use keys if the files are readable by other people, and it tends to fail quietly rather than explain itself. On the server, ~/.ssh should be 700 and authorized_keys should be 600:</p>
+<pre>
+$ chmod 700 ~/.ssh
+$ chmod 600 ~/.ssh/authorized_keys
+</pre>
+<p>If you have several servers, or your username differs from machine to machine, you can write it all down once in ~/.ssh/config on your laptop:</p>
+<pre>
+Host work
+    HostName server.example.org
+    User pete
+</pre>
+<p>Now <b>ssh work</b> is enough. That short name works with scp and rsync too, and, as you will see in the next lesson, with VS Code.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Generate a key pair with ssh-keygen -t ed25519.</li>
+<li>Copy the public half to your server with ssh-copy-id, then log in again and confirm you are not asked for your password.</li>
+<li>Add a short Host entry to ~/.ssh/config and connect using just that name.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which half of your key pair gets copied to the server?</p>
+<h3>Quiz Answer</h3>
+<p>the public key</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>exit-codes-and-chaining</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Scripting</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="shell-variables.html">
+                        1. Shell variables</a>
+                </li>
+                
+                <li>
+                    <a class="" href="your-first-script.html">
+                        2. Your first script</a>
+                </li>
+                
+                <li>
+                    <a class="" href="loops-over-files.html">
+                        3. Loops over files</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="exit-codes-and-chaining.html">
+                        4. Exit codes and chaining</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Exit codes and chaining</h3>
+<p>Every command that finishes hands back a number saying whether it worked. You do not normally see it, but the shell keeps it in a special variable called <b>$?</b>.</p>
+<pre>
+$ ls /home
+$ echo $?
+0
+
+$ ls /fake/directory
+ls: cannot access '/fake/directory': No such file or directory
+$ echo $?
+2
+</pre>
+<p><b>Zero means success.</b> Anything other than zero means something went wrong. This is backwards from what most people expect, so it is worth saying twice: 0 is good. There is only one way to succeed, but many ways to fail, which is why the failure codes vary.</p>
+<p>Because the shell can see this number, you can chain commands together based on it.</p>
+<p><b>&amp;&amp;</b> runs the next command only if the previous one succeeded:</p>
+<pre>$ mkdir results &amp;&amp; cd results</pre>
+<p>If mkdir fails, the cd never happens. Compare that with using a semicolon, which just runs both regardless:</p>
+<pre>$ mkdir results ; cd results</pre>
+<p>That version tries to cd even when the directory was not created, and you end up somewhere you did not expect. When the second command depends on the first, use &amp;&amp;.</p>
+<p><b>||</b> is the opposite, and runs the next command only if the previous one <i>failed</i>:</p>
+<pre>$ cd /data/project || echo "could not find the project directory"</pre>
+<p>You will see this most often as a guard in scripts.</p>
+<p>Inside a script you set your own exit code with <b>exit</b>:</p>
+<pre>
+#!/bin/bash
+
+if [ ! -f "$1" ]; then
+    echo "no such file: $1"
+    exit 1
+fi
+
+wc -l "$1"
+</pre>
+<p>exit 1 stops the script and reports failure, so whoever runs it, or whatever pipeline calls it, can tell that it did not work. A script that fails silently with exit code 0 is a genuinely nasty thing to debug.</p>
+<p>There is one trap worth knowing. In a pipeline, $? is the exit code of the <b>last</b> command only:</p>
+<pre>$ cat missing.fastq | wc -l
+cat: missing.fastq: No such file or directory
+0
+$ echo $?
+0</pre>
+<p>cat failed, but wc succeeded at counting nothing, so the pipeline reports success. This is the same theme as stderr not travelling through a pipe: a pipeline can look fine while something in the middle of it went wrong. When a script matters, check the pieces rather than trusting the end of the chain.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Run a command that works and one that fails, checking echo $? after each.</li>
+<li>Compare mkdir somedir &amp;&amp; cd somedir with mkdir somedir ; cd somedir when somedir already exists.</li>
+<li>Add an exit 1 to a script and confirm the exit code with echo $? after running it.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>What exit code does a command return when it succeeds?</p>
+<h3>Quiz Answer</h3>
+<p>0</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

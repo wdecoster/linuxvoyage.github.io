@@ -43,43 +43,43 @@
                 </li>
                 
                 <li>
-                    <a class="" href="env-environment.html">
-                        5. Env environment</a>
+                    <a class="" href="grep-command.html">
+                        5. Grep command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="cut-command.html">
-                        6. Cut command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="paste-command.html">
-                        7. Paste command</a>
+                    <a class="" href="regular-expressions-regex.html">
+                        6. Regular expressions regex</a>
                 </li>
                 
                 <li>
                     <a class="" href="head-command.html">
-                        8. Head command</a>
+                        7. Head command</a>
                 </li>
                 
                 <li>
                     <a class="" href="tail-command.html">
-                        9. Tail command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="expand-unexpand-command.html">
-                        10. Expand unexpand command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="join-split-command.html">
-                        11. Join split command</a>
+                        8. Tail command</a>
                 </li>
                 
                 <li>
                     <a class="" href="sort-command.html">
-                        12. Sort command</a>
+                        9. Sort command</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="uniq-unique-command.html">
+                        10. Uniq unique command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="nl-wc-command.html">
+                        11. Nl wc command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="cut-command.html">
+                        12. Cut command</a>
                 </li>
                 
                 <li>
@@ -88,18 +88,18 @@
                 </li>
                 
                 <li>
-                    <a class="current" href="uniq-unique-command.html">
-                        14. Uniq unique command</a>
+                    <a class="" href="paste-command.html">
+                        14. Paste command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="nl-wc-command.html">
-                        15. Nl wc command</a>
+                    <a class="" href="join-split-command.html">
+                        15. Join split command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="grep-command.html">
-                        16. Grep command</a>
+                    <a class="" href="expand-unexpand-command.html">
+                        16. Expand unexpand command</a>
                 </li>
                 
             </ul>
@@ -122,69 +122,65 @@
                         <div class="lesson-content">
                             
 <h3>uniq (Unique)</h3>
-<p>The uniq (unique) command is another useful tool for parsing text.</p>
-<p>Let's say you had a file with lots of duplicates:</p>
+<p>The uniq (unique) command is another useful tool for parsing text. Say you pulled the condition column out of your sample table and ended up with a file full of repeats:</p>
 <pre>
-reading.txt
-book
-book
-paper
-paper
-article
-article
-magazine
+conditions.txt
+control
+control
+treated
+treated
+treated
+untreated
 </pre>
-<p>And you wanted to remove the duplicates, well you can use the uniq command:</p>
-<pre>$ uniq reading.txt
-book
-paper
-article
-magazine</pre>
-<p>Let's get the count of how many occurrences of a line:</p>
-<pre>$ uniq -c reading.txt
-2 book
-2 paper
-2 article
-1 magazine</pre>
-<p>Let's just get unique values:</p>
-<pre>$ uniq -u reading.txt
-magazine</pre>
-<p>Let's just get duplicate values:</p>
-<pre>$ uniq -d reading.txt
-book
-paper
-article
+<p>To collapse the repeats:</p>
+<pre>$ uniq conditions.txt
+control
+treated
+untreated</pre>
+<p>Counting how often each one occurs is usually more useful, and that is <b>-c</b>:</p>
+<pre>$ uniq -c conditions.txt
+2 control
+3 treated
+1 untreated</pre>
+<p><b>-u</b> keeps only the lines that appear exactly once:</p>
+<pre>$ uniq -u conditions.txt
+untreated</pre>
+<p>and <b>-d</b> keeps only the ones that are repeated:</p>
+<pre>$ uniq -d conditions.txt
+control
+treated
 </pre>
-<p><b>Note</b> : uniq does not detect duplicate lines unless they are adjacent. For eg:</p>
-<p>Let's say you had a file with duplicates which are not adjacent:</p>
+<p><b>Now the catch, and it is the thing to remember about uniq: it only compares each line with the one directly above it.</b> Duplicates that are not next to each other are invisible to it.</p>
 <pre>
-reading.txt
-book
-paper
-book
-paper
-article
-magazine
-article
+conditions.txt
+control
+treated
+control
+treated
+untreated
 </pre>
-<pre>$ uniq reading.txt
-reading.txt
-book
-paper
-book
-paper
-article
-magazine
-article</pre>
-<p>The result returned by uniq will contain all the entries unlike the very first<br/>
-example.</p>
-<p>To overcome this limitation of uniq we can use sort in combination with uniq:</p>
+<pre>$ uniq conditions.txt
+control
+treated
+control
+treated
+untreated</pre>
+<p>Nothing was removed, because no two identical lines were adjacent. This catches people out constantly, and the symptom is a count that is quietly too high.</p>
+<p>The fix is to sort first, so that identical lines end up together:</p>
 <pre>
-$ sort reading.txt | uniq
-article
-book
-magazine
-paper</pre>
+$ sort conditions.txt | uniq
+control
+treated
+untreated</pre>
+<p><b>sort | uniq -c</b> is one of the most useful pairs in the whole shell. It answers "how many of each?" for anything you can get onto separate lines:</p>
+<pre>
+$ sort conditions.txt | uniq -c
+2 control
+2 treated
+1 untreated</pre>
+<p>Add a numeric reverse sort on the end and you have a frequency table, most common first:</p>
+<pre>$ sort conditions.txt | uniq -c | sort -nr</pre>
+<p>That pipeline is worth memorising. You will use it on log files, on column output from cut, and on anything else where the question is "what is in here, and how much of it".</p>
 
                         </div>
                     </div>
@@ -192,15 +188,19 @@ paper</pre>
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>What result would you get if you tried uniq -uc?</p>
+<ol>
+<li>Create the second, unsorted version of conditions.txt and confirm that plain uniq misses the duplicates.</li>
+<li>Fix it with sort, and get counts with sort file | uniq -c.</li>
+<li>Build the full sort | uniq -c | sort -nr pipeline and check the most common value comes out on top.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What command would you use to remove duplicates in a file?</p>
+<p>Why does uniq usually need sort in front of it?</p>
 <h3>Quiz Answer</h3>
-<p>uniq</p>
+<p>uniq only removes duplicate lines that are next to each other</p>
 </div>
 
                         </div>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>screen-sessions</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Jobs And Processes</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="interrupting-commands.html">
+                        1. Interrupting commands</a>
+                </li>
+                
+                <li>
+                    <a class="" href="background-jobs.html">
+                        2. Background jobs</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="screen-sessions.html">
+                        3. Screen sessions</a>
+                </li>
+                
+                <li>
+                    <a class="" href="monitor-processes-ps-command.html">
+                        4. Monitor processes ps command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="job-control.html">
+                        5. Job control</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-signals.html">
+                        6. Process signals</a>
+                </li>
+                
+                <li>
+                    <a class="" href="killing-processes.html">
+                        7. Killing processes</a>
+                </li>
+                
+                <li>
+                    <a class="" href="controlling-terminal.html">
+                        8. Controlling terminal</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-details.html">
+                        9. Process details</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-creation.html">
+                        10. Process creation</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-termination.html">
+                        11. Process termination</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-niceness.html">
+                        12. Process niceness</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-states.html">
+                        13. Process states</a>
+                </li>
+                
+                <li>
+                    <a class="" href="proc-filesystem.html">
+                        14. Proc filesystem</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>screen sessions</h3>
+<p>Here is the problem this lesson solves. You ssh to the server, start something that takes three hours, and go home. Your laptop sleeps, the connection drops, and the job dies. Or the wifi hiccups for two seconds and takes your work with it.</p>
+<p><b>screen</b> fixes this by putting your shell somewhere that does not belong to your ssh connection. The session lives on the server. You attach to it, do some work, detach, close your laptop, come back tomorrow from a different machine and attach again. Everything is exactly where you left it, still running.</p>
+<p>Start one:</p>
+<pre>$ screen -S alignment</pre>
+<p>The <b>-S</b> gives it a name, which you will thank yourself for later. The screen clears and you get a normal shell prompt. It looks like nothing happened, but you are now inside a session called alignment. Start your long job here as usual.</p>
+<p>To leave it running and get back to your ordinary shell, press <b>Ctrl-A</b> then <b>d</b>:</p>
+<pre>
+[detached from 12345.alignment]
+$ </pre>
+<p>That is the one piece of screen you have to remember. Ctrl-A is screen's attention key: you press it, let go, and then press the actual command key. Ctrl-A then d means detach.</p>
+<p>Now you can log out entirely. The job keeps running. When you come back:</p>
+<pre>
+$ screen -ls
+There is a screen on:
+        12345.alignment (Detached)
+
+$ screen -r alignment
+</pre>
+<p><b>screen -ls</b> lists your sessions and <b>screen -r</b> reattaches to one. With only one session, plain screen -r is enough.</p>
+<p>When the work is genuinely done, exit the shell inside the session as normal, with exit or Ctrl-D. The session ends and disappears from screen -ls. Detaching leaves it running; exiting closes it.</p>
+<p>A few more keys, all after Ctrl-A:</p>
+<ul>
+<li>Ctrl-A then d - detach, leaving everything running</li>
+<li>Ctrl-A then c - create another window inside the session</li>
+<li>Ctrl-A then n - switch to the next window</li>
+<li>Ctrl-A then " - list the windows and pick one</li>
+<li>Ctrl-A then ? - show all the key bindings</li>
+</ul>
+<p>Windows are handy once you are comfortable: one for the job that is running, one for poking around at the output, without opening a second ssh connection.</p>
+<p>Compared with nohup from the last lesson, screen is the better tool for interactive work. nohup fires something off and you can only look at the log afterwards, while a screen session is a real terminal you can come back to, type in, and watch.</p>
+<p>You may also hear about <b>tmux</b>, which does the same job with more features and a more modern feel. If your server has it and you like it, use it. screen is on essentially every machine you will ever meet and takes about three keystrokes to learn, which is why we start here.</p>
+<p>One habit worth forming: get into screen <i>before</i> you start the long job, not after. There is no way to move an already running command into a session afterwards.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Start a named session with screen -S test and run a command that prints something every few seconds.</li>
+<li>Detach with Ctrl-A then d, log out of the server completely, then log back in and reattach with screen -r test.</li>
+<li>List your sessions with screen -ls, then end the session properly with exit.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which keys detach you from a screen session while leaving it running?</p>
+<h3>Quiz Answer</h3>
+<p>Ctrl-A then d</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

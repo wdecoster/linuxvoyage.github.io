@@ -43,43 +43,43 @@
                 </li>
                 
                 <li>
-                    <a class="" href="env-environment.html">
-                        5. Env environment</a>
+                    <a class="" href="grep-command.html">
+                        5. Grep command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="cut-command.html">
-                        6. Cut command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="paste-command.html">
-                        7. Paste command</a>
+                    <a class="" href="regular-expressions-regex.html">
+                        6. Regular expressions regex</a>
                 </li>
                 
                 <li>
                     <a class="" href="head-command.html">
-                        8. Head command</a>
+                        7. Head command</a>
                 </li>
                 
                 <li>
                     <a class="" href="tail-command.html">
-                        9. Tail command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="expand-unexpand-command.html">
-                        10. Expand unexpand command</a>
-                </li>
-                
-                <li>
-                    <a class="" href="join-split-command.html">
-                        11. Join split command</a>
+                        8. Tail command</a>
                 </li>
                 
                 <li>
                     <a class="current" href="sort-command.html">
-                        12. Sort command</a>
+                        9. Sort command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="uniq-unique-command.html">
+                        10. Uniq unique command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="nl-wc-command.html">
+                        11. Nl wc command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="cut-command.html">
+                        12. Cut command</a>
                 </li>
                 
                 <li>
@@ -88,18 +88,18 @@
                 </li>
                 
                 <li>
-                    <a class="" href="uniq-unique-command.html">
-                        14. Uniq unique command</a>
+                    <a class="" href="paste-command.html">
+                        14. Paste command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="nl-wc-command.html">
-                        15. Nl wc command</a>
+                    <a class="" href="join-split-command.html">
+                        15. Join split command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="grep-command.html">
-                        16. Grep command</a>
+                    <a class="" href="expand-unexpand-command.html">
+                        16. Expand unexpand command</a>
                 </li>
                 
             </ul>
@@ -122,38 +122,52 @@
                         <div class="lesson-content">
                             
 <h3>sort</h3>
-<p>The sort command is useful for sorting lines.</p>
+<p>The sort command is useful for sorting lines. Let's use a small table of samples, with a sample name, a condition, and a count of reads, separated by tabs:</p>
 <pre>
-file1.txt
-dog
-cow
-cat
-elephant
-bird
-
-$ sort file1.txt
-bird
-cat
-cow
-dog
-elephant
+samples.tsv
+sample3   control   8000
+sample1   control   12000
+sample4   treated   45000
+sample2   treated   9500
 </pre>
-<p>You can also do a reverse sort: </p>
-<pre>$ sort -r file1.txt
-elephant
-dog
-cow
-cat
-bird
+<p>By default sort works alphabetically on the whole line:</p>
+<pre>$ sort samples.tsv
+sample1   control   12000
+sample2   treated   9500
+sample3   control   8000
+sample4   treated   45000
 </pre>
-<p>And also sort via numerical value: </p>
-<pre>$ sort -n file1.txt
-bird
-cat
-cow
-elephant
-dog
+<p>You can reverse it with -r:</p>
+<pre>$ sort -r samples.tsv
+sample4   treated   45000
+sample3   control   8000
+sample2   treated   9500
+sample1   control   12000
 </pre>
+<p>Now the interesting part. Say you want the samples ordered by read count, which is the third column. Use <b>-k</b> to pick the column:</p>
+<pre>$ sort -k 3 samples.tsv
+sample1   control   12000
+sample3   control   8000
+sample4   treated   45000
+sample2   treated   9500
+</pre>
+<p>That is not what you wanted. 12000 came before 8000, because sort compared the text character by character, and the character "1" sorts before "8". Alphabetical order and numerical order are not the same thing.</p>
+<p><b>-n</b> tells sort to read the field as a number:</p>
+<pre>$ sort -n -k 3 samples.tsv
+sample3   control   8000
+sample2   treated   9500
+sample1   control   12000
+sample4   treated   45000
+</pre>
+<p>That is the one you wanted. Forgetting -n on numbers is an easy mistake to make and a hard one to notice, because the output still looks sorted.</p>
+<p>Combine it with -r to get the largest first, which is the usual way to answer "what are the top few":</p>
+<pre>$ sort -nr -k 3 samples.tsv
+sample4   treated   45000
+sample1   control   12000
+sample2   treated   9500
+sample3   control   8000
+</pre>
+<p>Two more that come up often: <b>-u</b> drops duplicate lines as it sorts, and <b>-h</b> understands human readable sizes such as 4K and 2G, which is what you want for sorting the output of du.</p>
 
                         </div>
                     </div>
@@ -161,16 +175,19 @@ dog
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>The real power of sort comes with its ability to be combined with other commands, try the following command and see what happens?</p>
-<pre>$ ls /etc | sort -rn</pre>
+<ol>
+<li>Create the samples.tsv file above and sort it on the third column, with and without -n, and compare.</li>
+<li>Use sort -nr to put the largest count first.</li>
+<li>Try du -h in a directory with some files, and sort it with sort -h.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What flag do you use to do a reverse sort?</p>
+<p>What flag makes sort compare fields as numbers rather than as text?</p>
 <h3>Quiz Answer</h3>
-<p>-r</p>
+<p>-n</p>
 </div>
 
                         </div>

@@ -12,14 +12,18 @@ Just like we had <b>&gt;</b> for stdout redirection, we can use <b>&lt;</b> for 
 
 Normally in the cat command, you send a file to it and that file becomes the stdin, in this case, we redirected peanuts.txt to be our stdin. Then the output of cat peanuts.txt which would be Hello World gets redirected to another file called banana.txt.
 
+Not every command reads from stdin. echo, ls and pwd all ignore it completely and produce their usual output no matter what you feed them, so redirecting into them does nothing useful. Commands like cat, sort, wc and grep do read stdin, and those are the ones worth trying this with.
+
 ## Exercise
 
-Try out a couple of commands:
+Try out a couple of commands and compare what they do with the file:
 <pre>
-$ echo <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt
-$ ls <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt
-$ pwd <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt
+$ wc -l <b>&lt;</b> peanuts.txt
+$ sort <b>&lt;</b> peanuts.txt
+$ echo <b>&lt;</b> peanuts.txt
 </pre>
+
+The last one prints an empty line. Why?
 
 ## Quiz Question
 

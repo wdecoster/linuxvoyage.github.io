@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>interrupting-commands</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Jobs And Processes</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="current" href="interrupting-commands.html">
+                        1. Interrupting commands</a>
+                </li>
+                
+                <li>
+                    <a class="" href="background-jobs.html">
+                        2. Background jobs</a>
+                </li>
+                
+                <li>
+                    <a class="" href="screen-sessions.html">
+                        3. Screen sessions</a>
+                </li>
+                
+                <li>
+                    <a class="" href="monitor-processes-ps-command.html">
+                        4. Monitor processes ps command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="job-control.html">
+                        5. Job control</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-signals.html">
+                        6. Process signals</a>
+                </li>
+                
+                <li>
+                    <a class="" href="killing-processes.html">
+                        7. Killing processes</a>
+                </li>
+                
+                <li>
+                    <a class="" href="controlling-terminal.html">
+                        8. Controlling terminal</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-details.html">
+                        9. Process details</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-creation.html">
+                        10. Process creation</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-termination.html">
+                        11. Process termination</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-niceness.html">
+                        12. Process niceness</a>
+                </li>
+                
+                <li>
+                    <a class="" href="process-states.html">
+                        13. Process states</a>
+                </li>
+                
+                <li>
+                    <a class="" href="proc-filesystem.html">
+                        14. Proc filesystem</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Interrupting commands</h3>
+<p>At some point, quite soon, you will run a command that does not stop. Maybe you left off a filename and it is sitting there waiting for input, maybe you asked it to search the entire filesystem, maybe it is just slower than you expected. The prompt does not come back and typing does nothing useful.</p>
+<p>The way out is <b>Ctrl-C</b>.</p>
+<pre>
+$ find / -name "*.fastq"
+... pages and pages of output ...
+^C
+$ </pre>
+<p>Ctrl-C sends the running program an interrupt signal, asking it to stop. Most programs take the hint and exit, and you get your prompt back. It is the single most useful key combination in the terminal, and it is worth pressing deliberately a few times now so it becomes automatic later.</p>
+<p>Note that it interrupts the program, not the shell. You will not be logged out and you will not lose your session.</p>
+<p>A close relative is <b>Ctrl-D</b>, which is not the same thing at all. Ctrl-D means end of input. If a command is reading from the keyboard, Ctrl-D tells it there is nothing more coming:</p>
+<pre>
+$ cat &gt; notes.txt
+some text I am typing
+^D
+$ </pre>
+<p>Here cat was waiting for input, and Ctrl-D ended it cleanly and wrote the file. Ctrl-C would have interrupted it instead. At an empty shell prompt, Ctrl-D means "no more input for the shell", which logs you out, exactly like typing exit.</p>
+<p>Then there is <b>Ctrl-Z</b>, which suspends the program rather than killing it:</p>
+<pre>
+$ wc -l enormous.fastq
+^Z
+[1]+  Stopped                 wc -l enormous.fastq
+$ </pre>
+<p>The program is still there, frozen, doing nothing. You get your prompt back and can carry on. To pick it up again:</p>
+<pre>
+$ fg
+</pre>
+<p>and it continues in the foreground, as if nothing happened. Ctrl-Z is how you get out of "I need my prompt for one second but I do not want to lose this", and it leads directly into the next lesson on background jobs.</p>
+<p>Occasionally Ctrl-C does not work, because a program can choose to ignore the interrupt. If that happens, Ctrl-Z to suspend it, then get rid of it properly with kill, which is covered a few lessons from now.</p>
+<ul>
+<li>Ctrl-C - interrupt, stop the running command</li>
+<li>Ctrl-D - end of input, or log out at an empty prompt</li>
+<li>Ctrl-Z - suspend the running command, resume it with fg</li>
+</ul>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Run find / -name "*.conf" and stop it with Ctrl-C.</li>
+<li>Run cat with no arguments, type a couple of lines, and end it with Ctrl-D.</li>
+<li>Run a slow command, suspend it with Ctrl-Z, run ls, then bring it back with fg.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which key combination interrupts a running command?</p>
+<h3>Quiz Answer</h3>
+<p>Ctrl-C</p>
+</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

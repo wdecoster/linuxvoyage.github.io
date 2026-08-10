@@ -1,0 +1,10 @@
+01-text-editors-vim-or-emacs.md
+02-vim-text-editor.md
+03-vim-search-patterns.md
+04-vim-navigation.md
+05-vim-saving-and-exiting.md
+06-emacs-text-editor.md
+07-emacs-manipulate-files.md
+08-emacs-buffer-navigation.md
+09-emacs-editing.md
+10-emacs-exiting-and-help.md

@@ -879,13 +879,15 @@ body .markdown-body
 
 <p>Just like we had <b>&gt;</b> for stdout redirection, we can use <b>&lt;</b> for stdin redirection. </p>
 <p>Normally in the cat command, you send a file to it and that file becomes the stdin, in this case, we redirected peanuts.txt to be our stdin. Then the output of cat peanuts.txt which would be Hello World gets redirected to another file called banana.txt.</p>
+<p>Not every command reads from stdin. echo, ls and pwd all ignore it completely and produce their usual output no matter what you feed them, so redirecting into them does nothing useful. Commands like cat, sort, wc and grep do read stdin, and those are the ones worth trying this with.</p>
 <h3>Exercise</h3>
-<p>Try out a couple of commands:<br />
+<p>Try out a couple of commands and compare what they do with the file:<br />
 <pre><br />
-$ echo <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt<br />
-$ ls <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt<br />
-$ pwd <b>&lt;</b> peanuts.txt <b>&gt;</b> banana.txt<br />
+$ wc -l <b>&lt;</b> peanuts.txt<br />
+$ sort <b>&lt;</b> peanuts.txt<br />
+$ echo <b>&lt;</b> peanuts.txt<br />
 </pre></p>
+<p>The last one prints an empty line. Why?</p>
 <h3>Quiz Question</h3>
 <p>What redirector do you use to redirect stdin?</p>
 <h3>Quiz Answer</h3>

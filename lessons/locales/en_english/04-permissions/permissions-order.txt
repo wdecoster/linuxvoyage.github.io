@@ -1,0 +1,8 @@
+01-file-permissions.md
+02-modifying-permissions.md
+03-ownership-permissions.md
+04-umask.md
+05-process-permissions.md
+06-setuid-set-user-id.md
+07-setgid-set-group-id.md
+08-sticky-bit.md
