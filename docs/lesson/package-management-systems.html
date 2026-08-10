@@ -80,19 +80,20 @@
 <p>Ah, the Batmans of package management, these systems come with all the fixins to make package installation, removal and changes easier, including installing package dependencies. Two of the most popular management systems is <b>yum</b> and <b>apt</b>. Yum is exclusive to the Red Hat family and apt is exclusively to the Debian family.</p>
 <p><b>Install a package from a repository</b></p>
 <pre>
-Debian: $ apt install package_name
-RPM: $ yum install package_name
+Debian: $ sudo apt install package_name
+RPM: $ sudo yum install package_name
 </pre>
+<p>Note the sudo. Installing and removing software changes the whole system, not just your own files, so these commands need superuser access. Only the commands that just read information, like apt show, work without it.</p>
 <p><b>Remove a package</b></p>
 <pre>
-Debian: $ apt remove package_name
-RPM: $ yum erase package_name
+Debian: $ sudo apt remove package_name
+RPM: $ sudo yum erase package_name
 </pre>
 <p><b>Updating packages for a repository</b></p>
 <p>It's always best practice to update your package repositories so they are up to date before you install and update a package. </p>
 <pre>
-Debian: apt update; apt upgrade
-RPM: yum update
+Debian: sudo apt update; sudo apt upgrade
+RPM: sudo yum update
 </pre>
 <p><b>Get information about an installed package</b></p>
 <pre>

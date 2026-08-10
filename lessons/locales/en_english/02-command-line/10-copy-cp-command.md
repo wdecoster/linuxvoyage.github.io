@@ -8,7 +8,9 @@ Let’s start making some copies of these files. Much like copy and pasting file
 
 mycoolfile is the file you want to copy and /home/pete/Documents/cooldocs is where you are copying the file to.
 
-You can copy multiple files and directories as well as use wildcards. A wildcard is a character that can be substituted for a pattern based selection, giving you more flexibility with searches. You can use wildcards in every command for more flexibility.
+You can copy multiple files and directories as well as use wildcards. A wildcard is a character that can be substituted for a pattern based selection, giving you more flexibility with searches.
+
+Wildcards are not a feature of cp, they are a feature of the shell. Before cp ever runs, the shell replaces the pattern with the list of matching filenames, so cp only ever sees ordinary filenames. That means wildcards work the same way with almost any command, and it also means the shell expands them against the files that exist right now.
 
 <ul>
 <li>* the wildcard of wildcards, it's used to represent all single characters or any string.</li>

@@ -6,9 +6,13 @@ Linux has some great built-in tools to help you how to use a command or check wh
 
 <pre>$ help echo</pre>
 
-This will give you a description and the options you can use when you want to run echo. For other executable programs, it’s convention to have an option called --help or something similar. 
+This will give you a description and the options you can use when you want to run echo. Note that help only works on built-ins, so <b>help ls</b> won’t work, because ls is a separate program rather than something built into the shell.
 
-<pre>$ echo --help</pre>
+For other executable programs, it’s convention to have an option called --help or something similar. 
+
+<pre>$ ls --help</pre>
+
+Don’t expect this to work on built-ins though. Since the shell handles them itself, <b>echo --help</b> won’t print any help, it will just echo the text --help back at you.
 
 Not all developers who ship out executables will conform to this standard, but it’s probably your best shot to find some help on a program.
 

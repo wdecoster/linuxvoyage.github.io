@@ -24,7 +24,7 @@ Adding the -i flag like many of the other commands, will give you a prompt on wh
 
 You can’t just rm a directory by default, you’ll need to add the -r flag (recursive) to remove all the files and any subdirectories it may have.
 
-You can remove a directory with the rmdir command.
+There is also the rmdir command, but it only removes a directory that is already empty. It will refuse to do anything if there is still something inside, which makes it a much safer choice than rm -r when you only mean to clean up an empty directory.
 
 <pre>$ rmdir directory</pre>
 
