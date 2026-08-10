@@ -71,6 +71,7 @@ Try to combine regular expressions with grep and search through some files.
 
 <pre>
 grep [regular expression here] [file]
+</pre>
 
 ## Quiz Question
 

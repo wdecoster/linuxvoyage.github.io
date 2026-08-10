@@ -15,7 +15,7 @@ The above command reads like this: change permission on myfile by adding executa
 <pre>$ chmod u-x myfile</pre>
 
 <b>Adding multiple permission bits on a file</b>
-<pre>$ chmod ug+w</pre>
+<pre>$ chmod ug+w myfile</pre>
 
 There is another way to change permissions using numerical format. This method allows you to change permissions all at once. Instead of using r, w, or x to represent permissions, you'll use a numerical representation for a single permission set. So no need to specify the group with g or the user with u.
 

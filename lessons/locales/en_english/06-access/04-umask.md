@@ -18,7 +18,7 @@ When you run the umask command it will give that default set of permissions on a
 <li>Create a new file, then note it's permissions.</li>
 <li>Modify the umask and then create another new file.</li>
 <li>Check the permissions once more on the new file, what do you expect to see?</li>
-<ol>
+</ol>
 
 ## Quiz Question
 
