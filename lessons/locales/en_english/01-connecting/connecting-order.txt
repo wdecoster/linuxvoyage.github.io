@@ -1,3 +1,0 @@
-01-connecting-with-ssh.md
-02-ssh-keys.md
-03-vscode-remote-ssh.md

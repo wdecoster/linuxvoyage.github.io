@@ -2,7 +2,7 @@
 
 ## Start here
 
-* Connecting - Reach the server with ssh, set up keys, and edit remotely from VS Code.
+* Getting Started - What Linux actually is, then reaching your server with ssh, keys and VS Code.
 
 * Command Line - The fundamentals: navigating files and directories, and editing them with nano.
 
@@ -26,7 +26,7 @@
 
 * Editors - Navigate text like a Linux spider monkey with vim and emacs.
 
-* Getting Started - What Linux is, and a tour of the distributions. Background reading.
+* Linux Distributions - Where Linux came from, and how Ubuntu, Debian, Red Hat and the rest differ.
 
 * The Filesystem - Disks, partitions, mounting, inodes and symlinks.
 
