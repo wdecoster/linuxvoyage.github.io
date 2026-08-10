@@ -871,42 +871,29 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>env (Environment)</h3>
+            <h3>grep</h3>
 
-<p>Run the following command: </p>
-<pre>$ echo $HOME</pre>
+<p>The grep command is quite possibly the most common text processing command you will use. It allows you to search files for characters that match a certain pattern. What if you wanted to know if a file existed in a certain directory or if you wanted to see if a string was found in a file? You certainly wouldn't dig through every line of text, you would use grep!</p>
+<p>Let's use our sample.txt file as an example: </p>
+<pre>$ grep fox sample.txt</pre>
 
-<p>You should see the path to your home directory, mine looks like /home/pete. </p>
-<p>What about this command? </p>
-<pre>$ echo $USER </pre>
+<p>You should see that grep found fox in the sample.txt file. </p>
+<p>You can also grep patterns that are case insensitive with the -i flag: </p>
+<pre>$ grep -i somepattern somefile</pre>
 
-<p>You should see your username!</p>
-<p>Where is this information coming from? It's coming from your environment variables. You can view these by typing</p>
-<pre>$ env </pre>
+<p>To get even more flexible with grep you can combine it with other commands with |.</p>
+<pre>$ env | grep -i User</pre>
 
-<p>This outputs a whole lot of information about the environment variables you currently have set. These variables contain useful information that the shell and other processes can use.</p>
-<p>Here is a short example:</p>
-<pre>
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/bin
-PWD=/home/user
-USER=pete
-</pre>
+<p>As you can see grep is pretty versatile. You can even use regular expressions in your pattern: </p>
+<pre>$ ls /somedir | grep '.txt$'</pre>
 
-<p>One particularly important variable is the PATH Variable. You can access these variables by sticking a $ infront of the variable name like so:</p>
-<pre>
-$ echo $PATH
-/usr/local/sbin:/usr/local/bin:/usr/sbin:/bin
-</pre>
-
-<p>This returns a list of paths separated by a colon that your system searches when it runs a command. Let's say you manually download and install a package from the internet and put it in to a non standard directory and want to run that command, you type $ coolcommand and the prompt says command not found. Well that's silly you are looking at the binary in a folder and know it exists. What is happening is that $PATH variable doesn't check that directory for this binary so it's throwing an error. </p>
-<p>Let's say you had tons of binaries you wanted to run out of that directory, you can just modify the PATH variable to include that directory in your PATH environment variable.</p>
+<p>Should return all files ending with .txt in somedir.</p>
 <h3>Exercise</h3>
-<p>What does the following output? Why?<br />
-<pre>$ echo $HOME</pre></p>
+<p>You may have heard of egrep or fgrep, these are deprecated grep calls and have since been replaced by grep -E and grep -F. Read the grep manpage to learn more.</p>
 <h3>Quiz Question</h3>
-<p>How do you see your environment variables?</p>
+<p>What command do you use to find a certain pattern?</p>
 <h3>Quiz Answer</h3>
-<p>env</p>
+<p>grep</p>
             </div>
             </body>
             </html>
