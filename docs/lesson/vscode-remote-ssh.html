@@ -62,8 +62,8 @@
 <pre>pete@server.example.org</pre>
 <p>If you set up an ~/.ssh/config entry in the previous lesson, the short name shows up in the list, which is the easiest route. Set up your keys first: VS Code reconnects frequently, and doing that with password prompts is miserable.</p>
 <p>Once connected, the bottom left corner of the window shows the server name. That indicator matters. It tells you where "File, Open Folder" will look, and where the built in terminal is running. Open a terminal with <b>Ctrl-`</b> and you get a shell on the server, in the same window as your files.</p>
-<p>For a walkthrough of the setup, this video covers it well:</p>
-<pre>https://www.youtube.com/watch?v=B-s71n0dHUk</pre>
+<p>If VS Code itself is new to you, the official seven minute introduction is a good place to start, though note that it covers the editor in general rather than the remote setup above:</p>
+<p><a href="https://www.youtube.com/watch?v=B-s71n0dHUk">Learn Visual Studio Code in 7min</a></p>
 <p>A few things worth knowing before you rely on it.</p>
 <p>VS Code is not magic, and it is not a replacement for knowing the shell. When you connect, it installs and runs a small server process in your home directory on the remote machine. That process uses real memory and CPU on the login node. Some sites are strict about this, and a few forbid it outright, so check what your local rules are before leaving several windows connected overnight.</p>
 <p>It also does not always work. Compute nodes behind a job scheduler, hosts you can only reach through a jump box, and locked down firewalls will all defeat it in ways that plain ssh handles fine. Files owned by root cannot be saved from the editor either, because the remote process runs as you.</p>

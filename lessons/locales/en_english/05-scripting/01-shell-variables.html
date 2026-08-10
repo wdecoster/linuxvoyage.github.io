@@ -873,7 +873,7 @@ body .markdown-body
             <div class='markdown-body'>
             <h3>Shell variables</h3>
 
-<p>You have already used variables without making any: $HOME and $PATH came from the environment. You can make your own just as easily.</p>
+<p>You have already used a variable without making one: $HOME, which the shell fills in with the path to your home directory. You can make your own just as easily.</p>
 <pre>$ ref=/data/reference/hg38.fa</pre>
 
 <p>Note that there are <b>no spaces around the =</b>. This is the single most common mistake when starting out, because it looks so much like other languages. With spaces, the shell reads ref as a command name:</p>
@@ -901,12 +901,13 @@ $ ls "$dir"     looks for one directory named "my project"
 <pre>
 $ sample=patient1
 $ echo $sample_reads.fastq
+.fastq
 
 $ echo ${sample}_reads.fastq
 patient1_reads.fastq
 </pre>
 
-<p>The first one printed almost nothing, because the shell looked for a variable called sample_reads, which does not exist. An undefined variable quietly becomes empty rather than raising an error, which is worth remembering when a command behaves strangely.</p>
+<p>The first one lost the sample name entirely, because the shell looked for a variable called sample_reads, which does not exist, and put nothing in its place. Only the literal .fastq survived. An undefined variable quietly becomes empty rather than raising an error, which is worth remembering when a command behaves strangely.</p>
 <p>You can also capture the output of a command into a variable, by putting it in $( ):</p>
 <pre>
 $ today=$(date +%Y-%m-%d)

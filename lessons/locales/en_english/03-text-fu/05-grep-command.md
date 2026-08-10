@@ -4,7 +4,11 @@
 
 The grep command is quite possibly the most common text processing command you will use. It allows you to search files for characters that match a certain pattern. What if you wanted to know if a file existed in a certain directory or if you wanted to see if a string was found in a file? You certainly wouldn't dig through every line of text, you would use grep!
 
-Let's use our sample.txt file as an example: 
+Let's make a small file to search. Copy and paste this, and put a real TAB between "lazy" and "dog" by holding Ctrl-v and then pressing TAB:
+
+<pre>$ echo 'The quick brown; fox jumps over the lazy  dog' > sample.txt</pre>
+
+We will reuse this file in a couple of later lessons. Now search it:
 
 <pre>$ grep fox sample.txt</pre>
 
@@ -20,9 +24,9 @@ To get even more flexible with grep you can combine it with other commands with 
 
 As you can see grep is pretty versatile. You can even use regular expressions in your pattern: 
 
-<pre>$ ls /somedir | grep '.txt$'</pre>
+<pre>$ ls /somedir | grep '\.txt$'</pre>
 
-Should return all files ending with .txt in somedir.
+Should return all files ending with .txt in somedir. Note the backslash before the dot. In a regular expression a plain . means "any character", so grep '.txt$' would also match a file called atxt. Escaping it with \. asks for a literal dot.
 
 ## Exercise
 

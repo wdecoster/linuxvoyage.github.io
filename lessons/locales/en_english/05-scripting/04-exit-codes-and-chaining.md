@@ -6,6 +6,7 @@ Every command that finishes hands back a number saying whether it worked. You do
 
 <pre>
 $ ls /home
+pete
 $ echo $?
 0
 

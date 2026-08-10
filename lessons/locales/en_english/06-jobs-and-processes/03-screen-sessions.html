@@ -889,7 +889,7 @@ $ </pre>
 <pre>
 $ screen -ls
 There is a screen on:
-        12345.alignment (Detached)
+        12345.alignment (10/08/2026 14:22:31)   (Detached)
 
 $ screen -r alignment
 </pre>
@@ -908,7 +908,7 @@ $ screen -r alignment
 <p>Windows are handy once you are comfortable: one for the job that is running, one for poking around at the output, without opening a second ssh connection.</p>
 <p>Compared with nohup from the last lesson, screen is the better tool for interactive work. nohup fires something off and you can only look at the log afterwards, while a screen session is a real terminal you can come back to, type in, and watch.</p>
 <p>You may also hear about <b>tmux</b>, which does the same job with more features and a more modern feel. If your server has it and you like it, use it. screen is on essentially every machine you will ever meet and takes about three keystrokes to learn, which is why we start here.</p>
-<p>One habit worth forming: get into screen <i>before</i> you start the long job, not after. There is no way to move an already running command into a session afterwards.</p>
+<p>One habit worth forming: get into screen <i>before</i> you start the long job, not after. Moving an already running command into a session afterwards is fiddly at best, and usually not possible at all.</p>
 <h3>Exercise</h3>
 <ol>
 <li>Start a named session with screen -S test and run a command that prints something every few seconds.</li>

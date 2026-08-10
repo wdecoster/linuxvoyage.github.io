@@ -2,7 +2,7 @@
 
 ## Lesson Content
 
-You have already used variables without making any: $HOME and $PATH came from the environment. You can make your own just as easily.
+You have already used a variable without making one: $HOME, which the shell fills in with the path to your home directory. You can make your own just as easily.
 
 <pre>$ ref=/data/reference/hg38.fa</pre>
 
@@ -37,12 +37,13 @@ Sometimes you need to make clear where the name ends. Curly braces do that:
 <pre>
 $ sample=patient1
 $ echo $sample_reads.fastq
+.fastq
 
 $ echo ${sample}_reads.fastq
 patient1_reads.fastq
 </pre>
 
-The first one printed almost nothing, because the shell looked for a variable called sample_reads, which does not exist. An undefined variable quietly becomes empty rather than raising an error, which is worth remembering when a command behaves strangely.
+The first one lost the sample name entirely, because the shell looked for a variable called sample_reads, which does not exist, and put nothing in its place. Only the literal .fastq survived. An undefined variable quietly becomes empty rather than raising an error, which is worth remembering when a command behaves strangely.
 
 You can also capture the output of a command into a variable, by putting it in $( ):
 

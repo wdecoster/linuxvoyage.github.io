@@ -25,7 +25,7 @@ Now you can log out entirely. The job keeps running. When you come back:
 <pre>
 $ screen -ls
 There is a screen on:
-        12345.alignment (Detached)
+        12345.alignment	(10/08/2026 14:22:31)	(Detached)
 
 $ screen -r alignment
 </pre>
@@ -50,7 +50,7 @@ Compared with nohup from the last lesson, screen is the better tool for interact
 
 You may also hear about <b>tmux</b>, which does the same job with more features and a more modern feel. If your server has it and you like it, use it. screen is on essentially every machine you will ever meet and takes about three keystrokes to learn, which is why we start here.
 
-One habit worth forming: get into screen <i>before</i> you start the long job, not after. There is no way to move an already running command into a session afterwards.
+One habit worth forming: get into screen <i>before</i> you start the long job, not after. Moving an already running command into a session afterwards is fiddly at best, and usually not possible at all.
 
 ## Exercise
 

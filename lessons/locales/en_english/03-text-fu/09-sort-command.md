@@ -34,12 +34,12 @@ Now the interesting part. Say you want the samples ordered by read count, which 
 
 <pre>$ sort -k 3 samples.tsv
 sample1   control   12000
-sample3   control   8000
 sample4   treated   45000
+sample3   control   8000
 sample2   treated   9500
 </pre>
 
-That is not what you wanted. 12000 came before 8000, because sort compared the text character by character, and the character "1" sorts before "8". Alphabetical order and numerical order are not the same thing.
+That is not what you wanted. 12000 and 45000 both came before 8000, because sort compared the text character by character, and the characters "1" and "4" sort before "8". Alphabetical order and numerical order are not the same thing.
 
 <b>-n</b> tells sort to read the field as a number:
 

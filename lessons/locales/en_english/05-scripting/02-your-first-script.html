@@ -902,7 +902,7 @@ counting reads
 done
 </pre>
 
-<p>Why <b>./</b> in front? Because the shell looks for commands in the directories listed in $PATH, and the directory you are standing in is deliberately not one of them. Writing ./count_reads.sh says "the file right here", rather than asking the shell to go looking.</p>
+<p>Why <b>./</b> in front? Because when you type a bare command name, the shell only looks for it in a fixed list of system directories, and the directory you are standing in is deliberately not one of them. Writing ./count_reads.sh says "the file right here", rather than asking the shell to go looking. That list is called $PATH, and the section on your environment covers how to change it.</p>
 <p>A script that always counts the same file is not very useful. You can pass arguments to it, and inside the script they arrive as $1, $2 and so on:</p>
 <pre>
 #!/bin/bash
@@ -915,6 +915,7 @@ wc -l "$1"
 <pre>
 $ ./count_reads.sh sample1.fastq
 counting reads in sample1.fastq
+4000 sample1.fastq
 </pre>
 
 <p>Note the quotes around "$1". If someone hands your script a filename with a space in it, unquoted $1 falls apart in exactly the way you saw earlier.</p>

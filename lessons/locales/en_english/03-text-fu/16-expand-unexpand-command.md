@@ -2,7 +2,7 @@
 
 ## Lesson Content
 
-In our lesson on the cut command, we had our sample.txt file that contained a tab. Normally TABs would usually show a noticeable difference but some text files don't show that well enough. Having TABs in a text file may not be the desired spacing you want. To change your TABs to spaces, use the expand command. 
+Back in the grep lesson we made a sample.txt file that contained a tab. Normally TABs would usually show a noticeable difference but some text files don't show that well enough. Having TABs in a text file may not be the desired spacing you want. To change your TABs to spaces, use the expand command. 
 
 <pre>$ expand sample.txt</pre>
 

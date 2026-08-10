@@ -157,7 +157,7 @@ cat: 1.fastq: No such file or directory</pre>
 <p>Or escape the space with a backslash, which means "treat the next character literally":</p>
 <pre>$ cat sample\ 1.fastq</pre>
 <p>Both work. Quotes are easier to read, so prefer them.</p>
-<p>Spaces are not the only characters with a meaning of their own. You have already met <b>*</b>, <b>?</b> and <b>&gt;</b>, and there are others such as <b>$</b>, <b>&amp;</b>, <b>|</b>, <b>(</b> and <b>)</b>. If a filename contains any of these, it needs quoting too.</p>
+<p>Spaces are not the only characters with a meaning of their own. The shell also treats <b>*</b>, <b>?</b>, <b>$</b>, <b>&amp;</b>, <b>|</b>, <b>&gt;</b>, <b>(</b> and <b>)</b> specially. You will meet each of them properly over the next few lessons, but the rule is the same for all of them: if a filename contains one, it needs quoting.</p>
 <p><b>Single quotes and double quotes are not the same.</b> Inside double quotes, the shell still expands things that start with a $. Inside single quotes, nothing is expanded at all:</p>
 <pre>
 $ echo "my home is $HOME"
@@ -167,7 +167,7 @@ $ echo 'my home is $HOME'
 my home is $HOME
 </pre>
 <p>The rule of thumb: use double quotes when you want a variable filled in, and single quotes when you want the text exactly as written.</p>
-<p>Tab completion, from the previous lesson, is your friend here. If you start typing <b>sam</b> and press Tab, the shell fills in the rest and escapes any awkward characters correctly, so you do not have to think about it.</p>
+<p>Tab completion, from lesson 2, is your friend here. If you start typing <b>sam</b> and press Tab, the shell fills in the rest and escapes any awkward characters correctly, so you do not have to think about it.</p>
 <p>The best fix, though, is to avoid the problem when you are the one naming things. Stick to letters, digits, dots, dashes and underscores:</p>
 <pre>
 avoid:   my reads (copy).fastq

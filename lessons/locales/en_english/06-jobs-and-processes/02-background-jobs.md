@@ -17,9 +17,11 @@ List what you have running with <b>jobs</b>:
 
 <pre>
 $ jobs
-[1]+  Running                 ./align_reads.sh &
-[2]-  Stopped                 wc -l enormous.fastq
+[1]-  Running                 ./align_reads.sh &
+[2]+  Stopped                 wc -l enormous.fastq
 </pre>
+
+The <b>+</b> marks the most recent job, which is the one fg and bg act on if you do not name one, and <b>-</b> marks the one before it.
 
 Move things between foreground and background with fg and bg, giving the job number with a % in front:
 
@@ -36,7 +38,8 @@ There is a catch, and it is the important part of this lesson. A background job 
 
 <pre>
 $ nohup ./align_reads.sh &
-nohup: ignoring input and appending output to 'nohup.out'
+[1] 24601
+$ nohup: ignoring input and appending output to 'nohup.out'
 </pre>
 
 Since there is no terminal to print to, the output goes into a file called nohup.out. Usually you want to choose where it goes yourself, using the redirection you already know:
@@ -45,7 +48,7 @@ Since there is no terminal to print to, the output goes into a file called nohup
 
 That says: run it, send stdout to align.log, send stderr to the same place, and put the whole thing in the background. It is a mouthful, but it is a pattern you will use often enough to memorise.
 
-nohup works, but you cannot get back to the job to see how it is doing, and you cannot type at it. For that there is a better tool, which is the next lesson.
+nohup works, but you cannot get back to the job to see how it is doing, and you cannot type at it. For that there is a better tool, which is the next lesson. The job control lesson later in this section goes over jobs, fg and bg again in more detail.
 
 ## Exercise
 

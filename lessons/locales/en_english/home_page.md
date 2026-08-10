@@ -1,51 +1,57 @@
 # Home Page
 
-## Grasshopper
+## Start here
 
-* Getting Started - What is Linux? Get started with choosing a distribution and installation.
+* Connecting - Reach the server with ssh, set up keys, and edit remotely from VS Code.
 
-* Command Line - Learn the fundamentals of the command line, navigating files, directories and more.
+* Command Line - The fundamentals: navigating files and directories, and editing them with nano.
 
-* Text-Fu - Learn basic text manipulation and navigation.
+* Text-Fu - Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut.
 
-* Advanced Text-Fu - Navigate text like a Linux spider monkey with vim and emacs.
+* Permissions - Read, write and execute, and how to change them.
 
-* User Management - Learn about user roles and management.
+* Scripting - Variables, your first script, loops over files, and exit codes.
 
-* Permissions - Learn about permission levels and modifying permissions.
+* Jobs and Processes - Ctrl-C, background jobs, and screen sessions that survive a dropped connection.
 
-* Processes - Learn about the running processes on the system.
+* Your Environment - Environment variables, PATH, and installing software without root.
 
-* Packages - Learn all about the dpkg, apt-get, rpm and yum package management tools.
+* Moving Data - Getting files on and off the server with scp, rsync and tar.
 
-## Journeyman
+## Going Further
 
-* Devices - Learn about Linux devices and how they interact with the kernel and user space.
+* Users and Groups - Learn about user roles and management.
 
-* The Filesystem - Learn about the Linux filesystem, the different types of filesystems, partitioning and more.
+* Packages - Package managers, repositories, and building from source.
 
-* Boot the System - Learn about the stages of the Linux boot process.
+* Editors - Navigate text like a Linux spider monkey with vim and emacs.
 
-* Kernel - The most important part of the Linux system, learn about how it works and how to configure it.
+* Getting Started - What Linux is, and a tour of the distributions. Background reading.
 
-* Init - Learn about the different init systems, SysV, Upstart and systemd.
+* The Filesystem - Disks, partitions, mounting, inodes and symlinks.
 
-* Process Utilization - Learn resource monitoring with top, load averages, iostat and more!
+* Devices - How Linux represents the hardware attached to your machine.
 
-* Logging - Learn about system logs and the /var/log directory.
+* Boot the System - What happens between power on and a login prompt.
 
-## Networking Nomad
+* Kernel - The core of the operating system, modules and system calls.
 
-* Network Sharing - Learn about network sharing with rsync, scp, nfs and more.
+* Init - How services get started, from SysV through to systemd.
 
-* Network Basics - Learn about networking basics and the TCP/IP model.
+* Process Utilization - Monitoring CPU, memory and I/O, and scheduling work with cron.
 
-* Subnetting - Learn about subnets and how to do subnet arithmetic!
+* Logging - Where the system writes things down, and how to read it.
 
-* Routing - Learn how packets are routed across networks!
+## Networking
 
-* Network Config - Learn about network configuration using Linux tools!
+* Network Fundamentals - The models and layers that networking is built on.
 
-* Troubleshooting - Learn about common networking tools to help you diagnose and troubleshoot issues!
+* Subnetting - IPv4, subnet math, CIDR, NAT and IPv6.
+
+* Routing - Routers, routing tables and the protocols between them.
+
+* Network Configuration - Interfaces, routes, DHCP and ARP.
+
+* Network Troubleshooting - ping, traceroute, netstat and packet analysis.
 
 * DNS - Everything and more that you wanted to know about DNS.

@@ -24,9 +24,9 @@ untreated</pre>
 Counting how often each one occurs is usually more useful, and that is <b>-c</b>:
 
 <pre>$ uniq -c conditions.txt
-2 control
-3 treated
-1 untreated</pre>
+      2 control
+      3 treated
+      1 untreated</pre>
 
 <b>-u</b> keeps only the lines that appear exactly once:
 
@@ -72,9 +72,9 @@ untreated</pre>
 
 <pre>
 $ sort conditions.txt | uniq -c
-2 control
-2 treated
-1 untreated</pre>
+      2 control
+      2 treated
+      1 untreated</pre>
 
 Add a numeric reverse sort on the end and you have a frequency table, most common first:
 

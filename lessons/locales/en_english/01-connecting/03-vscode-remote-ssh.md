@@ -12,9 +12,9 @@ If you set up an ~/.ssh/config entry in the previous lesson, the short name show
 
 Once connected, the bottom left corner of the window shows the server name. That indicator matters. It tells you where "File, Open Folder" will look, and where the built in terminal is running. Open a terminal with <b>Ctrl-`</b> and you get a shell on the server, in the same window as your files.
 
-For a walkthrough of the setup, this video covers it well:
+If VS Code itself is new to you, the official seven minute introduction is a good place to start, though note that it covers the editor in general rather than the remote setup above:
 
-<pre>https://www.youtube.com/watch?v=B-s71n0dHUk</pre>
+<a href="https://www.youtube.com/watch?v=B-s71n0dHUk">Learn Visual Studio Code in 7min</a>
 
 A few things worth knowing before you rely on it.
 

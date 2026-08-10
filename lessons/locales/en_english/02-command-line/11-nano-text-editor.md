@@ -25,16 +25,13 @@ The important part is the two rows at the bottom of the screen. They list the co
 
 Saving and quitting are the two you need on day one. Save with Ctrl-O and Enter, quit with Ctrl-X.
 
-Two options are worth knowing. Config files often care about exact spacing, and an editor that converts your tabs into spaces can quietly break them, so many people disable that. And when you are editing something where line numbers matter, turn them on:
+One option is worth knowing about early. When you are editing something where line numbers matter, such as fixing the line an error message pointed at, turn them on:
 
-<pre>
-$ nano -l samples.tsv     show line numbers
-$ nano -w longlines.txt   do not wrap long lines
-</pre>
+<pre>$ nano -l samples.tsv</pre>
 
-A word of warning for files you do not own. If you open a system file without permission to write it, nano will happily let you type for ten minutes and only complain when you try to save. If the file belongs to root, open it with sudo from the start:
+A word about tabs, since this catches people out with files where spacing matters. nano leaves your tabs as tabs, which is what you want for a Makefile or a TSV. If you ever <i>do</i> want tabs turned into spaces, that is opt in, with <b>-E</b>.
 
-<pre>$ sudo nano /etc/hosts</pre>
+A word of warning for files you do not own. If you open a file without permission to write it, nano will happily let you type for ten minutes and only complain when you try to save. Check that it is yours before you start, and on a shared server expect anything outside your home directory not to be.
 
 ## Exercise
 

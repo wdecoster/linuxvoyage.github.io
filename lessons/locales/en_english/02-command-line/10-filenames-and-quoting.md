@@ -20,7 +20,7 @@ Or escape the space with a backslash, which means "treat the next character lite
 
 Both work. Quotes are easier to read, so prefer them.
 
-Spaces are not the only characters with a meaning of their own. You have already met <b>*</b>, <b>?</b> and <b>></b>, and there are others such as <b>$</b>, <b>&</b>, <b>|</b>, <b>(</b> and <b>)</b>. If a filename contains any of these, it needs quoting too.
+Spaces are not the only characters with a meaning of their own. The shell also treats <b>*</b>, <b>?</b>, <b>$</b>, <b>&</b>, <b>|</b>, <b>></b>, <b>(</b> and <b>)</b> specially. You will meet each of them properly over the next few lessons, but the rule is the same for all of them: if a filename contains one, it needs quoting.
 
 <b>Single quotes and double quotes are not the same.</b> Inside double quotes, the shell still expands things that start with a $. Inside single quotes, nothing is expanded at all:
 
@@ -34,7 +34,7 @@ my home is $HOME
 
 The rule of thumb: use double quotes when you want a variable filled in, and single quotes when you want the text exactly as written.
 
-Tab completion, from the previous lesson, is your friend here. If you start typing <b>sam</b> and press Tab, the shell fills in the rest and escapes any awkward characters correctly, so you do not have to think about it.
+Tab completion, from lesson 2, is your friend here. If you start typing <b>sam</b> and press Tab, the shell fills in the rest and escapes any awkward characters correctly, so you do not have to think about it.
 
 The best fix, though, is to avoid the problem when you are the one naming things. Stick to letters, digits, dots, dashes and underscores:
 

@@ -18,16 +18,16 @@ ED25519 key fingerprint is SHA256:4f9GhVpXqCnZ2mQ7bTsRk8eLwYd3JuNxA1oPvHiEgMc.
 Are you sure you want to continue connecting (yes/no)?
 </pre>
 
-Your machine is telling you it has never seen this server before and cannot vouch for it. Type <b>yes</b> and the fingerprint gets saved in a file called ~/.ssh/known_hosts. From then on, ssh checks the server against that saved fingerprint and stays quiet.
+Your machine is telling you it has never seen this server before and cannot vouch for it. The fingerprint is a short hash of the server's public key, shown so you can compare it against what the server's administrator told you. Type <b>yes</b> and ssh saves the server's key in a file called ~/.ssh/known_hosts. From then on, ssh checks the server against that saved key and stays quiet.
 
 If you ever connect again and ssh loudly warns you that the fingerprint has <i>changed</i>, do not just click past it. Usually it means the server was reinstalled, but it can also mean something is impersonating the server, so ask whoever runs it before continuing.
 
-Once you are in, the shell prompt changes to show the server's hostname, which is your reminder that commands now run over there and not on your laptop:
+Once you are in, you get a prompt just like the one on your own machine. The next section covers what to do at that prompt; for now the thing to notice is that it usually shows the server's hostname, which is your reminder that commands run over there and not on your laptop:
 
 <pre>pete@laptop:~$ ssh pete@server.example.org
 pete@server:~$ </pre>
 
-Everything you have learned about the shell works exactly the same way here. The difference is that the files you see belong to the server, not to your laptop. This trips up nearly everyone at least once: you go looking for a file you just downloaded and it is not there, because you downloaded it on the other machine.
+Everything in the rest of this course works exactly the same way here as it would on a machine in front of you. The difference is that the files you see belong to the server, not to your laptop. This trips up nearly everyone at least once: you go looking for a file you just downloaded and it is not there, because you downloaded it on the other machine.
 
 To leave, use exit, or press <b>Ctrl-D</b>:
 
@@ -50,7 +50,7 @@ One thing to know early: if your network drops, or you close your laptop, your s
 
 ## Quiz Question
 
-Which file stores the fingerprints of servers you have connected to before?
+Which file stores the keys of servers you have connected to before?
 
 ## Quiz Answer
 

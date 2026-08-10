@@ -2,7 +2,7 @@
 
 ## Lesson Content
 
-The packages section of this course covers apt and yum, and both of them need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it. That does not stop you installing software, it just means installing it into your own home directory instead of into the system.
+The usual way to install software on Linux is a package manager such as apt or yum, covered in the packages section later in this course, and both of them need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it. That does not stop you installing software, it just means installing it into your own home directory instead of into the system.
 
 There are three routes you will meet.
 
