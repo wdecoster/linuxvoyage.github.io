@@ -888,7 +888,11 @@ body .markdown-body
 <p>Copy the public half to the server:</p>
 <pre>$ ssh-copy-id pete@server.example.org</pre>
 
-<p>This asks for your password one last time, then appends your public key to a file on the server called ~/.ssh/authorized_keys. Any key listed in that file is allowed to log in as you. From now on:</p>
+<p>This asks for your password one last time, then appends your public key to a file on the server called ~/.ssh/authorized_keys. Any key listed in that file is allowed to log in as you.</p>
+<p>Windows does not come with ssh-copy-id. You can do the same thing by hand from PowerShell, which is worth reading anyway, because it shows exactly what ssh-copy-id does:</p>
+<pre>$ type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh pete@server.example.org "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"</pre>
+
+<p>From now on:</p>
 <pre>$ ssh pete@server.example.org</pre>
 
 <p>goes straight in.</p>

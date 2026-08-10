@@ -23,7 +23,13 @@ Copy the public half to the server:
 
 <pre>$ ssh-copy-id pete@server.example.org</pre>
 
-This asks for your password one last time, then appends your public key to a file on the server called ~/.ssh/authorized_keys. Any key listed in that file is allowed to log in as you. From now on:
+This asks for your password one last time, then appends your public key to a file on the server called ~/.ssh/authorized_keys. Any key listed in that file is allowed to log in as you.
+
+Windows does not come with ssh-copy-id. You can do the same thing by hand from PowerShell, which is worth reading anyway, because it shows exactly what ssh-copy-id does:
+
+<pre>$ type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh pete@server.example.org "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"</pre>
+
+From now on:
 
 <pre>$ ssh pete@server.example.org</pre>
 

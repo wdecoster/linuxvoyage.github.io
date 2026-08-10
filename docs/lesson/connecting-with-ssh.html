@@ -63,6 +63,12 @@
                             
 <h3>Connecting with ssh</h3>
 <p>Most of the time you will not be sitting in front of the Linux machine you are using. The machine lives in a server room or a data centre somewhere, and you reach it over the network from your own laptop. The tool for that is <b>ssh</b>, the secure shell.</p>
+<p><b>Where do you type this?</b> You need a program on your own machine that accepts typed commands. Every operating system has one, it is just not somewhere you would have stumbled across it.</p>
+<p><b>On a Mac</b>, the program is called Terminal. Press <b>Cmd-Space</b> to open Spotlight, type <i>terminal</i>, and press Enter. You can also find it under Applications, then Utilities. A window opens with a prompt ending in <b>%</b> or <b>$</b>, waiting for you to type. Drag it to your dock, you will want it again.</p>
+<p><b>On Windows</b>, use PowerShell. Press the <b>Windows key</b>, type <i>powershell</i>, and press Enter. A blue window opens with a prompt ending in <b>&gt;</b>. Windows 10 and 11 include ssh already, so you can type the command below straight into it. Do not use the old Command Prompt (cmd.exe), and you do not need to install PuTTY.</p>
+<p><b>On Linux</b>, open your terminal application, usually called Terminal or Konsole. On many desktops <b>Ctrl-Alt-T</b> opens one directly.</p>
+<p>If none of that works on your machine, the Remote - SSH extension in VS Code, two lessons from now, will do the connecting for you without a terminal at all.</p>
+<p>This is the only part of the whole course where what you are running on your own machine matters. Once you are connected, everything happens on the server, and it makes no difference at all what you connected from.</p>
 <p>The basic form is your username on the server, an @, and the address of the server:</p>
 <pre>$ ssh pete@server.example.org</pre>
 <p>Your username on the server is not necessarily the same as the one on your laptop. If you leave off the username, ssh assumes you want to use the same name you are logged in as locally, which is often not what you want.</p>
@@ -93,8 +99,8 @@ pete@laptop:~$ </pre>
                             <h3>Exercise</h3>
 <ol>
 <li>Connect to your server with ssh.</li>
-<li>Run hostname and pwd, and compare the output to the same commands in a local terminal.</li>
-<li>Log out with Ctrl-D, then run a single command remotely without logging in, using ssh user@host hostname.</li>
+<li>Run hostname and whoami. Both describe the server, not the machine in front of you: the name is the server's name, and the user is your account there.</li>
+<li>Log out with Ctrl-D, then run a single command remotely without logging in, using ssh user@host hostname. Notice you get the same name back without ever seeing a prompt on the server.</li>
 </ol>
 
                         </div>
