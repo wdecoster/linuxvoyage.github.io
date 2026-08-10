@@ -10,6 +10,26 @@
     <link rel="stylesheet" media="all"
         href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
         data-turbolinks-track="true">
+    <style>
+        /* The answer is hidden until asked for, so there is a moment to think. */
+        details.quiz-answer > summary {
+            cursor: pointer;
+            display: inline-block;
+            margin: 8px 0;
+            padding: 6px 14px;
+            border: 1px solid #BDC3C7;
+            border-radius: 3px;
+            color: #2C3E50;
+            font-weight: bold;
+            list-style: none;
+            user-select: none;
+        }
+        details.quiz-answer > summary::-webkit-details-marker { display: none; }
+        details.quiz-answer > summary:hover { background-color: #ECF0F1; }
+        details.quiz-answer > summary:before { content: "\25B8\00a0\00a0"; }
+        details.quiz-answer[open] > summary:before { content: "\25BE\00a0\00a0"; }
+        details.quiz-answer[open] > summary { margin-bottom: 4px; }
+    </style>
 </head>
 
 <body>
@@ -113,9 +133,10 @@
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
 <p>What letter is used to move down?</p>
-<h3>Quiz Answer</h3>
+<details class="quiz-answer">
+<summary>Show answer</summary>
 <p>k</p>
-</div>
+</details></div>
 
                         </div>
                     </div>

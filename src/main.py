@@ -1,3 +1,4 @@
+import re
 from typing import List
 from bs4 import BeautifulSoup
 from pathlib import Path
@@ -9,6 +10,25 @@ from fastapi.responses import HTMLResponse,RedirectResponse
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="../lessons"), name="static")
 templates = Jinja2Templates(directory="../templates")
+
+def hide_answer(quiz: str) -> str:
+    """Put the quiz answer behind a disclosure widget, so the reader gets a
+    chance to think before seeing it. Lessons whose answer is empty (the
+    "No questions, move along!" ones) are left alone."""
+    m = re.search(r'<h3>Quiz Answers?</h3>', quiz)
+    if not m:
+        return quiz
+    question, answer = quiz[:m.start()], quiz[m.end():]
+    trailing = ""
+    if answer.rstrip().endswith("</div>"):
+        cut = answer.rstrip()[: -len("</div>")]
+        trailing = answer[len(cut):]
+        answer = cut
+    if not re.sub(r'<[^>]+>|\s', '', answer):
+        return quiz
+    return (f'{question}<details class="quiz-answer">\n'
+            f'<summary>Show answer</summary>\n{answer.strip()}\n</details>{trailing}')
+
 
 def parse_lesson(f: Path) -> str:
     return f.stem[3:].lower()
@@ -51,7 +71,7 @@ async def read_item(request: Request,category:str, id: str):
             quiz_i = len(page) - 1 
     content = page[len('<div class="markdown-body">'):exe_i]
     exe = page[exe_i:quiz_i]
-    quiz = page[quiz_i:]
+    quiz = hide_answer(page[quiz_i:])
     menu = category_to_pages[category]
     return templates.TemplateResponse("lesson.html", {
         "request": request,
