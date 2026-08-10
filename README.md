@@ -4,7 +4,13 @@ This repository is one of the ways to go through the English Version of [Linux J
 
 ## About this fork
 
-This is a fork of [linuxvoyage/linuxvoyage.github.io](https://github.com/linuxvoyage/linuxvoyage.github.io), reworked for students who **ssh into a shared server** rather than installing Linux on their own machine.
+Served at **https://wdecoster.github.io/linuxvoyage.github.io/**
+
+This is a fork of [linuxvoyage/linuxvoyage.github.io](https://github.com/linuxvoyage/linuxvoyage.github.io), reworked as the Linux component of an **introductory Master's level bioinformatics course**.
+
+The students it is written for have little or no command line experience, and they **ssh into a shared server** rather than installing Linux on their own machine. That single fact is what most of the changes follow from: they cannot choose a distribution, they have no `sudo`, their jobs need to outlive an ssh session, and their first real task is usually to get data onto the machine and run a tool over it. The upstream course assumes the opposite on every one of those points.
+
+Text and examples lean towards the kind of files these students will actually handle, and the exercises use small tabular sample data rather than lists of animals.
 
 ### What is different
 
