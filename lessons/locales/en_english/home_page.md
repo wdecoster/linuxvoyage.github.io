@@ -16,7 +16,7 @@
 
 * Your Environment - Environment variables, PATH, and installing software without root.
 
-* Moving Data - Getting files on and off the server with scp, rsync and tar.
+* Moving Data - Getting files on and off the server: wget, scp, rsync and tar.
 
 ## Going Further
 

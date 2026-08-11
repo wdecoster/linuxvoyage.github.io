@@ -871,55 +871,34 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Installing your own tools</h3>
+            <h3>rsync</h3>
 
-<p>The usual way to install software on Linux is a package manager such as apt or yum, covered in the packages section later in this course, and both of them need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it. That does not stop you installing software, it just means installing it into your own home directory instead of into the system.</p>
-<p>There are three routes you will meet.</p>
-<p><b>Modules.</b> Many shared servers already have a lot of software installed, hidden until you ask for it, managed by a tool called module or Lmod. This is always worth checking first, because it is free and the versions are maintained for you:</p>
-<pre>
-$ module avail            what is available
-$ module load samtools    add it to your environment
-$ module list             what you have loaded
-$ module unload samtools
-</pre>
+<p>Another tool used to copy data from different hosts is rsync (short for remote synchronization). Rsync is very similar to scp, but it does have a major difference. Rsync uses a special algorithm that checks in advanced if there is already data that you are copying to and will only copy over the differences. For example, let's say that you were copying over a file and your network got interrupted, therefore your copy stopped midway. Instead of re-copying everything from the beginning, rsync will only copy over the parts that didn't get copied. </p>
+<p>It also verifies the integrity of a file you are copying over with checksums. These small optimizations allow greater file transfer flexibility and makes rsync ideal for directory synchronization remotely and locally, data backups, large data transfers and more.</p>
+<p>Some commonly-used rsync options:</p>
+<ul>
+<li>v - verbose output</li>
+<li>r - recursive into directories</li>
+<li>h - human readable output</li>
+<li>z - compressed for easier transfer, great for slow connections</li>
+</ul>
 
-<p>What module load actually does is adjust your PATH, which is why the previous lesson matters. Loaded modules last for the current session only, so if you need one every time, put the load line in your ~/.bashrc.</p>
-<p><b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by fetching an installer onto the server and running it. Fetch it with wget, as covered in the Moving Data section, rather than downloading it to your laptop and copying it up:</p>
-<pre>
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-$ bash Miniconda3-latest-Linux-x86_64.sh
-</pre>
+<p><b>Copy/sync files on the same host</b></p>
+<pre>$ rsync -zvr /my/local/directory/one /my/local/directory/two</pre>
 
-<p>The installer offers to modify your ~/.bashrc so that conda is on your PATH in new shells. The important idea is the environment: rather than one big pile of software, you make a separate environment per project, so that a tool needing an old version of Python cannot break another one that needs a new version.</p>
-<pre>
-$ conda create -n myproject python=3.12
-$ conda activate myproject
-$ conda install -c bioconda samtools
-$ conda deactivate
-</pre>
+<p><b>Copy files from your machine to a remote host</b></p>
+<pre>$ rsync /local/directory username@remotehost.com:/remote/directory</pre>
 
-<p>When an environment is active your prompt usually shows its name, which is a useful reminder of which set of tools you are currently using. If a command works for a colleague and not for you, "which environment are you in" is a good first question.</p>
-<p><b>By hand.</b> Sometimes you just have a program, and you want it available. Put it in a bin directory in your home and add that to your PATH, as in the previous lesson:</p>
-<pre>
-$ mkdir -p ~/bin
-$ cp mytool ~/bin/
-$ chmod +x ~/bin/mytool
-$ export PATH=$HOME/bin:$PATH
-</pre>
+<p><b>Copy files from a remote host to your machine</b></p>
+<pre>$ rsync username@remotehost.com:/remote/directory /local/directory</pre>
 
-<p>Whichever route you take, the underlying mechanism is the same: something ends up in a directory, and that directory ends up on your PATH. Modules and conda are convenient ways of doing that bookkeeping for you. When something mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.</p>
-<p>A note on where things go. Your home directory is often small, and quota limits are easy to hit once you have several conda environments, which are not small. Servers usually provide a larger scratch or project area. Find out where yours is before you fill up your home directory, because a full home directory tends to break things in confusing ways.</p>
+<p>The rule is the same as for cp: the source comes first and the destination comes last. Whichever side has the username@host on it is the remote one.</p>
 <h3>Exercise</h3>
-<ol>
-<li>Check whether your server has modules, with module avail.</li>
-<li>If conda is available, create an environment, activate it, and check that your prompt changes.</li>
-<li>Run which and type -a on a tool before and after loading it, and see the PATH change take effect.</li>
-</ol>
-
+<p>Use rsync to sync a directory to another directory, be sure not to overwrite an important directory!</p>
 <h3>Quiz Question</h3>
-<p>Why can you not usually use apt or yum to install software on a shared server?</p>
+<p>What command would be useful for data backups?</p>
 <h3>Quiz Answer</h3>
-<p>they need sudo, which you do not have</p>
+<p>rsync</p>
             </div>
             </body>
             </html>

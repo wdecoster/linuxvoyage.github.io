@@ -17,9 +17,10 @@ $ module unload samtools
 
 What module load actually does is adjust your PATH, which is why the previous lesson matters. Loaded modules last for the current session only, so if you need one every time, put the load line in your ~/.bashrc.
 
-<b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by downloading an installer and running it:
+<b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by fetching an installer onto the server and running it. Fetch it with wget, as covered in the Moving Data section, rather than downloading it to your laptop and copying it up:
 
 <pre>
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh
 </pre>
 

@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>compressed-archives-tar</title>
+    <title>downloading-files</title>
     <script
         src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
         data-turbolinks-track="true"></script>
@@ -43,7 +43,7 @@
             <ul class="sidebar-nav" id="sidebar">
                 
                 <li>
-                    <a class="" href="downloading-files.html">
+                    <a class="current" href="downloading-files.html">
                         1. Downloading files</a>
                 </li>
                 
@@ -58,7 +58,7 @@
                 </li>
                 
                 <li>
-                    <a class="current" href="compressed-archives-tar.html">
+                    <a class="" href="compressed-archives-tar.html">
                         4. Compressed archives tar</a>
                 </li>
                 
@@ -96,42 +96,36 @@
 
                         <div class="lesson-content">
                             
-<h3>tar and gzip</h3>
-<p>Before we get into package installation and the different managers, we need to discuss archiving and compressing files, because you will most likely encounter these when you hunt for software on the internet. </p>
-<p>You probably already know what a file archive is, you've most likely encountered file types such as .rar and .zip. These are an archive of files, they contain many files inside of them, but they come in this very neat single file known as an archive.</p>
-<p><b>Compressing files with gzip</b></p>
-<p>gzip is a program used to compress files in Linux, they end in a .gz extension.</p>
-<p>To compress a file down:<br/>
-<pre>$ gzip mycoolfile</pre></p>
-<p>Note that gzip does not leave the original behind. Your file is now called mycoolfile.gz and mycoolfile is gone. Nothing has been lost, decompressing gives it straight back, but it does catch people out the first time.</p>
-<p>To decompress the file:<br/>
-<pre>$ gunzip mycoolfile.gz</pre></p>
-<p><b>Creating archives with tar</b><br/>
-Unfortunately, gzip can't add multiple files into one archive for us. Luckily we have the tar program which does. When you create an archive using tar, it will have a .tar extension. </p>
-<pre>$ tar cvf mytarfile.tar mycoolfile1 mycoolfile2</pre>
-<ul>
-<li>c - create</li>
-<li>v - tell the program to be verbose and let us see what it's doing</li>
-<li>f - the filename of the tar file has to come after this option, if you are creating a tar file you'll have to come up with a name</li>
-</ul>
-<p><b>Unpacking archives with tar</b></p>
-<p>To extract the contents of a tar file, use: </p>
-<pre>$ tar xvf mytarfile.tar</pre>
-<ul>
-<li>x - extract</li>
-<li>v - tell the program to be verbose and let us see what it's doing</li>
-<li>f - the file you want to extract</li>
-</ul>
-<p><b>Compressing/uncompressing archives with tar and gzip</b></p>
-<p>Many times you'll see a tar file that has been compressed such as: mycompressedarchive.tar.gz, all you need to do is work outside in, so first remove the compression with gunzip and then you can unpack the tar file. Or you can alternatively use the <b>z</b> option with tar, which just tells it to use the gzip or gunzip utility.</p>
-<p>Create a compressed tar file:<br/>
-<pre>$ tar czf myfile.tar.gz mydirectory</pre></p>
-<p>Uncompress and unpack: <br/>
-<pre>$ tar xzf myfile.tar.gz</pre></p>
-<p>If you need help remember this: e<b>X</b>tract all <b>Z</b>ee <b>F</b>iles!</p>
-<p>tar is one of those commands that is so important and yet you never really remember it, relevant xkcd: <a href="https://xkcd.com/1168/"><a href="https://xkcd.com/1168/&lt;/a&gt;">https://xkcd.com/1168/</a></a></p>
-<p><b>Other Utilities</b></p>
-<p>Throughout your journey of Linux, you'll encounter other archive and compression types such as: bzip2, compress, zip, unzip, etc. They are a little less common, but just keep in mind that different utilities will call for different commands.</p>
+<h3>Downloading files</h3>
+<p>Often the data you need is not on your laptop at all, it is on a website somewhere, and you want it on the server. Downloading it to your laptop and then copying it up is a waste of time and of your own bandwidth. Far better to have the server fetch it directly.</p>
+<p>There are two tools for this and almost every machine has at least one.</p>
+<p><b>wget</b> is the simpler of the two. Give it a URL and it saves the file, keeping its name:</p>
+<pre>$ wget https://example.org/data/reference.fa.gz</pre>
+<p>You get a progress bar, and when it finishes the file is in your current directory. Check where you are with pwd first, because that is where it will land.</p>
+<p><b>curl</b> does the same job but behaves differently by default: it prints what it downloads to the screen rather than saving it. For a web page that means a screenful of HTML, and for a compressed genome it means a screenful of binary rubbish and a confused terminal. You almost always want <b>-O</b>, which saves it under its original name:</p>
+<pre>$ curl -O https://example.org/data/reference.fa.gz</pre>
+<p>Use lowercase <b>-o</b> if you want to choose the name yourself:</p>
+<pre>$ curl -o hg38.fa.gz https://example.org/data/reference.fa.gz</pre>
+<p>If you ever run curl without either and your terminal fills with nonsense, that is what happened. Ctrl-C stops it, and the reset command will tidy up a terminal that has been left displaying garbage.</p>
+<p><b>Always look at what you got.</b> A download that fails often still leaves a file behind, and it is easy to spend an hour wondering why a tool cannot read your reference before noticing it is four kilobytes of HTML saying "404 Not Found":</p>
+<pre>
+$ ls -lh reference.fa.gz
+$ file reference.fa.gz
+</pre>
+<p>ls -lh shows the size in human readable units, and file tells you what it actually is. If file says "gzip compressed data" you are fine. If it says "HTML document" you downloaded an error page.</p>
+<p><b>Interrupted downloads.</b> Large files and long downloads do not mix well with a connection that might drop. Both tools can pick up where they left off rather than starting again:</p>
+<pre>
+$ wget -c https://example.org/data/big.tar.gz
+$ curl -C - -O https://example.org/data/big.tar.gz
+</pre>
+<p>If a download will take hours, start it inside a screen session as covered in the Jobs and Processes section, so it survives you closing your laptop.</p>
+<p><b>Checksums.</b> Serious data sources publish a checksum next to the file, something like an md5 or sha256 value. It is a fingerprint of the contents, and it lets you prove your copy arrived intact:</p>
+<pre>
+$ md5sum reference.fa.gz
+d41d8cd98f00b204e9800998ecf8427e  reference.fa.gz
+</pre>
+<p>Compare that string with the one published on the site. If they match, your copy is byte for byte the same. If they do not, download it again. This is worth doing for anything large or anything you are going to build results on.</p>
+<p>One last thing: check where you are putting it. Home directories are usually small and reference data usually is not, so download into your project or scratch area rather than filling up your home directory.</p>
 
                         </div>
                     </div>
@@ -139,16 +133,20 @@ Unfortunately, gzip can't add multiple files into one archive for us. Luckily we
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>Familiarize yourself with the tar documentation and look at the other options available in the manpage.</p>
+<ol>
+<li>Download something small with wget, then run ls -lh and file on it.</li>
+<li>Download the same thing with curl -O and confirm you get the same file.</li>
+<li>Try curl without -O on a web page and watch it print to the screen instead. Stop it with Ctrl-C if it is long.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What tar flag is used to create archives?</p>
+<p>Why does curl usually need the -O flag?</p>
 <details class="quiz-answer">
 <summary>Show answer</summary>
-<p>c</p>
+<p>without it curl prints the file to the screen instead of saving it</p>
 </details></div>
 
                         </div>

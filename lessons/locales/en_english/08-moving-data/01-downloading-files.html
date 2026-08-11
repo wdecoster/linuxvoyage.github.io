@@ -871,55 +871,54 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Installing your own tools</h3>
+            <h3>Downloading files</h3>
 
-<p>The usual way to install software on Linux is a package manager such as apt or yum, covered in the packages section later in this course, and both of them need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it. That does not stop you installing software, it just means installing it into your own home directory instead of into the system.</p>
-<p>There are three routes you will meet.</p>
-<p><b>Modules.</b> Many shared servers already have a lot of software installed, hidden until you ask for it, managed by a tool called module or Lmod. This is always worth checking first, because it is free and the versions are maintained for you:</p>
+<p>Often the data you need is not on your laptop at all, it is on a website somewhere, and you want it on the server. Downloading it to your laptop and then copying it up is a waste of time and of your own bandwidth. Far better to have the server fetch it directly.</p>
+<p>There are two tools for this and almost every machine has at least one.</p>
+<p><b>wget</b> is the simpler of the two. Give it a URL and it saves the file, keeping its name:</p>
+<pre>$ wget https://example.org/data/reference.fa.gz</pre>
+
+<p>You get a progress bar, and when it finishes the file is in your current directory. Check where you are with pwd first, because that is where it will land.</p>
+<p><b>curl</b> does the same job but behaves differently by default: it prints what it downloads to the screen rather than saving it. For a web page that means a screenful of HTML, and for a compressed genome it means a screenful of binary rubbish and a confused terminal. You almost always want <b>-O</b>, which saves it under its original name:</p>
+<pre>$ curl -O https://example.org/data/reference.fa.gz</pre>
+
+<p>Use lowercase <b>-o</b> if you want to choose the name yourself:</p>
+<pre>$ curl -o hg38.fa.gz https://example.org/data/reference.fa.gz</pre>
+
+<p>If you ever run curl without either and your terminal fills with nonsense, that is what happened. Ctrl-C stops it, and the reset command will tidy up a terminal that has been left displaying garbage.</p>
+<p><b>Always look at what you got.</b> A download that fails often still leaves a file behind, and it is easy to spend an hour wondering why a tool cannot read your reference before noticing it is four kilobytes of HTML saying "404 Not Found":</p>
 <pre>
-$ module avail            what is available
-$ module load samtools    add it to your environment
-$ module list             what you have loaded
-$ module unload samtools
+$ ls -lh reference.fa.gz
+$ file reference.fa.gz
 </pre>
 
-<p>What module load actually does is adjust your PATH, which is why the previous lesson matters. Loaded modules last for the current session only, so if you need one every time, put the load line in your ~/.bashrc.</p>
-<p><b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by fetching an installer onto the server and running it. Fetch it with wget, as covered in the Moving Data section, rather than downloading it to your laptop and copying it up:</p>
+<p>ls -lh shows the size in human readable units, and file tells you what it actually is. If file says "gzip compressed data" you are fine. If it says "HTML document" you downloaded an error page.</p>
+<p><b>Interrupted downloads.</b> Large files and long downloads do not mix well with a connection that might drop. Both tools can pick up where they left off rather than starting again:</p>
 <pre>
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-$ bash Miniconda3-latest-Linux-x86_64.sh
+$ wget -c https://example.org/data/big.tar.gz
+$ curl -C - -O https://example.org/data/big.tar.gz
 </pre>
 
-<p>The installer offers to modify your ~/.bashrc so that conda is on your PATH in new shells. The important idea is the environment: rather than one big pile of software, you make a separate environment per project, so that a tool needing an old version of Python cannot break another one that needs a new version.</p>
+<p>If a download will take hours, start it inside a screen session as covered in the Jobs and Processes section, so it survives you closing your laptop.</p>
+<p><b>Checksums.</b> Serious data sources publish a checksum next to the file, something like an md5 or sha256 value. It is a fingerprint of the contents, and it lets you prove your copy arrived intact:</p>
 <pre>
-$ conda create -n myproject python=3.12
-$ conda activate myproject
-$ conda install -c bioconda samtools
-$ conda deactivate
+$ md5sum reference.fa.gz
+d41d8cd98f00b204e9800998ecf8427e  reference.fa.gz
 </pre>
 
-<p>When an environment is active your prompt usually shows its name, which is a useful reminder of which set of tools you are currently using. If a command works for a colleague and not for you, "which environment are you in" is a good first question.</p>
-<p><b>By hand.</b> Sometimes you just have a program, and you want it available. Put it in a bin directory in your home and add that to your PATH, as in the previous lesson:</p>
-<pre>
-$ mkdir -p ~/bin
-$ cp mytool ~/bin/
-$ chmod +x ~/bin/mytool
-$ export PATH=$HOME/bin:$PATH
-</pre>
-
-<p>Whichever route you take, the underlying mechanism is the same: something ends up in a directory, and that directory ends up on your PATH. Modules and conda are convenient ways of doing that bookkeeping for you. When something mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.</p>
-<p>A note on where things go. Your home directory is often small, and quota limits are easy to hit once you have several conda environments, which are not small. Servers usually provide a larger scratch or project area. Find out where yours is before you fill up your home directory, because a full home directory tends to break things in confusing ways.</p>
+<p>Compare that string with the one published on the site. If they match, your copy is byte for byte the same. If they do not, download it again. This is worth doing for anything large or anything you are going to build results on.</p>
+<p>One last thing: check where you are putting it. Home directories are usually small and reference data usually is not, so download into your project or scratch area rather than filling up your home directory.</p>
 <h3>Exercise</h3>
 <ol>
-<li>Check whether your server has modules, with module avail.</li>
-<li>If conda is available, create an environment, activate it, and check that your prompt changes.</li>
-<li>Run which and type -a on a tool before and after loading it, and see the PATH change take effect.</li>
+<li>Download something small with wget, then run ls -lh and file on it.</li>
+<li>Download the same thing with curl -O and confirm you get the same file.</li>
+<li>Try curl without -O on a web page and watch it print to the screen instead. Stop it with Ctrl-C if it is long.</li>
 </ol>
 
 <h3>Quiz Question</h3>
-<p>Why can you not usually use apt or yum to install software on a shared server?</p>
+<p>Why does curl usually need the -O flag?</p>
 <h3>Quiz Answer</h3>
-<p>they need sudo, which you do not have</p>
+<p>without it curl prints the file to the screen instead of saving it</p>
             </div>
             </body>
             </html>

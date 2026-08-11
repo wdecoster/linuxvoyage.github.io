@@ -87,8 +87,9 @@ $ module list             what you have loaded
 $ module unload samtools
 </pre>
 <p>What module load actually does is adjust your PATH, which is why the previous lesson matters. Loaded modules last for the current session only, so if you need one every time, put the load line in your ~/.bashrc.</p>
-<p><b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by downloading an installer and running it:</p>
+<p><b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by fetching an installer onto the server and running it. Fetch it with wget, as covered in the Moving Data section, rather than downloading it to your laptop and copying it up:</p>
 <pre>
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh
 </pre>
 <p>The installer offers to modify your ~/.bashrc so that conda is on your PATH in new shells. The important idea is the environment: rather than one big pile of software, you make a separate environment per project, so that a tool needing an old version of Python cannot break another one that needs a new version.</p>
