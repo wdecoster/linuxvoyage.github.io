@@ -873,7 +873,7 @@ body .markdown-body
             <div class='markdown-body'>
             <h3>Process Permissions</h3>
 
-<p>Let's segway into process permissions for a bit, remember how I told you that when you run the passwd command with the SUID permission bit enabled you will run the program as root? That is true, however does that mean since you are temporarily root you can modify other user's passwords? Nope fortunately not!</p>
+<p>Let's segway into process permissions for a bit, some programs run as root even when you start them, the passwd command being the usual example. The next lesson covers the permission bit that makes this happen, but the effect is worth seeing first: That is true, however does that mean since you are temporarily root you can modify other user's passwords? Nope fortunately not!</p>
 <p>This is because of the many UIDs that Linux implements. There are three UIDS associated with every process:</p>
 <p>When you launch a process, it runs with the same permissions as the user or group that ran it, this is known as an <b>effective user ID</b>. This UID is used to grant access rights to a process. So naturally if Bob ran the touch command, the process would run as him and any files he created would be under his ownership.</p>
 <p>There is another UID, called the <b>real user ID</b> this is the ID of the user that launched the process. These are used to track down who the user who launched the process is.</p>
@@ -884,13 +884,17 @@ body .markdown-body
 <p>Since you ran passwd, it will start the process off using your real UID, and it will save the UID of the owner of the file (effective UID), so you can switch between the two. No need to modify all files with root access if it's not required. </p>
 <p>Most of the time the real UID and the effective UID are the same, but in such cases as the passwd command they will change.</p>
 <h3>Exercise</h3>
-<p>We haven't discussed processes yet, we can still take a look at this change happening in real time: </p>
+<p>We haven't discussed processes yet, but you can still see the evidence of this on disk. Look at the passwd program itself:</p>
+<pre>$ ls -l /usr/bin/passwd
+-rwsr-xr-x 1 root root 68208 Mar 23 16:45 /usr/bin/passwd</pre>
+
 <ol>
-<li>Open one terminal window, and run the command: <b>watch -n 1 "ps aux | grep passwd"</b>. This will watch for the passwd process.</li>
-<li>Open a second terminal window and run: <b>passwd</b></li>
-<li>Look at the first terminal window, you'll see a process come up for passwd. The first column in the process table is the effective user ID, lo and behold it's the root user!</li>
+<li>Note that the file is owned by <b>root</b>, not by you.</li>
+<li>Note the <b>s</b> where the owner's execute bit would normally be. That is the setuid bit, and it is what makes the program run as root even when you start it.</li>
+<li>Now compare it with an ordinary command, such as ls -l /bin/ls, which has a plain x in the same place and therefore runs as you.</li>
 </ol>
 
+<p>Do not run passwd itself as an experiment. It changes your real login password on a real account, and on a shared server that is not something to try out of curiosity.</p>
 <h3>Quiz Question</h3>
 <p>What UID decides what access to grant?</p>
 <h3>Quiz Answer</h3>

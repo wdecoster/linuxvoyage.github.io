@@ -2,7 +2,7 @@
 
 ## Lesson Content
 
-Let's segway into process permissions for a bit, remember how I told you that when you run the passwd command with the SUID permission bit enabled you will run the program as root? That is true, however does that mean since you are temporarily root you can modify other user's passwords? Nope fortunately not!
+Let's segway into process permissions for a bit, some programs run as root even when you start them, the passwd command being the usual example. The next lesson covers the permission bit that makes this happen, but the effect is worth seeing first: That is true, however does that mean since you are temporarily root you can modify other user's passwords? Nope fortunately not!
 
 This is because of the many UIDs that Linux implements. There are three UIDS associated with every process:
 
@@ -24,13 +24,18 @@ Most of the time the real UID and the effective UID are the same, but in such ca
 
 ## Exercise
 
-We haven't discussed processes yet, we can still take a look at this change happening in real time: 
+We haven't discussed processes yet, but you can still see the evidence of this on disk. Look at the passwd program itself:
+
+<pre>$ ls -l /usr/bin/passwd
+-rwsr-xr-x 1 root root 68208 Mar 23 16:45 /usr/bin/passwd</pre>
 
 <ol>
-<li>Open one terminal window, and run the command: <b>watch -n 1 "ps aux | grep passwd"</b>. This will watch for the passwd process.</li>
-<li>Open a second terminal window and run: <b>passwd</b></li>
-<li>Look at the first terminal window, you'll see a process come up for passwd. The first column in the process table is the effective user ID, lo and behold it's the root user!</li>
+<li>Note that the file is owned by <b>root</b>, not by you.</li>
+<li>Note the <b>s</b> where the owner's execute bit would normally be. That is the setuid bit, and it is what makes the program run as root even when you start it.</li>
+<li>Now compare it with an ordinary command, such as ls -l /bin/ls, which has a plain x in the same place and therefore runs as you.</li>
 </ol>
+
+Do not run passwd itself as an experiment. It changes your real login password on a real account, and on a shared server that is not something to try out of curiosity.
 
 ## Quiz Question
 

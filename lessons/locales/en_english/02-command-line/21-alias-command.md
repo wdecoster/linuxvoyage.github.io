@@ -6,7 +6,7 @@ Sometimes typing commands can get really repetitive, or if you need to type a lo
 
 <pre>$ alias foobar='ls -la'</pre>
 
-Now instead of typing ls -la, you can type foobar and it will execute that command, pretty neat stuff. Keep in mind that this command won't save your alias after reboot, so you'll need to add a permanent alias in:
+Now instead of typing ls -la, you can type foobar and it will execute that command, pretty neat stuff. Keep in mind that an alias made this way only lasts for the current session. Close your terminal or log out of the server, and it is gone. To have it every time, open the following file with nano and put the alias line in it:
 
 <pre>~/.bashrc</pre>
 

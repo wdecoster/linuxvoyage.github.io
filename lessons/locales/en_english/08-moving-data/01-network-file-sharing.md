@@ -12,6 +12,8 @@ One simple file sharing tool is the <b>scp</b> command. The scp command stands f
 
 <pre>$ scp myfile.txt username@remotehost.com:/remote/directory</pre>
 
+<b>Type this on your own machine, not inside your ssh session.</b> scp connects to the server itself, so if you run it while already logged in to the server, it will try to connect from the server to somewhere else. This is the most common mistake with scp, and the symptom is a file that does not appear where you expected.
+
 <b>To copy a file from a remote host to your local host</b>
 
 <pre>$ scp username@remotehost.com:/remote/directory/myfile.txt /local/directory</pre>

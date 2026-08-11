@@ -19,13 +19,15 @@ Some commonly-used rsync options:
 
 <pre>$ rsync -zvr /my/local/directory/one /my/local/directory/two</pre>
 
-<b>Copy/sync files to local host from a remote host</b>
+<b>Copy files from your machine to a remote host</b>
 
 <pre>$ rsync /local/directory username@remotehost.com:/remote/directory</pre>
 
-<b>Copy/sync files to a remote host from a local host</b>
+<b>Copy files from a remote host to your machine</b>
 
 <pre>$ rsync username@remotehost.com:/remote/directory /local/directory</pre>
+
+The rule is the same as for cp: the source comes first and the destination comes last. Whichever side has the username@host on it is the remote one.
 
 ## Exercise
 

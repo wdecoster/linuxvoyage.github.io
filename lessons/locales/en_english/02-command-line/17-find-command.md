@@ -16,10 +16,18 @@ You can see that I set the type of file I’m trying to find as (d) for director
 
 One cool thing to note is that find doesn’t stop at the directory you are searching, it will look inside any subdirectories that directory may have as well.
 
+If you search somewhere broad, such as the whole system, expect a lot of lines like this mixed in with your results:
+
+<pre>find: '/root': Permission denied</pre>
+
+That is normal and it is not a mistake in your command. find walks into every directory it can see, and on a shared machine there are plenty you are not allowed to look inside. Your actual matches are in there among the complaints. The Text-Fu section later shows how to send those messages somewhere else so they stop cluttering the output. For now, read past them, or search a directory you own:
+
+<pre>$ find ~ -name "*.txt"</pre>
+
 ## Exercise
 
 <ol>
-<li>Find a file from the root directory that has the word net in it.</li>
+<li>Search your home directory for files whose <i>name</i> contains net, using find ~ -name "*net*". Note the quotes, and note that this matches names rather than the text inside the files.</li>
 </ol>
 
 ## Quiz Question

@@ -57,8 +57,8 @@ Join two files with different number of lines in each file, what happens?
 
 ## Quiz Question
 
-What command would you use to join files named cat dog cow?
+What command would you use to join two files named cat and dog?
 
 ## Quiz Answer
 
-join cat dog cow
+join cat dog

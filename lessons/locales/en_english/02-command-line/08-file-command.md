@@ -10,6 +10,21 @@ To find out what kind of file a file is, you can use the file command. It will s
 
 <pre>$ file banana.jpg</pre>
 
+Try it on things that actually exist on your machine. The answers are more interesting than you might expect:
+
+<pre>
+$ file /etc/services
+/etc/services: ASCII text
+
+$ file /bin/ls
+/bin/ls: ELF 64-bit LSB pie executable, x86-64, dynamically linked
+
+$ file /home
+/home: directory
+</pre>
+
+Do not worry about the detail in the middle answer. The point is that file looked inside and worked out what the thing is, without trusting its name.
+
 ## Exercise
 
 Run the file command on a few different directories and files and note the output.

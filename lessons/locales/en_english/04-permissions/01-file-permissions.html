@@ -882,14 +882,22 @@ drwxr-xr-x 2 pete penguins 4096 Dec 1 11:45 .
 <p>The next three parts of the file mode are the actual permissions. The permissions are grouped into 3 bits each. The first 3 bits are user permissions, then group permissions and then other permissions. I've added the pipe to make it easier to differentiate.</p>
 <pre>d | rwx | r-x | r-x </pre>
 
+<p>The first group is often called the user permissions, but be careful with that word: it means the <b>owner</b> of the file, not you. Reading rwx in the first group tells you what the owner may do. If you are not the owner, the group or other bits are the ones that apply to you.</p>
 <p>Each character represent a different permission: <br />
 <ul><br />
 <li>r: readable</li><br />
 <li>w: writable</li><br />
-<li>x: executable (basically an executable program)</li><br />
-<li>-: empty</li><br />
+<li>x: executable, meaning you can run it as a program</li><br />
+<li>-: not permitted</li><br />
 </ul></p>
-<p>So in the above example, we see that the user pete has read, write and execute permissions on the file. The group penguins has read and execute permissions. And finally, the other users (everyone else) has read and execute permissions. </p>
+<p>On a <b>directory</b> the three mean slightly different things, which is worth knowing now because it explains most confusing permission errors:<br />
+<ul><br />
+<li>r: you can list what is in it, with ls</li><br />
+<li>w: you can add and remove entries in it</li><br />
+<li>x: you can enter it and reach things inside, with cd</li><br />
+</ul></p>
+<p>So x on a directory does not mean the directory is a program. A directory with r but no x will let you see the names inside and nothing else.</p>
+<p>So in the above example, we see that the owner, pete, has read, write and execute permissions on it. The group penguins has read and execute permissions. And finally, the other users (everyone else) has read and execute permissions. </p>
 <h3>Exercise</h3>
 <p>Use the ls -l command on multiple files and recite their permissions, user and group. </p>
 <h3>Quiz Question</h3>

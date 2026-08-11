@@ -6,11 +6,21 @@ Regular expressions are a powerful tool to do pattern based selection. It uses s
 
 We'll go through a couple of the most common regular expressions, these are almost universal with any programming language.
 
-Well use this phrase as our test string:
+We'll use this phrase as our test string. Make it into a file so you can actually try these:
+
 <pre>
+$ printf 'sally sells seashells\nby the seashore\n' > tongue.txt
+</pre>
+
+Each example below can be run as grep with the pattern in single quotes, like this:
+
+<pre>
+$ grep 'sea' tongue.txt
 sally sells seashells 
 by the seashore
 </pre>
+
+Quote the pattern. Several of the characters below mean something to the shell as well, and the quotes keep them safe until grep sees them.
 
 <b>1. Beginning of a line with ^</b>
 
@@ -67,11 +77,15 @@ And those are some basic regular expressions.
 
 ## Exercise
 
-Try to combine regular expressions with grep and search through some files.
+Try each pattern from this lesson against tongue.txt, in the form:
 
 <pre>
-grep [regular expression here] [file]
+$ grep '^by' tongue.txt
+$ grep 'seashore$' tongue.txt
+$ grep 'b.' tongue.txt
 </pre>
+
+The square brackets in this exercise's earlier wording were a placeholder meaning "put your own thing here". Do not type them, unless you mean the bracket notation from the lesson.
 
 ## Quiz Question
 

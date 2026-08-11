@@ -144,11 +144,17 @@
 <h3>regex (Regular Expressions)</h3>
 <p>Regular expressions are a powerful tool to do pattern based selection. It uses special notations similar to those we've encountered already such as the * wildcard. </p>
 <p>We'll go through a couple of the most common regular expressions, these are almost universal with any programming language.</p>
-<p>Well use this phrase as our test string:<br/>
-<pre><br/>
-sally sells seashells <br/>
-by the seashore<br/>
-</pre></p>
+<p>We'll use this phrase as our test string. Make it into a file so you can actually try these:</p>
+<pre>
+$ printf 'sally sells seashells\nby the seashore\n' &gt; tongue.txt
+</pre>
+<p>Each example below can be run as grep with the pattern in single quotes, like this:</p>
+<pre>
+$ grep 'sea' tongue.txt
+sally sells seashells 
+by the seashore
+</pre>
+<p>Quote the pattern. Several of the characters below mean something to the shell as well, and the quotes keep them safe until grep sees them.</p>
 <p><b>1. Beginning of a line with ^</b></p>
 <pre>
 <b>^</b>by
@@ -193,10 +199,13 @@ will match dAg, dBg and dCg but not dag, dbg and dcg
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>Try to combine regular expressions with grep and search through some files.</p>
+<p>Try each pattern from this lesson against tongue.txt, in the form:</p>
 <pre>
-grep [regular expression here] [file]
+$ grep '^by' tongue.txt
+$ grep 'seashore$' tongue.txt
+$ grep 'b.' tongue.txt
 </pre>
+<p>The square brackets in this exercise's earlier wording were a placeholder meaning "put your own thing here". Do not type them, unless you mean the bracket notation from the lesson.</p>
 
                         </div>
 

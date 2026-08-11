@@ -886,12 +886,13 @@ body .markdown-body
 <p><b>Copy/sync files on the same host</b></p>
 <pre>$ rsync -zvr /my/local/directory/one /my/local/directory/two</pre>
 
-<p><b>Copy/sync files to local host from a remote host</b></p>
+<p><b>Copy files from your machine to a remote host</b></p>
 <pre>$ rsync /local/directory username@remotehost.com:/remote/directory</pre>
 
-<p><b>Copy/sync files to a remote host from a local host</b></p>
+<p><b>Copy files from a remote host to your machine</b></p>
 <pre>$ rsync username@remotehost.com:/remote/directory /local/directory</pre>
 
+<p>The rule is the same as for cp: the source comes first and the destination comes last. Whichever side has the username@host on it is the remote one.</p>
 <h3>Exercise</h3>
 <p>Use rsync to sync a directory to another directory, be sure not to overwrite an important directory!</p>
 <h3>Quiz Question</h3>

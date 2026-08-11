@@ -37,79 +37,119 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul id="sidebar_menu" class="sidebar-nav">
-                <li class="sidebar-brand"><a>Jobs And Processes</a>
+                <li class="sidebar-brand"><a>Command Line</a>
                 </li>
             </ul>
             <ul class="sidebar-nav" id="sidebar">
                 
                 <li>
+                    <a class="" href="the-shell.html">
+                        1. The shell</a>
+                </li>
+                
+                <li>
+                    <a class="" href="history-and-tab-completion.html">
+                        2. History and tab completion</a>
+                </li>
+                
+                <li>
                     <a class="current" href="interrupting-commands.html">
-                        1. Interrupting commands</a>
+                        3. Interrupting commands</a>
                 </li>
                 
                 <li>
-                    <a class="" href="background-jobs.html">
-                        2. Background jobs</a>
+                    <a class="" href="print-working-directory-pwd-command.html">
+                        4. Print working directory pwd command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="screen-sessions.html">
-                        3. Screen sessions</a>
+                    <a class="" href="change-directory-cd-command.html">
+                        5. Change directory cd command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="monitor-processes-ps-command.html">
-                        4. Monitor processes ps command</a>
+                    <a class="" href="list-directories-ls-command.html">
+                        6. List directories ls command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="job-control.html">
-                        5. Job control</a>
+                    <a class="" href="touch-command.html">
+                        7. Touch command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-signals.html">
-                        6. Process signals</a>
+                    <a class="" href="file-command.html">
+                        8. File command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="killing-processes.html">
-                        7. Killing processes</a>
+                    <a class="" href="cat-command.html">
+                        9. Cat command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="controlling-terminal.html">
-                        8. Controlling terminal</a>
+                    <a class="" href="less-command.html">
+                        10. Less command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-details.html">
-                        9. Process details</a>
+                    <a class="" href="filenames-and-quoting.html">
+                        11. Filenames and quoting</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-creation.html">
-                        10. Process creation</a>
+                    <a class="" href="nano-text-editor.html">
+                        12. Nano text editor</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-termination.html">
-                        11. Process termination</a>
+                    <a class="" href="copy-cp-command.html">
+                        13. Copy cp command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-niceness.html">
-                        12. Process niceness</a>
+                    <a class="" href="move-mv-command.html">
+                        14. Move mv command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="process-states.html">
-                        13. Process states</a>
+                    <a class="" href="make-directory-mkdir-command.html">
+                        15. Make directory mkdir command</a>
                 </li>
                 
                 <li>
-                    <a class="" href="proc-filesystem.html">
-                        14. Proc filesystem</a>
+                    <a class="" href="remove-rm-command.html">
+                        16. Remove rm command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="find-command.html">
+                        17. Find command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="help-command.html">
+                        18. Help command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="man-command.html">
+                        19. Man command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="whatis-command.html">
+                        20. Whatis command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="alias-command.html">
+                        21. Alias command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="exit-command.html">
+                        22. Exit command</a>
                 </li>
                 
             </ul>
@@ -135,13 +175,14 @@
 <p>At some point, quite soon, you will run a command that does not stop. Maybe you left off a filename and it is sitting there waiting for input, maybe you asked it to search the entire filesystem, maybe it is just slower than you expected. The prompt does not come back and typing does nothing useful.</p>
 <p>The way out is <b>Ctrl-C</b>.</p>
 <pre>
-$ find / -name "*.fastq"
-... pages and pages of output ...
+$ cat /etc/services
+... pages and pages of text scrolling past ...
 ^C
 $ </pre>
 <p>Ctrl-C sends the running program an interrupt signal, asking it to stop. Most programs take the hint and exit, and you get your prompt back. It is the single most useful key combination in the terminal, and it is worth pressing deliberately a few times now so it becomes automatic later.</p>
 <p>Note that it interrupts the program, not the shell. You will not be logged out and you will not lose your session.</p>
-<p>A close relative is <b>Ctrl-D</b>, which is not the same thing at all. Ctrl-D means end of input. If a command is reading from the keyboard, Ctrl-D tells it there is nothing more coming:</p>
+<p>Some commands do not scroll at all, they simply sit there with the cursor blinking and no prompt, as though the terminal has died. Usually that means the command is waiting for you to type something at it. Ctrl-C gets you out of those too.</p>
+<p>A close relative is <b>Ctrl-D</b>, which is not the same thing at all. Ctrl-D means end of input. If a command is waiting for you to type at it, Ctrl-D says there is nothing more coming, and it stops politely rather than being interrupted:</p>
 <pre>
 $ cat &gt; notes.txt
 some text I am typing
@@ -150,16 +191,17 @@ $ </pre>
 <p>Here cat was waiting for input, and Ctrl-D ended it cleanly and wrote the file. Ctrl-C would have interrupted it instead. At an empty shell prompt, Ctrl-D means "no more input for the shell", which logs you out, exactly like typing exit.</p>
 <p>Then there is <b>Ctrl-Z</b>, which suspends the program rather than killing it:</p>
 <pre>
-$ wc -l enormous.fastq
+$ cat /etc/services
 ^Z
-[1]+  Stopped                 wc -l enormous.fastq
+[1]+  Stopped                 cat /etc/services
 $ </pre>
 <p>The program is still there, frozen, doing nothing. You get your prompt back and can carry on. To pick it up again:</p>
 <pre>
 $ fg
 </pre>
-<p>and it continues in the foreground, as if nothing happened. Ctrl-Z is how you get out of "I need my prompt for one second but I do not want to lose this", and it leads directly into the next lesson on background jobs.</p>
-<p>Occasionally Ctrl-C does not work, because a program can choose to ignore the interrupt. If that happens, Ctrl-Z to suspend it, then get rid of it properly with kill, which is covered a few lessons from now.</p>
+<p>and it continues where it left off, as if nothing had happened. Ctrl-Z is how you get out of "I need my prompt for one second but I do not want to lose this". There is a whole section on Jobs and Processes later that does more with this.</p>
+<p>Occasionally Ctrl-C does not work, because a program can choose to ignore the interrupt. If that happens, Ctrl-Z will usually still suspend it, and the Jobs and Processes section later covers how to get rid of it for good.</p>
+<p>None of these will log you out or damage anything. They are the normal way to stop a command, and you will use Ctrl-C many times a day.</p>
 <ul>
 <li>Ctrl-C - interrupt, stop the running command</li>
 <li>Ctrl-D - end of input, or log out at an empty prompt</li>
@@ -173,9 +215,9 @@ $ fg
                         <div class="exercise-content">
                             <h3>Exercise</h3>
 <ol>
-<li>Run find / -name "*.conf" and stop it with Ctrl-C.</li>
-<li>Run cat with no arguments, type a couple of lines, and end it with Ctrl-D.</li>
-<li>Run a slow command, suspend it with Ctrl-Z, run ls, then bring it back with fg.</li>
+<li>Run cat /etc/services, watch it scroll, and stop it with Ctrl-C.</li>
+<li>Run cat on its own with nothing after it. It will sit there waiting for you. Type a couple of lines, then press Ctrl-D and watch it finish.</li>
+<li>Do the same again, but press Ctrl-C instead of Ctrl-D, and note that you get the prompt back either way.</li>
 </ol>
 
                         </div>

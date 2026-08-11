@@ -13,13 +13,15 @@ gzip is a program used to compress files in Linux, they end in a .gz extension.
 To compress a file down:
 <pre>$ gzip mycoolfile</pre>
 
+Note that gzip does not leave the original behind. Your file is now called mycoolfile.gz and mycoolfile is gone. Nothing has been lost, decompressing gives it straight back, but it does catch people out the first time.
+
 To decompress the file:
 <pre>$ gunzip mycoolfile.gz</pre>
 
 <b>Creating archives with tar</b>
 Unfortunately, gzip can't add multiple files into one archive for us. Luckily we have the tar program which does. When you create an archive using tar, it will have a .tar extension. 
 
-<pre>$ tar cvf mytarfile.tar mycoolfile1 mycoolfile 2</pre>
+<pre>$ tar cvf mytarfile.tar mycoolfile1 mycoolfile2</pre>
 
 <ul>
 <li>c - create</li>
@@ -44,10 +46,10 @@ To extract the contents of a tar file, use:
 Many times you'll see a tar file that has been compressed such as: mycompressedarchive.tar.gz, all you need to do is work outside in, so first remove the compression with gunzip and then you can unpack the tar file. Or you can alternatively use the <b>z</b> option with tar, which just tells it to use the gzip or gunzip utility.
 
 Create a compressed tar file:
-<pre>$ tar czf myfile.tar.gz</pre>
+<pre>$ tar czf myfile.tar.gz mydirectory</pre>
 
 Uncompress and unpack: 
-<pre>$ tar xzf file.tar</pre>
+<pre>$ tar xzf myfile.tar.gz</pre>
 
 If you need help remember this: e<b>X</b>tract all <b>Z</b>ee <b>F</b>iles!
 

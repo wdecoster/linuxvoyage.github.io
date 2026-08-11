@@ -31,8 +31,8 @@ There is also the rmdir command, but it only removes a directory that is already
 ## Exercise
 
 <ol>
-<li>Create a file called -file (don't forget the dash!).</li>
-<li>Remove that file.</li>
+<li>Create a file called -file (don't forget the dash!). Plain touch -file will not work, for the same reason rm -file does not: point at it with ./ instead, as touch ./-file.</li>
+<li>Now remove it. Think about why rm -file is not the answer.</li>
 </ol>
 
 ## Quiz Question

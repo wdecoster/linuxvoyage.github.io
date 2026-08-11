@@ -4,11 +4,13 @@
 
 The grep command is quite possibly the most common text processing command you will use. It allows you to search files for characters that match a certain pattern. What if you wanted to know if a file existed in a certain directory or if you wanted to see if a string was found in a file? You certainly wouldn't dig through every line of text, you would use grep!
 
-Let's make a small file to search. Copy and paste this, and put a real TAB between "lazy" and "dog" by holding Ctrl-v and then pressing TAB:
+Let's make a small file to search. Type or paste this line and press Enter:
 
-<pre>$ echo 'The quick brown; fox jumps over the lazy  dog' > sample.txt</pre>
+<pre>$ echo 'The quick brown; fox jumps over the lazy dog' > sample.txt</pre>
 
-We will reuse this file in a couple of later lessons. Now search it:
+Check it worked with cat sample.txt. We will reuse this file in a couple of later lessons.
+
+Now search it:
 
 <pre>$ grep fox sample.txt</pre>
 

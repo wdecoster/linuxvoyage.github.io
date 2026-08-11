@@ -39,6 +39,10 @@ $ echo Hello World > rm
 $ > somefile.txt 
 </pre>
 
+The second one looks alarming and is not. It creates an ordinary file named rm in your current directory. It does not touch the rm command, which lives elsewhere on the system and which you do not have permission to change. Run ls to see your new file, cat rm to read it, and then remove it with rm ./rm, which is a fair test of the quoting lesson.
+
+The third has no command at all, only a redirect. The shell creates an empty file, which is a quick way to make one.
+
 ## Quiz Question
 
 What redirector do you use to append output to a file? 
