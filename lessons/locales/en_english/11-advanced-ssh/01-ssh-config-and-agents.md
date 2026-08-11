@@ -6,7 +6,11 @@ This section is not needed to follow the course. It is here for when the basics 
 
 <b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike.
 
-Two things before you edit it. It lives on <b>your own machine</b>, not on the server, which is easy to forget once you spend most of your day logged in. And you cannot lock yourself out with it: it only affects the shortcuts you define, so if a Host block misbehaves, plain <b>ssh user@full.hostname</b> still works exactly as before. Edit it freely.
+Two things before you edit it. It lives on <b>your own machine</b>, not on the server, which is easy to forget once you spend most of your day logged in. Nothing you write in it can damage the server or your account there.
+
+It can still stop <i>you</i> connecting, though, in two ways worth knowing. A typo anywhere makes ssh refuse to start at all, with a message naming the line. And a <b>Host *</b> block applies to every connection, including ones you thought were unaffected. If ssh starts behaving strangely and you suspect the config, this ignores it completely:
+
+<pre>$ ssh -F /dev/null pete@server.example.org</pre>
 
 <pre>
 Host work
@@ -18,7 +22,7 @@ Host work
 
 <b>ServerAliveInterval</b> is the one people wish they had known about sooner. It sends a small packet every sixty seconds, which stops an idle connection being silently dropped by a firewall or a home router. If your sessions die whenever you make a cup of tea, this fixes it.
 
-You can set defaults for everything with a <b>Host *</b> block at the bottom of the file, and patterns work too, so <b>Host *.university.example</b> covers a whole site.
+You can set defaults for everything with a <b>Host *</b> block, and patterns work too, so <b>Host *.university.example</b> covers a whole site. Put the wildcard block at the <i>bottom</i>: ssh takes the first value it finds for each setting, so anything more specific has to come first.
 
 <b>The agent.</b> If you gave your key a passphrase, and you should have, you would otherwise type it on every connection. <b>ssh-agent</b> holds the unlocked key in memory for the rest of your session:
 
@@ -59,7 +63,17 @@ $ ssh work "ls /data/project" > listing.txt
 $ ssh work "cat /data/results.tsv" | sort -k2 -n | head
 </pre>
 
-The quotes matter. Without them the redirect or the pipe would be applied on your own machine rather than passed to the server, which is the same distinction as in the quoting lesson.
+In both of those the redirect and the pipe are outside the quotes, so they happen on <i>your</i> machine, which is what you want: the file and the sorting end up locally.
+
+Move something inside the quotes and it happens on the server instead. This matters in two cases. If the command contains a wildcard, unquoted it would be expanded by your own shell against your own files, which is almost never what you meant:
+
+<pre>$ ssh work "wc -l /data/*.tsv"</pre>
+
+And if you want the output to stay on the server rather than travel back to you, put the redirect inside as well:
+
+<pre>$ ssh work "sort big.tsv > sorted.tsv"</pre>
+
+Unquoted, that last one would drag the whole file across the network and write it on your laptop.
 
 ## Exercise
 

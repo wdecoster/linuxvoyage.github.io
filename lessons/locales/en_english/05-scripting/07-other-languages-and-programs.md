@@ -6,7 +6,7 @@ Everything you have written so far has been a shell script: a list of commands i
 
 For that you use a real programming language, and in bioinformatics that usually means <b>Python</b> or <b>R</b>. You may also meet <b>Perl</b>, which is older and less fashionable but still underneath a lot of working bioinformatics software.
 
-A rough division of labour: R for statistics and plots, Python for general programming and data wrangling, and the shell for orchestrating the tools that do the heavy lifting. Plenty of people argue about the boundaries. The useful thing to know is that they are all just programs on the server, and everything you have learned about paths, PATH, permissions and redirection applies to all of them equally.
+A rough division of labour: R for statistics and plots, Python for general programming and data wrangling, and the shell for orchestrating the tools that do the heavy lifting. Plenty of people argue about the boundaries. The useful thing to know is that they are all just programs on the server, and everything you have learned about paths, permissions and redirection applies to all of them equally.
 
 <b>Interactive versus a script.</b> This is the distinction worth being clear about, because it confuses people for a long time.
 
@@ -44,7 +44,7 @@ $ chmod +x analysis.py
 $ ./analysis.py
 </pre>
 
-The <b>#!/usr/bin/env python3</b> form is worth preferring over writing out a full path such as /usr/bin/python3, because it finds whichever python3 the shell would find if you typed it yourself. Once you start installing your own software, in the Your Environment section, that matters: it means your script uses your python rather than the system's.
+The <b>#!/usr/bin/env python3</b> form is worth preferring over writing out a full path such as /usr/bin/python3, because it finds whichever python3 the shell would find if you typed it yourself. Once you start installing your own software, in the Your Environment section later, that matters: it means your script uses your python rather than the system's.
 
 <b>Compiled programs.</b> Python, R, Perl and bash are all <i>interpreted</i>: another program reads your file and does what it says, every time you run it. Languages like <b>C</b>, <b>C++</b> and <b>Rust</b> work differently. They are <i>compiled</i>: a compiler translates the source code once, ahead of time, into a file of machine instructions that the processor runs directly.
 
@@ -55,7 +55,7 @@ $ file /bin/ls
 /bin/ls: ELF 64-bit LSB pie executable, x86-64, dynamically linked
 </pre>
 
-"ELF executable" means a compiled binary. Compare it with a script, where file reports the shebang instead.
+"ELF executable" means a compiled binary. Compare it with one of your own scripts, where file says something like "Python script" or "Bourne-Again shell script" instead: it has looked at the shebang and told you which language it is.
 
 The practical consequences for you:
 
@@ -66,7 +66,7 @@ The practical consequences for you:
 <li>Some software is distributed as source code rather than as a ready-made binary, and has to be compiled before you can run it. That is a job, and it is exactly the pain that package managers spare you by shipping things already built.</li>
 </ul>
 
-None of this changes how you run them. Whether a command is a shell script, a Python script or a compiled binary, you type its name, it needs the execute bit set, and it has to be somewhere on your PATH. That is the whole point of the design: from the outside, they all look the same.
+None of this changes how you run them. Whether a command is a shell script, a Python script or a compiled binary, you type its name and it needs the execute bit set. That is the whole point of the design: from the outside, they all look the same. The Your Environment section later explains how the shell finds them.
 
 ## Exercise
 

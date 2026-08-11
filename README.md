@@ -35,9 +35,31 @@ Text and examples lean towards the kind of files these students will actually ha
 
 **Examples.** The core text-processing lessons (`sort`, `uniq`, `cut`) now work on a sample table rather than lists of animals, and the `sort -n` example no longer sorts words numerically.
 
-### Rebuilding after an edit
+### Editing a lesson
 
-Lessons are markdown under `lessons/locales/en_english/<section>/`, and each section has an order file listing its lessons. Both the per-lesson HTML and the static pages under `docs/` are generated, so edit the markdown and regenerate rather than editing HTML by hand.
+Lessons are markdown under `lessons/locales/en_english/<section>/`. **Everything else is generated** — the `.html` beside each lesson, every page under `docs/`, the home page grid, and the command index. Never edit those by hand; they get overwritten.
+
+To change a lesson, edit its `.md` and push. A GitHub Action rebuilds and commits the generated files for you, so the published site and the command index cannot drift from the lessons. On a pull request it checks instead of committing, and fails if the generated files are stale.
+
+To rebuild locally, which is worth doing to preview:
+
+```bash
+pip install markdown-server==0.1.4 beautifulsoup4==4.11.1 jinja2
+python3 tools/build.py            # rebuild everything
+python3 tools/build.py --check    # just report whether anything is out of date
+```
+
+Other things you may want to change:
+
+| what | where |
+| --- | --- |
+| lesson order within a section | that section's `*-order.txt` |
+| which sections exist | add a directory with an order file, then add it to `tools/sections.py` |
+| section grouping, card text, card icons | `tools/sections.py` |
+| lesson page layout | `templates/lesson.html` |
+| home page outside the grid, About page | `docs/index.html`, `docs/about.html` (edited by hand, preserved by the build) |
+
+Two other Actions run on their own: `check-links.yml` verifies every external link weekly, and opens an issue if one dies.
 
 ### Based on
 

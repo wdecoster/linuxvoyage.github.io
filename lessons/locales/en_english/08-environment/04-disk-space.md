@@ -33,9 +33,9 @@ That is the total for the current directory. The genuinely useful form asks abou
 <pre>
 $ du -sh *
 2.1G    alignments
-14M     scripts
 8.6G    raw_reads
 1.2G    results
+14M     scripts
 </pre>
 
 Now you can see where it went. When a directory has a lot in it, sort the answer, using the -h flag from the sort lesson, which understands G and M:
@@ -46,7 +46,9 @@ The biggest offender ends up at the bottom, next to your prompt, which is exactl
 
 One catch: <b>*</b> does not match names beginning with a dot, so hidden directories are invisible to that command, and some of the largest things in your home directory are hidden. ~/.conda and ~/.cache are the usual culprits. If the numbers do not add up to what du -sh reports for the whole directory, that is why. Include them with:
 
-<pre>$ du -sh .[!.]* * | sort -h</pre>
+<pre>$ du -sh -- .[!.]* * 2>/dev/null | sort -h</pre>
+
+The 2>/dev/null is there because if a directory happens to have no hidden entries, the shell leaves the pattern unexpanded and du complains about a file literally called .[!.]* . Sending that grumble to /dev/null keeps the output clean.
 
 A warning worth having: du on a large directory tree takes a while, because it really does look at everything. On a network filesystem it can take minutes. That is normal, and Ctrl-C stops it.
 
@@ -71,7 +73,7 @@ If that command is not available or reports nothing, your site may use a differe
 <ol>
 <li>Run df -h and work out which line your home directory is on.</li>
 <li>Run du -sh in your home directory to see the total.</li>
-<li>Run du -sh * | sort -h and find your largest directory.</li>
+<li>Run du -sh * | sort -h and find your largest directory. Then run the version that includes hidden directories and see whether the answer changes, which in a home directory it usually does.</li>
 <li>Check whether you have a quota, with quota -s.</li>
 </ol>
 

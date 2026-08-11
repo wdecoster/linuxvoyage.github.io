@@ -17,11 +17,11 @@ The saving grace is that these jobs usually do not depend on each other. Sample 
 
 <b>GNU parallel</b> runs the same command on many inputs at once. In its simplest form it looks like a loop turned inside out:
 
-<pre>$ parallel mytool {} ::: *.fastq</pre>
-
-The <b>{}</b> is where each input gets substituted, and <b>:::</b> separates the command from the list of things to run it on. By default parallel uses one job per processor core. Say how many you want with <b>-j</b>:
-
 <pre>$ parallel -j 4 mytool {} ::: *.fastq</pre>
+
+The <b>{}</b> is where each input gets substituted, and <b>:::</b> separates the command from the list of things to run it on. <b>-j</b> is how many to run at once.
+
+Do not leave -j out. Without it parallel helps itself to one job per processor core, which on a shared machine means taking the entire thing, and there is a whole section on that below.
 
 It can also read its inputs from another command, which is how you feed it something more selective than a wildcard:
 
@@ -43,12 +43,11 @@ And start with <b>-j 2</b> on a couple of files rather than -j 32 on all of them
 
 On a server without a job scheduler, which is the situation for most of this course, there is nothing stopping you doing this, so the restraint has to come from you. In practice:
 
-<pre>
-$ nproc          how many cores this machine has
-$ htop           what is already running on them
-</pre>
+<pre>$ nproc</pre>
 
-<b>-j 4 is almost always polite</b> and is a good default until you know the machine. Never use all of the cores nproc reports. And remember that <b>memory runs out before cores do</b>: sixteen copies of a tool that each want 8 GB need 128 GB, and when that is not there the machine starts swapping and becomes unusable for everybody. htop, from the Jobs and Processes section, shows you both.
+That tells you how many cores the machine has. <b>-j 4 is almost always polite</b> and is a good default until you know the machine better. Never use all of the cores nproc reports.
+
+And remember that <b>memory runs out before cores do</b>: sixteen copies of a tool that each want 8 GB need 128 GB, and when that is not there the machine starts swapping and becomes unusable for everybody. The next section, Jobs and Processes, covers a tool called htop that shows you what the machine is doing before you add to it.
 
 Larger shared systems solve this with a <b>job scheduler</b>, most commonly <a href="https://slurm.schedmd.com/quickstart.html">Slurm</a>. Instead of running work yourself, you describe what it needs and submit it to a queue, and the scheduler decides when and where it runs so that the machine is shared fairly. You do not need it here, but you will meet it the moment you move to a cluster, and it is worth knowing the word.
 
@@ -66,7 +65,7 @@ At that point you want a <b>workflow manager</b>. The two common in bioinformati
 <li>You describe the steps and what each needs, and the tool works out the order and what can run at the same time.</li>
 <li><b>It resumes.</b> After a failure, rerunning does not redo the three days of work that already succeeded, only what is missing. This is the big one.</li>
 <li>It submits to the cluster scheduler for you, so the same workflow runs on your laptop and on a cluster with one flag changed.</li>
-<li>It can pin each step to a conda environment or container, so the analysis still runs the same way next year.</li>
+<li>It can pin each step to an exact set of installed software, so the analysis still runs the same way next year. The Your Environment section later covers how that software gets installed.</li>
 <li>It keeps a record of what ran, which is what you need when a reviewer asks how a figure was produced.</li>
 </ul>
 
@@ -82,15 +81,15 @@ Do not jump to the third one for a task the first one handles. But when you find
 
 When you get there, both have good tutorials to start from: the <a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">Snakemake tutorial</a> and <a href="https://training.nextflow.io/">Nextflow training</a>. GNU parallel's own <a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">tutorial</a> goes well beyond what is here too.
 
-Whichever you use, start it inside a <b>screen</b> session, as covered in Jobs and Processes. Work at this scale outlives your connection.
+One last thing, whichever route you take. Work at this scale takes longer than your connection will stay up, so it needs to survive you closing your laptop. The next section covers <b>screen</b>, which is how you do that; until you have read it, do not start a long run and walk away.
 
 ## Exercise
 
 <ol>
 <li>Make a few files with touch, and use parallel --dry-run to see what a command over them would run.</li>
 <li>Run something harmless over them with parallel -j 2, such as wc -l.</li>
-<li>Try the same with xargs -P 2 and compare.</li>
-<li>Run nproc to see how many cores your machine has, and htop to see how busy they already are.</li>
+<li>Try the same with xargs -n 1 -P 2 and compare. The -n 1 matters: without it xargs hands every file to a single invocation and the -P has nothing to do.</li>
+<li>Run nproc to see how many cores your machine has.</li>
 <li>Check whether your server has a scheduler with <b>which sbatch qsub</b>. If neither exists, as on the machine used for this course, you are sharing the machine directly and the etiquette above is all there is.</li>
 </ol>
 

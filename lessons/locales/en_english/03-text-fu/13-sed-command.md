@@ -64,7 +64,7 @@ Treat that with respect. There is no undo, and if your pattern was wrong you hav
 <li>Make a small file with a few repeated words and substitute one of them, with and without the g flag.</li>
 <li>Use sed -n with a line range to print just the middle of the file.</li>
 <li>Delete the first line with 1d and check the original file is untouched.</li>
-<li>Redirect a substitution into a new file, then compare the two with less.</li>
+<li>Redirect a substitution into a new file, then look at both with less and satisfy yourself the original is unchanged.</li>
 </ol>
 
 ## Quiz Question

@@ -75,10 +75,13 @@
 
                         <div class="user-app">
                             <a class="btn btn-default btn-sm" href="../index.html">
-                                Home
+                                Course overview
                             </a>
                             <a class="btn btn-default btn-sm" href="../commands.html">
-                                Commands
+                                Command index
+                            </a>
+                            <a class="btn btn-default btn-sm" href="../about.html">
+                                About
                             </a>
                         </div>
 
@@ -106,15 +109,16 @@ $ du -sh
 <pre>
 $ du -sh *
 2.1G    alignments
-14M     scripts
 8.6G    raw_reads
 1.2G    results
+14M     scripts
 </pre>
 <p>Now you can see where it went. When a directory has a lot in it, sort the answer, using the -h flag from the sort lesson, which understands G and M:</p>
 <pre>$ du -sh * | sort -h</pre>
 <p>The biggest offender ends up at the bottom, next to your prompt, which is exactly where you want it. This one line is the answer to "why is my quota full" nine times out of ten.</p>
 <p>One catch: <b>*</b> does not match names beginning with a dot, so hidden directories are invisible to that command, and some of the largest things in your home directory are hidden. ~/.conda and ~/.cache are the usual culprits. If the numbers do not add up to what du -sh reports for the whole directory, that is why. Include them with:</p>
-<pre>$ du -sh .[!.]* * | sort -h</pre>
+<pre>$ du -sh -- .[!.]* * 2&gt;/dev/null | sort -h</pre>
+<p>The 2&gt;/dev/null is there because if a directory happens to have no hidden entries, the shell leaves the pattern unexpanded and du complains about a file literally called .[!.]* . Sending that grumble to /dev/null keeps the output clean.</p>
 <p>A warning worth having: du on a large directory tree takes a while, because it really does look at everything. On a network filesystem it can take minutes. That is normal, and Ctrl-C stops it.</p>
 <p><b>Quotas.</b> On many shared servers you are not limited by the disk being full but by a quota, a per-user limit set by the administrators. If you get "Disk quota exceeded" while df cheerfully reports terabytes free, that is what has happened. Check yours with:</p>
 <pre>$ quota -s</pre>
@@ -137,7 +141,7 @@ $ du -sh *
 <ol>
 <li>Run df -h and work out which line your home directory is on.</li>
 <li>Run du -sh in your home directory to see the total.</li>
-<li>Run du -sh * | sort -h and find your largest directory.</li>
+<li>Run du -sh * | sort -h and find your largest directory. Then run the version that includes hidden directories and see whether the answer changes, which in a home directory it usually does.</li>
 <li>Check whether you have a quota, with quota -s.</li>
 </ol>
 

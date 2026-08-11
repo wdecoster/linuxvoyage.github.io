@@ -12,9 +12,17 @@ There are two tools for this and almost every machine has at least one.
 
 You get a progress bar, and when it finishes the file is in your current directory. Check where you are with pwd first, because that is where it will land.
 
-<b>curl</b> does the same job but behaves differently by default: it prints what it downloads to the screen rather than saving it. For a web page that means a screenful of HTML, and for a compressed genome it means a screenful of binary rubbish and a confused terminal. You almost always want <b>-O</b>, which saves it under its original name:
+<b>curl</b> does the same job but its defaults are all different, and each difference has bitten somebody. Out of the box it prints what it downloads to the screen rather than saving it. For a web page that means a screenful of HTML, and for a compressed genome a screenful of binary rubbish and a confused terminal. So you want <b>-O</b> to save it under its original name. But you want two more flags as well:
 
-<pre>$ curl -O https://example.org/data/reference.fa.gz</pre>
+<pre>$ curl -fLO https://example.org/data/reference.fa.gz</pre>
+
+<ul>
+<li><b>-O</b> save to a file, named after the URL, instead of printing it.</li>
+<li><b>-L</b> follow redirects. Without it, a URL that has moved gives you a tiny HTML "this has moved" page instead of your data. wget follows redirects on its own.</li>
+<li><b>-f</b> fail properly. Without it, a 404 makes curl save the error page and report success, which is the worst of both worlds.</li>
+</ul>
+
+<b>-fLO</b> is worth learning as one word.
 
 Use lowercase <b>-o</b> if you want to choose the name yourself:
 
@@ -22,7 +30,17 @@ Use lowercase <b>-o</b> if you want to choose the name yourself:
 
 If you ever run curl without either and your terminal fills with nonsense, that is what happened. Ctrl-C stops it, and the reset command will tidy up a terminal that has been left displaying garbage.
 
-<b>Always look at what you got.</b> A download that fails often still leaves a file behind, and it is easy to spend an hour wondering why a tool cannot read your reference before noticing it is four kilobytes of HTML saying "404 Not Found":
+<b>Always look at what you got.</b> This is the habit that matters most. A plain <b>curl -O</b> against a URL that no longer exists writes the web server's error page to disk and exits as though nothing were wrong:
+
+<pre>
+$ curl -O https://example.org/data/gone.fa.gz
+$ echo $?
+0
+$ ls -lh gone.fa.gz
+-rw-r--r-- 1 pete pete 335 Aug 11 14:02 gone.fa.gz
+</pre>
+
+You now have a 335-byte file named like a genome, containing "404 Not Found", and a script that thinks the download worked. wget is better behaved here: on a 404 it writes nothing and exits non-zero. Either way, look:
 
 <pre>
 $ ls -lh reference.fa.gz
@@ -44,7 +62,7 @@ If a download will take hours, start it inside a screen session as covered in th
 
 <pre>
 $ md5sum reference.fa.gz
-d41d8cd98f00b204e9800998ecf8427e  reference.fa.gz
+9f2c81b1a4f8e6d70a3b5c19e7d84f26  reference.fa.gz
 </pre>
 
 Compare that string with the one published on the site. If they match, your copy is byte for byte the same. If they do not, download it again. This is worth doing for anything large or anything you are going to build results on.
@@ -60,8 +78,9 @@ $ wget https://www.gnu.org/licenses/gpl-3.0.txt
 $ ls -lh gpl-3.0.txt
 $ file gpl-3.0.txt
 </pre></li>
-<li>Download the same URL with curl -O and confirm you get the same file. Compare them with md5sum on both.</li>
+<li>Fetch the same URL with curl under a different name, then compare: <b>curl -fLO</b> would overwrite what wget just saved, since curl replaces an existing file without a word, while wget writes gpl-3.0.txt.1 instead. Use <b>curl -fL -o gpl-curl.txt</b> and then <b>md5sum gpl-3.0.txt gpl-curl.txt</b>; the two hashes should match.</li>
 <li>Try curl without -O on a web page and watch it print to the screen instead. Stop it with Ctrl-C if it is long.</li>
+<li>Ask for a URL that does not exist, first with curl -O and then with curl -fO, and compare what each leaves behind and what echo $? reports.</li>
 </ol>
 
 ## Quiz Question

@@ -19,7 +19,7 @@ You will also see it written on one line, which is what you get inside scripts m
 
 <pre>if [ -f reads.fastq ]; then echo "found it"; fi</pre>
 
-<b>The square brackets are a command.</b> This is the part that makes everything else make sense. <b>[</b> is not punctuation, it is a program, another name for <b>test</b>. It runs, it looks at what you gave it, and it exits 0 if the condition holds and non-zero if it does not. if then branches on that exit code, exactly the one from the previous lesson.
+<b>The square brackets are a command.</b> This is the part that makes everything else make sense. <b>[</b> is not punctuation, it is a command, another name for <b>test</b>. It runs, it looks at what you gave it, and it exits 0 if the condition holds and non-zero if it does not. if then branches on that exit code, exactly the one from the previous lesson.
 
 Two consequences follow immediately, and between them they account for most of the errors beginners hit:
 
@@ -68,7 +68,7 @@ $ [ 10 -gt 9 ] && echo yes        # yes, 10 is greater than 9
 $ [ "10" = "9" ] && echo yes      # nothing, they are different strings
 </pre>
 
-And do not reach for &gt; and &lt; to compare text inside single brackets. They are still the shell's redirection operators there, so <b>[ "10" &gt; "9" ]</b> does not compare anything at all: it tests whether "10" is a non-empty string, which it is, and quietly creates a file called 9 in your current directory. If you ever need to compare text in sort order, that is what the double brackets at the end of this lesson are for.
+And do not reach for &gt; and &lt; to compare text inside single brackets. They are still the shell's redirection operators there, so <b>[ "10" &gt; "9" ]</b> does not compare anything at all: it tests whether "10" is a non-empty string, which it is, and quietly creates a file called 9 in your current directory. If a file called 9 already existed, it has just been emptied. If you ever need to compare text in sort order, that is what the double brackets at the end of this lesson are for.
 
 <b>Reverse a test with !</b>, which is much more useful than testing the positive case, because most checks in scripts are "stop if something is wrong":
 
@@ -82,7 +82,7 @@ fi
 
 That is the guard you saw in the exit codes lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.
 
-<b>Quote your variables in tests.</b> If $1 is empty and unquoted, the shell removes it entirely and test sees <b>[ ! -f ]</b>, which is a different expression and behaves oddly rather than failing cleanly. "$1" with quotes stays one empty argument and the test does what you meant.
+<b>Quote your variables in tests.</b> If $1 is empty and unquoted, the shell removes it entirely and test sees <b>[ ! -f ]</b>. That is no longer a file test at all: it asks whether the string "-f" is empty, which it is not, so the whole thing comes out false. Your guard does not fire, nothing is printed, and the script carries on without the argument it needed. "$1" with quotes stays one empty argument and the test does what you meant.
 
 <b>else and elif</b> do what you would expect:
 
@@ -98,7 +98,11 @@ else
 fi
 </pre>
 
-One last thing you will see in other people's scripts. Bash also has <b>[[ ]]</b>, a double-bracket version with extra features and fewer traps around quoting. It works well and it is what many people use, but it is a bash extension rather than something every shell has. Single brackets work everywhere, so that is what this course uses.
+One last thing you will see in other people's scripts. Bash also has <b>[[ ]]</b>, a double-bracket version with fewer traps. Inside it, &gt; and &lt; really are comparisons rather than redirects, so the earlier example behaves the way you would first have guessed:
+
+<pre>$ [[ "10" > "9" ]] && echo yes      # nothing: as text, "1" sorts before "9"</pre>
+
+It also does not need variables quoted. It works well and many people use it, but it is a bash extension rather than something every shell has, so this course sticks to single brackets.
 
 ## Exercise
 

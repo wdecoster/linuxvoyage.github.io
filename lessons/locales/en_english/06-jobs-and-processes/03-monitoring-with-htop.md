@@ -27,7 +27,7 @@ A word on <b>cores</b> first, since the whole display depends on it. A modern ma
 <li><b>TIME+</b> - how much processor time it has consumed since it started, which is not the same as how long ago you launched it.</li>
 </ul>
 
-<b>Making it useful.</b> The list is long and mostly other people's. Two keys fix that:
+<b>Making it useful.</b> The list is long and mostly other people's. A few keys fix that:
 
 <ul>
 <li><b>u</b> then your username - show only your own processes. This is the first thing to do.</li>
