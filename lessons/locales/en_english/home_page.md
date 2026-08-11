@@ -10,11 +10,11 @@
 
 * Permissions - Read, write and execute, and how to change them.
 
-* Scripting - Variables, your first script, loops over files, and exit codes.
+* Scripting - Variables, your first script, loops, exit codes, and how R and Python fit in.
 
 * Jobs and Processes - Ctrl-C, background jobs, and screen sessions that survive a dropped connection.
 
-* Your Environment - Environment variables, PATH, and installing software without root.
+* Your Environment - Environment variables, PATH, and installing software with conda.
 
 * Moving Data - Getting files on and off the server: wget, scp, rsync and tar.
 

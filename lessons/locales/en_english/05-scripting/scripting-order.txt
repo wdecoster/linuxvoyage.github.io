@@ -2,3 +2,4 @@
 02-your-first-script.md
 03-loops-over-files.md
 04-exit-codes-and-chaining.md
+05-other-languages-and-programs.md

@@ -2,40 +2,61 @@
 
 ## Lesson Content
 
-The usual way to install software on Linux is a package manager such as apt or yum, covered in the packages section later in this course, and both of them need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it. That does not stop you installing software, it just means installing it into your own home directory instead of into the system.
+The packages section later in this course covers apt and yum, the usual way software gets installed on Linux. Both need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it.
 
-There are three routes you will meet.
+That does not stop you installing anything. It just means installing into your own home directory rather than into the system, and the tool for that is <b>conda</b>.
 
-<b>Modules.</b> Many shared servers already have a lot of software installed, hidden until you ask for it, managed by a tool called module or Lmod. This is always worth checking first, because it is free and the versions are maintained for you:
-
-<pre>
-$ module avail            what is available
-$ module load samtools    add it to your environment
-$ module list             what you have loaded
-$ module unload samtools
-</pre>
-
-What module load actually does is adjust your PATH, which is why the previous lesson matters. Loaded modules last for the current session only, so if you need one every time, put the load line in your ~/.bashrc.
-
-<b>Conda.</b> When the software you need is not already there, conda is the usual answer. It installs into your home directory, needs no admin rights, and handles dependencies. Miniconda or its faster relatives are installed by fetching an installer onto the server and running it. Fetch it with wget, as covered in the Moving Data section, rather than downloading it to your laptop and copying it up:
+<b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, as covered in the Moving Data section, and run it:
 
 <pre>
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh
 </pre>
 
-The installer offers to modify your ~/.bashrc so that conda is on your PATH in new shells. The important idea is the environment: rather than one big pile of software, you make a separate environment per project, so that a tool needing an old version of Python cannot break another one that needs a new version.
+The installer asks a few questions and offers to modify your ~/.bashrc so that conda is on your PATH in new shells. Say yes. Then open a new shell, or run source ~/.bashrc, and conda is available.
+
+<b>Environments are the important idea.</b> An environment is a self-contained set of installed software. You can have several, they do not see each other, and you switch between them.
+
+Here is the problem they solve. Say one tool you need was written years ago and only works with Python 3.8. Another is actively developed and needs Python 3.12. If everything is installed in one pile, these two requirements cannot both be satisfied, and installing the second tool quietly breaks the first. This is not a rare edge case, it is a normal Tuesday in bioinformatics, and it is worse than it sounds because the breakage often shows up as a confusing error in a tool you were not touching.
+
+With environments, each project gets its own:
 
 <pre>
+$ conda create -n oldpipeline python=3.8
 $ conda create -n myproject python=3.12
-$ conda activate myproject
-$ conda install -c bioconda samtools
-$ conda deactivate
 </pre>
 
-When an environment is active your prompt usually shows its name, which is a useful reminder of which set of tools you are currently using. If a command works for a colleague and not for you, "which environment are you in" is a good first question.
+Activate the one you want, and your PATH is rearranged so that environment's software comes first:
 
-<b>By hand.</b> Sometimes you just have a program, and you want it available. Put it in a bin directory in your home and add that to your PATH, as in the previous lesson:
+<pre>
+$ conda activate myproject
+(myproject) $ conda install -c bioconda samtools
+(myproject) $ conda deactivate
+$ </pre>
+
+Notice the prompt. When an environment is active its name appears in front, which is a constant reminder of which set of tools you are using. When a command works for a colleague and not for you, "which environment are you in" is a very good first question. If a command is not found and you expected it to be, check with conda env list and conda activate the right one before assuming anything is broken.
+
+The <b>-c bioconda</b> above says which channel to install from. Channels are collections of packages, and most bioinformatics software lives in bioconda rather than in the default channel. You will type it a lot.
+
+A few habits worth forming early:
+
+<ul>
+<li>One environment per project, not one big environment for everything. They are cheap to make and painful to untangle.</li>
+<li>Record what you used. conda env export &gt; environment.yml writes out the exact set of packages and versions, and conda env create -f environment.yml rebuilds it. This is what makes your analysis reproducible six months later, and it is the difference between a result you can defend and one you cannot.</li>
+<li>Watch your disk. Environments are not small, home directories usually are. If your server has a scratch or project area, put your environments there and check where before you fill your home directory up, because a full home directory breaks things in confusing ways.</li>
+</ul>
+
+<b>Modules.</b> Some shared servers also have a module system, which exposes software the administrators have already installed. It is worth knowing it exists, since it costs nothing to check:
+
+<pre>
+$ module avail
+$ module load samtools
+$ module list
+</pre>
+
+Loading a module simply adjusts your PATH, which is why the previous lesson matters. The catch is that you get whichever versions the administrators chose, which may not be the ones your analysis needs, and you cannot record a module list as precisely as an environment file. Useful for common tools, not a substitute for managing your own environments.
+
+<b>By hand.</b> Occasionally you just have a single program and want to run it. Put it in a bin directory in your home and add that to your PATH:
 
 <pre>
 $ mkdir -p ~/bin
@@ -44,22 +65,21 @@ $ chmod +x ~/bin/mytool
 $ export PATH=$HOME/bin:$PATH
 </pre>
 
-Whichever route you take, the underlying mechanism is the same: something ends up in a directory, and that directory ends up on your PATH. Modules and conda are convenient ways of doing that bookkeeping for you. When something mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.
-
-A note on where things go. Your home directory is often small, and quota limits are easy to hit once you have several conda environments, which are not small. Servers usually provide a larger scratch or project area. Find out where yours is before you fill up your home directory, because a full home directory tends to break things in confusing ways.
+Whichever route you take, the mechanism underneath is the same one from the previous lesson: something lands in a directory, and that directory goes on your PATH. When software mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.
 
 ## Exercise
 
 <ol>
-<li>Check whether your server has modules, with module avail.</li>
-<li>If conda is available, create an environment, activate it, and check that your prompt changes.</li>
-<li>Run which and type -a on a tool before and after loading it, and see the PATH change take effect.</li>
+<li>Install conda if it is not already there, and check it works with conda --version.</li>
+<li>Create an environment with a specific Python version, activate it, and confirm your prompt changes and python --version matches what you asked for.</li>
+<li>Run conda env export in that environment and look at the file it produces.</li>
+<li>Deactivate, and check that python --version goes back to what it was.</li>
 </ol>
 
 ## Quiz Question
 
-Why can you not usually use apt or yum to install software on a shared server?
+Why would you put two tools in separate conda environments?
 
 ## Quiz Answer
 
-they need sudo, which you do not have
+because they need different versions of something, such as Python, and cannot both be satisfied in one environment
