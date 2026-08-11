@@ -41,7 +41,14 @@ And start with <b>-j 2</b> on a couple of files rather than -j 32 on all of them
 
 <b>Do not saturate a shared machine.</b> You are not the only person on the server. Take every core with -j 32 and everyone else's work crawls, including the interactive session of whoever is trying to work out why the machine got slow.
 
-On a server without a job scheduler, which is the situation for most of this course, there is nothing stopping you doing this, so the restraint has to come from you. Two rules of thumb: leave cores for other people rather than taking all of them, and remember that <b>memory runs out before cores do</b>. Sixteen copies of a tool that each want 8 GB need 128 GB, and when that is not there the machine starts swapping and becomes unusable for everybody. Check with htop, from the Jobs and Processes section, what the machine is already doing before you add to it.
+On a server without a job scheduler, which is the situation for most of this course, there is nothing stopping you doing this, so the restraint has to come from you. In practice:
+
+<pre>
+$ nproc          how many cores this machine has
+$ htop           what is already running on them
+</pre>
+
+<b>-j 4 is almost always polite</b> and is a good default until you know the machine. Never use all of the cores nproc reports. And remember that <b>memory runs out before cores do</b>: sixteen copies of a tool that each want 8 GB need 128 GB, and when that is not there the machine starts swapping and becomes unusable for everybody. htop, from the Jobs and Processes section, shows you both.
 
 Larger shared systems solve this with a <b>job scheduler</b>, most commonly <a href="https://slurm.schedmd.com/quickstart.html">Slurm</a>. Instead of running work yourself, you describe what it needs and submit it to a queue, and the scheduler decides when and where it runs so that the machine is shared fairly. You do not need it here, but you will meet it the moment you move to a cluster, and it is worth knowing the word.
 
@@ -83,7 +90,8 @@ Whichever you use, start it inside a <b>screen</b> session, as covered in Jobs a
 <li>Make a few files with touch, and use parallel --dry-run to see what a command over them would run.</li>
 <li>Run something harmless over them with parallel -j 2, such as wc -l.</li>
 <li>Try the same with xargs -P 2 and compare.</li>
-<li>Find out whether your server has a job scheduler, and what it expects you to run on the login node.</li>
+<li>Run nproc to see how many cores your machine has, and htop to see how busy they already are.</li>
+<li>Check whether your server has a scheduler with <b>which sbatch qsub</b>. If neither exists, as on the machine used for this course, you are sharing the machine directly and the etiquette above is all there is.</li>
 </ol>
 
 ## Quiz Question

@@ -10,21 +10,27 @@
 
 * Permissions - Read, write and execute, and how to change them.
 
-* Scripting - Variables, your first script, loops, exit codes, and how R and Python fit in.
+* Scripting - Variables, conditionals, loops, running many jobs, and how R and Python fit in.
 
 * Jobs and Processes - Background jobs, screen sessions that survive a dropped connection, and htop.
 
-* Your Environment - Environment variables, PATH, installing software with conda, and disk space.
-
 * Moving Data - Getting files on and off the server: wget, scp, rsync and tar.
+
+* Your Environment - Environment variables, PATH, installing software with conda, and disk space.
 
 ## Going Further
 
-* Users and Groups - Learn about user roles and management.
+* Users and Groups - Accounts, groups, root and sudo, and the files behind them.
 
 * Packages - Package managers, repositories, and building from source.
 
 * Advanced ssh - Config files, agents, jump hosts and port forwarding, once the basics chafe.
+
+* Process Utilization - Monitoring CPU, memory and I/O, and scheduling work with cron.
+
+* Logging - Where the system writes things down, and how to read it.
+
+## Under the Hood
 
 * Linux Distributions - Where Linux came from, and how Ubuntu, Debian, Red Hat and the rest differ.
 
@@ -37,10 +43,6 @@
 * Kernel - The core of the operating system, modules and system calls.
 
 * Init - How services get started, from SysV through to systemd.
-
-* Process Utilization - Monitoring CPU, memory and I/O, and scheduling work with cron.
-
-* Logging - Where the system writes things down, and how to read it.
 
 ## Networking
 

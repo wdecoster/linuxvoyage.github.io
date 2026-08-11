@@ -36,7 +36,7 @@ $ echo "one two one two" | sed 's/one/1/g'
 
 <pre>
 $ sed 's/^chr//' variants.txt          strip a leading chr from every line
-$ sed 's/  *$//' messy.txt             remove trailing spaces
+$ sed 's/[0-9]//g' messy.txt           remove every digit
 </pre>
 
 A few other instructions worth knowing:
@@ -54,7 +54,7 @@ Finally, <b>-i</b> edits the file in place, changing it for real:
 
 <pre>$ sed -i 's/chr1/chromosome1/g' variants.txt</pre>
 
-Treat that with respect. There is no undo, and if your pattern was wrong you have now quietly damaged your data. Run it without -i first, look at the output, and only then add the flag. If the file matters, <b>-i.bak</b> keeps the original as variants.txt.bak, which costs nothing:
+Treat that with respect. There is no undo, and if your pattern was wrong you have now quietly damaged your data. Run it without -i first, look at the output, and only then add the flag. If the file matters, <b>-i.bak</b> keeps the original as variants.txt.bak, which costs nothing. Note there is no space after -i, unlike most flags you have met:
 
 <pre>$ sed -i.bak 's/chr1/chromosome1/g' variants.txt</pre>
 

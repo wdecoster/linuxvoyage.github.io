@@ -77,6 +77,9 @@
                             <a class="btn btn-default btn-sm" href="../index.html">
                                 Home
                             </a>
+                            <a class="btn btn-default btn-sm" href="../commands.html">
+                                Commands
+                            </a>
                         </div>
 
                         <div class="lesson-content">
@@ -84,7 +87,7 @@
 <h3>Installing your own tools</h3>
 <p>The packages section later in this course covers apt and yum, the usual way software gets installed on Linux. Both need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it.</p>
 <p>That does not stop you installing anything. It just means installing into your own home directory rather than into the system, and the tool for that is <b>conda</b>.</p>
-<p><b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, as covered in the Moving Data section, and run it:</p>
+<p><b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, from the previous section, and run it:</p>
 <pre>
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About | Linux for Bioinformatics</title>
+  <link rel="stylesheet" media="all" href="static/assets/home/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css">
+  <style>
+    body { background-color: #F7F7F7; }
+    .wrap { max-width: 780px; margin: 0 auto; padding: 110px 20px 70px; }
+    h1 { margin: 0 0 6px; color: #2C3E50; }
+    h2 { margin-top: 38px; color: #2C3E50; font-size: 22px; }
+    .lede { color: #777; font-size: 17px; margin-bottom: 6px; }
+    p, li { line-height: 1.65; color: #333; }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 7px; }
+    a { color: #4183C4; }
+    code { font-size: 14px; color: #C7254E; background: #F9F2F4;
+           padding: 2px 6px; border-radius: 3px; }
+    .note { background: #fff; border-left: 4px solid #16A085;
+            padding: 14px 18px; margin: 22px 0; }
+    .credits { border-top: 1px solid #DDD; margin-top: 40px; padding-top: 20px;
+               color: #777; font-size: 14px; }
+    .credits a { color: #4183C4; }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-custom navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a id="logo" class="navbar-brand" href="index.html">Linux for Bioinformatics</a>
+      </div>
+      <p class="nav navbar-nav navbar-right">
+        <a class="navbar-brand" href="commands.html">Commands</a>
+        <a class="navbar-brand" href="index.html">All sections</a>
+      </p>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1>About this course</h1>
+    <p class="lede">An introduction to the Linux command line for people who work on a shared
+      server, written for a Master's level bioinformatics course.</p>
+
+    <h2>Who it is for</h2>
+    <p>You are comfortable using a computer but have never used a command line. You have a
+      biology background rather than a computing one. And you will be doing your work on a
+      Linux server that somebody else administers, which you reach over the network from your
+      own laptop.</p>
+    <p>That last point shapes everything here. It means you do not choose the distribution,
+      you will not have administrator rights, your jobs need to outlive an unreliable
+      connection, and your first real task is usually to get data onto the machine and run a
+      tool over it. Most introductions assume the opposite on every one of those points.</p>
+
+    <h2>How to use it</h2>
+    <p>Work through <strong>Start here</strong> in order. The sections build on each other, and
+      terms are introduced in the order you meet them. Each lesson has an exercise, and a quiz
+      question whose answer stays hidden until you ask for it — try to answer before you look,
+      because recalling something is what makes it stick.</p>
+    <p>Type the commands rather than copying them. It is slower, and it is how the shapes of
+      commands end up in your fingers.</p>
+    <div class="note">
+      Looking for one specific command? The <a href="commands.html">command index</a> lists
+      every command in the course alphabetically, with a star marking the lesson that teaches
+      it. That is the fastest way back to something you half remember.
+    </div>
+    <p>The later tiers are not required reading. <strong>Going Further</strong> covers things
+      you will want eventually, such as software installation and monitoring.
+      <strong>Under the Hood</strong> explains how Linux is put together, and
+      <strong>Networking</strong> is a reference for when you need it. Neither is needed to be
+      productive on the command line.</p>
+
+    <h2>What is different from the original</h2>
+    <p>This is an edited version of <a href="https://linuxjourney.com">Linux Journey</a>, not a
+      copy. The main changes:</p>
+    <ul>
+      <li>The course opens with connecting to a server rather than with choosing and installing
+        a distribution.</li>
+      <li>Tab completion, text editing with nano, and Ctrl-C all moved to the beginning, since
+        they are needed on day one.</li>
+      <li>New material on ssh, VS Code over ssh, quoting and filenames, shell scripting,
+        conditionals, running many jobs, screen, monitoring with htop, PATH, installing
+        software with conda, disk space, and downloading data.</li>
+      <li><code>grep</code>, <code>sed</code> and <code>awk</code> are given a good deal more
+        room, and the examples use tabular data rather than lists of animals.</li>
+      <li>The vim and emacs section was removed. Between nano and VS Code you have everything
+        this course needs.</li>
+      <li>A number of factual errors in the original have been corrected, and several have been
+        offered back upstream.</li>
+    </ul>
+
+    <h2>Found a problem?</h2>
+    <p>Anything wrong here is far more likely to come from the changes made in this version
+      than from the original course, so please report it at
+      <a href="https://github.com/wdecoster/linuxvoyage.github.io/issues">the issue tracker</a>.
+      Corrections, unclear explanations and broken examples are all worth reporting — if
+      something confused you, it confused somebody else too.</p>
+
+    <div class="credits">
+      <p>Adapted and maintained by
+        <a href="https://wdecoster.github.io/gigabaseorgigabyte/">Wouter De Coster</a>.</p>
+      <p>Based on <a href="https://linuxjourney.com">Linux Journey</a> by
+        <a href="https://github.com/cindyq/linuxjourney">Cindy Quach</a>, and on the static site
+        built by the
+        <a href="https://github.com/linuxvoyage/linuxvoyage.github.io">linuxvoyage maintainers</a>.
+        The lesson text is used and modified under the
+        <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+        Attribution-ShareAlike 4.0 International License</a>, and this version is shared under
+        the same terms. Site design and images belong to their original authors.</p>
+    </div>
+  </div>
+</body>
+
+</html>

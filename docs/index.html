@@ -29,7 +29,7 @@
           <a id="logo" class="navbar-brand" href="index.html">Linux for Bioinformatics</a>
         </div>
         <div id="navbar">
-          <p class="nav navbar-nav navbar-right"><a class="navbar-brand" href="https://github.com/wdecoster/linuxvoyage.github.io#about-this-fork">About</a></p>
+          <p class="nav navbar-nav navbar-right"><a class="navbar-brand" href="commands.html">Commands</a><a class="navbar-brand" href="about.html">About</a></p>
 <!--
      Disable other languages for now as we dont have lesson names listed & linked in them.
 
@@ -85,7 +85,7 @@
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
         <a href="lesson/what-is-linux.html">
-          <img alt="Getting Started" class="img-circle" src="static/assets/home/getting-started-cd39013b87fac4b4b5d668752511f154a673adc94fad86c9be53f0016bf3bc35.png">
+          <img alt="Getting Started" class="img-circle" src="static/assets/home/network-configuration-6677cdfe892728ed77e3c4a97e24f5dbcb98fc2b117495b12faec2e156b8f5ed.png">
           <div class="caption">
             <h3>Getting Started</h3>
             <p>What Linux actually is, then reaching your server with ssh, keys and VS Code.</p>
@@ -132,14 +132,14 @@
           <img alt="Scripting" class="img-circle" src="static/assets/home/text-fu-advanced-384999618925a5ad54abb9113cfab05f5bd3f7e341d16aecbcbf1c83711e2378.png">
           <div class="caption">
             <h3>Scripting</h3>
-            <p>Variables, your first script, loops, exit codes, and how R and Python fit in.</p>
+            <p>Variables, conditionals, loops, running many jobs, and how R and Python fit in.</p>
           </div>
         </a>
       </div>
     </div>
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
-        <a href="lesson/interrupting-commands.html">
+        <a href="lesson/background-jobs.html">
           <img alt="Jobs and Processes" class="img-circle" src="static/assets/home/processes-bf5fd64c3ace61821e8378b9911ef0606de5721e178d319abdc443fb82c9547a.png">
           <div class="caption">
             <h3>Jobs and Processes</h3>
@@ -150,22 +150,22 @@
     </div>
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
-        <a href="lesson/env-environment.html">
-          <img alt="Your Environment" class="img-circle" src="static/assets/home/user-management-11b3136e7e9f551e6efa2929fbef7b3f4693dd8e9d33f8db709c3415b6815dca.png">
+        <a href="lesson/downloading-files.html">
+          <img alt="Moving Data" class="img-circle" src="static/assets/home/network-sharing-160c16689bb42ee68a9047bb8e3741a00934d9e70cf5c9feb8caef9b62a0b8e8.png">
           <div class="caption">
-            <h3>Your Environment</h3>
-            <p>Environment variables, PATH, installing software with conda, and disk space.</p>
+            <h3>Moving Data</h3>
+            <p>Getting files on and off the server: wget, scp, rsync and tar.</p>
           </div>
         </a>
       </div>
     </div>
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
-        <a href="lesson/downloading-files.html">
-          <img alt="Moving Data" class="img-circle" src="static/assets/home/network-configuration-6677cdfe892728ed77e3c4a97e24f5dbcb98fc2b117495b12faec2e156b8f5ed.png">
+        <a href="lesson/env-environment.html">
+          <img alt="Your Environment" class="img-circle" src="static/assets/home/package-management-9a40f89dde6d2e2d861722093b97eadc3b852446125df64ea2ce344dc47ef00d.png">
           <div class="caption">
-            <h3>Moving Data</h3>
-            <p>Getting files on and off the server: wget, scp, rsync and tar.</p>
+            <h3>Your Environment</h3>
+            <p>Environment variables, PATH, installing software with conda, and disk space.</p>
           </div>
         </a>
       </div>
@@ -182,7 +182,7 @@
           <img alt="Users and Groups" class="img-circle" src="static/assets/home/user-management-11b3136e7e9f551e6efa2929fbef7b3f4693dd8e9d33f8db709c3415b6815dca.png">
           <div class="caption">
             <h3>Users and Groups</h3>
-            <p>Learn about user roles and management.</p>
+            <p>Accounts, groups, root and sudo, and the files behind them.</p>
           </div>
         </a>
       </div>
@@ -201,7 +201,7 @@
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
         <a href="lesson/ssh-config-and-agents.html">
-          <img alt="Advanced ssh" class="img-circle" src="static/assets/home/network-sharing-160c16689bb42ee68a9047bb8e3741a00934d9e70cf5c9feb8caef9b62a0b8e8.png">
+          <img alt="Advanced ssh" class="img-circle" src="static/assets/home/subnetting-419b4e0a930964af38188bb919aa65433e7c46e846637eee5e6e820191d63fbc.png">
           <div class="caption">
             <h3>Advanced ssh</h3>
             <p>Config files, agents, jump hosts and port forwarding, once the basics chafe.</p>
@@ -211,8 +211,36 @@
     </div>
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail thumbnail-border fade">
+        <a href="lesson/tracking-processes-top.html">
+          <img alt="Process Utilization" class="img-circle" src="static/assets/home/process-utilization-7cbd9417e89126a2548cb7ce59555fe53682fe00aa9e509840c4f22fa25b4d16.png">
+          <div class="caption">
+            <h3>Process Utilization</h3>
+            <p>Monitoring CPU, memory and I/O, and scheduling work with cron.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail thumbnail-border fade">
+        <a href="lesson/system-logging.html">
+          <img alt="Logging" class="img-circle" src="static/assets/home/logging-6a62164e665c33b2f4d0fa4d1a002a934c291ce3fa9eebb8398612256ddb5241.png">
+          <div class="caption">
+            <h3>Logging</h3>
+            <p>Where the system writes things down, and how to read it.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <h2 class="text-center buffer-bottom">Under the Hood</h2>
+
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail thumbnail-border fade">
         <a href="lesson/linux-history.html">
-          <img alt="Linux Distributions" class="img-circle" src="static/assets/home/network-sharing-160c16689bb42ee68a9047bb8e3741a00934d9e70cf5c9feb8caef9b62a0b8e8.png">
+          <img alt="Linux Distributions" class="img-circle" src="static/assets/home/getting-started-cd39013b87fac4b4b5d668752511f154a673adc94fad86c9be53f0016bf3bc35.png">
           <div class="caption">
             <h3>Linux Distributions</h3>
             <p>Where Linux came from, and how Ubuntu, Debian, Red Hat and the rest differ.</p>
@@ -271,28 +299,6 @@
           <div class="caption">
             <h3>Init</h3>
             <p>How services get started, from SysV through to systemd.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-      <div class="thumbnail thumbnail-border fade">
-        <a href="lesson/tracking-processes-top.html">
-          <img alt="Process Utilization" class="img-circle" src="static/assets/home/process-utilization-7cbd9417e89126a2548cb7ce59555fe53682fe00aa9e509840c4f22fa25b4d16.png">
-          <div class="caption">
-            <h3>Process Utilization</h3>
-            <p>Monitoring CPU, memory and I/O, and scheduling work with cron.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-      <div class="thumbnail thumbnail-border fade">
-        <a href="lesson/system-logging.html">
-          <img alt="Logging" class="img-circle" src="static/assets/home/logging-6a62164e665c33b2f4d0fa4d1a002a934c291ce3fa9eebb8398612256ddb5241.png">
-          <div class="caption">
-            <h3>Logging</h3>
-            <p>Where the system writes things down, and how to read it.</p>
           </div>
         </a>
       </div>
@@ -389,6 +395,7 @@
                                                 <h5>About this version</h5>
                                                 <p>The knowledge gained here today was powered by the open-source community.</p>
                                                 <p>An edited version of Linux Journey, reordered and extended for an introductory Master's level bioinformatics course, where students work on a shared server.</p>
+                                                <p>Adapted and maintained by <a href="https://wdecoster.github.io/gigabaseorgigabyte/">Wouter De Coster</a>.</p>
                                                 <p>Original course by <a href="https://github.com/cindyq/linuxjourney">Cindy Quach</a>, static site by the <a href="https://github.com/linuxvoyage/linuxvoyage.github.io">linuxvoyage maintainers</a>.</p>
 
                                               </div>

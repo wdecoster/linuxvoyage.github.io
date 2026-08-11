@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Commands | Linux for Bioinformatics</title>
+  <link rel="stylesheet" media="all" href="static/assets/home/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css">
+  <style>
+    body { background-color: #F7F7F7; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 110px 20px 60px; }
+    h1 { margin: 0 0 6px; color: #2C3E50; }
+    .lede { color: #777; margin-bottom: 24px; }
+    #filter {
+      width: 100%; padding: 12px 14px; font-size: 18px;
+      border: 1px solid #CCC; border-radius: 3px; margin-bottom: 6px;
+    }
+    #count { color: #777; font-size: 13px; margin-bottom: 18px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 9px 12px; border-bottom: 1px solid #EEE; text-align: left;
+             vertical-align: top; }
+    th { width: 170px; font-weight: normal; }
+    code { font-size: 15px; color: #C7254E; background: #F9F2F4;
+           padding: 2px 6px; border-radius: 3px; }
+    td a { display: inline-block; margin: 0 12px 4px 0; color: #4183C4; }
+    td a.taught { font-weight: bold; }
+    td a.taught:after { content: " \2605"; color: #16A085; }
+    .none { color: #777; padding: 20px 0; display: none; }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-custom navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a id="logo" class="navbar-brand" href="index.html">Linux for Bioinformatics</a>
+      </div>
+      <p class="nav navbar-nav navbar-right">
+        <a class="navbar-brand" href="about.html">About</a>
+        <a class="navbar-brand" href="index.html">All sections</a>
+      </p>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1>Commands</h1>
+    <p class="lede">Every command used anywhere in the course, and the lessons it appears in.
+      A star marks the lesson where it is actually taught.</p>
+
+    <input id="filter" type="search" placeholder="Type a command, e.g. grep" autofocus
+           autocomplete="off" spellcheck="false">
+    <p id="count">125 commands</p>
+
+    <table>
+      <tbody id="rows">
+<tr data-cmd="alias"><th><code>alias</code></th><td><a class="taught" href="lesson/alias-command.html">alias</a></td></tr>
+<tr data-cmd="apt"><th><code>apt</code></th><td><a class="" href="lesson/kernel-installation.html">Kernel Installation</a> <a class="" href="lesson/samba.html">Samba</a> <a class="" href="lesson/packet-analysis.html">Packet Analysis</a> <a class="" href="lesson/compile-source-code.html">Compile Source Code</a></td></tr>
+<tr data-cmd="awk"><th><code>awk</code></th><td><a class="taught" href="lesson/awk-command.html">awk</a></td></tr>
+<tr data-cmd="bash"><th><code>bash</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a> <a class="" href="lesson/path-and-export.html">PATH and export</a></td></tr>
+<tr data-cmd="bg"><th><code>bg</code></th><td><a class="" href="lesson/background-jobs.html">Background jobs</a></td></tr>
+<tr data-cmd="cat"><th><code>cat</code></th><td><a class="" href="lesson/filenames-and-quoting.html">Filenames and quoting</a> <a class="" href="lesson/interrupting-commands.html">Interrupting commands</a> <a class="taught" href="lesson/cat-command.html">cat</a> <a class="" href="lesson/proc-filesystem.html">/proc filesystem</a> <a class="" href="lesson/exit-codes-and-chaining.html">Exit codes and chaining</a> <a class="" href="lesson/stdin-standard-in-redirect.html">stdin (Standard In)</a> <a class="" href="lesson/etc-group-file.html">/etc/group</a> <a class="" href="lesson/etc-passwd-file.html">/etc/passwd</a> <a class="" href="lesson/etc-shadow-file.html">/etc/shadow</a> <a class="" href="lesson/users-and-groups.html">Users and Groups</a></td></tr>
+<tr data-cmd="cd"><th><code>cd</code></th><td><a class="" href="lesson/history-and-tab-completion.html">Tab completion and history</a> <a class="taught" href="lesson/change-directory-cd-command.html">cd (Change Directory)</a> <a class="" href="lesson/exit-codes-and-chaining.html">Exit codes and chaining</a></td></tr>
+<tr data-cmd="checkinstall"><th><code>checkinstall</code></th><td><a class="" href="lesson/compile-source-code.html">Compile Source Code</a></td></tr>
+<tr data-cmd="chgrp"><th><code>chgrp</code></th><td><a class="" href="lesson/ownership-permissions.html">Ownership Permissions</a></td></tr>
+<tr data-cmd="chmod"><th><code>chmod</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a> <a class="" href="lesson/ssh-keys.html">ssh keys</a> <a class="" href="lesson/modifying-permissions.html">Modifying Permissions</a> <a class="" href="lesson/setgid-set-group-id.html">Setgid</a> <a class="" href="lesson/setuid-set-user-id.html">Setuid</a> <a class="" href="lesson/sticky-bit.html">The Sticky Bit</a> <a class="" href="lesson/other-languages-and-programs.html">Other languages and programs</a> <a class="" href="lesson/your-first-script.html">Your first script</a></td></tr>
+<tr data-cmd="chown"><th><code>chown</code></th><td><a class="" href="lesson/ownership-permissions.html">Ownership Permissions</a></td></tr>
+<tr data-cmd="clear"><th><code>clear</code></th><td><a class="" href="lesson/history-and-tab-completion.html">Tab completion and history</a></td></tr>
+<tr data-cmd="conda"><th><code>conda</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a></td></tr>
+<tr data-cmd="cp"><th><code>cp</code></th><td><a class="taught" href="lesson/copy-cp-command.html">cp (Copy)</a> <a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a></td></tr>
+<tr data-cmd="curl"><th><code>curl</code></th><td><a class="" href="lesson/downloading-files.html">Downloading files</a></td></tr>
+<tr data-cmd="cut"><th><code>cut</code></th><td><a class="taught" href="lesson/cut-command.html">cut</a></td></tr>
+<tr data-cmd="dd"><th><code>dd</code></th><td><a class="taught" href="lesson/dd-command.html">dd</a></td></tr>
+<tr data-cmd="df"><th><code>df</code></th><td><a class="" href="lesson/disk-space.html">Disk space</a></td></tr>
+<tr data-cmd="dhclient"><th><code>dhclient</code></th><td><a class="taught" href="lesson/dhclient.html">dhclient</a></td></tr>
+<tr data-cmd="du"><th><code>du</code></th><td><a class="" href="lesson/disk-space.html">Disk space</a> <a class="" href="lesson/disk-usage.html">Disk Usage</a></td></tr>
+<tr data-cmd="echo"><th><code>echo</code></th><td><a class="" href="lesson/filenames-and-quoting.html">Filenames and quoting</a> <a class="" href="lesson/the-shell.html">The Shell</a> <a class="" href="lesson/cat-command.html">cat</a> <a class="" href="lesson/path-and-export.html">PATH and export</a> <a class="" href="lesson/env-environment.html">env (Environment)</a> <a class="" href="lesson/exit-codes-and-chaining.html">Exit codes and chaining</a> <a class="" href="lesson/shell-variables.html">Shell variables</a> <a class="" href="lesson/grep-command.html">grep</a> <a class="" href="lesson/sed-command.html">sed (Stream Editor)</a> <a class="" href="lesson/stdin-standard-in-redirect.html">stdin (Standard In)</a> <a class="" href="lesson/stdout-standard-out-redirect.html">stdout (Standard Out)</a> <a class="" href="lesson/tr-translate-command.html">tr (Translate)</a></td></tr>
+<tr data-cmd="env"><th><code>env</code></th><td><a class="taught" href="lesson/env-environment.html">env (Environment)</a> <a class="" href="lesson/grep-command.html">grep</a></td></tr>
+<tr data-cmd="exit"><th><code>exit</code></th><td><a class="taught" href="lesson/exit-command.html">exit</a></td></tr>
+<tr data-cmd="expand"><th><code>expand</code></th><td><a class="taught" href="lesson/expand-unexpand-command.html">expand and unexpand</a></td></tr>
+<tr data-cmd="export"><th><code>export</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a> <a class="taught" href="lesson/path-and-export.html">PATH and export</a></td></tr>
+<tr data-cmd="fg"><th><code>fg</code></th><td><a class="" href="lesson/interrupting-commands.html">Interrupting commands</a> <a class="" href="lesson/background-jobs.html">Background jobs</a> <a class="" href="lesson/job-control.html">Job Control</a></td></tr>
+<tr data-cmd="file"><th><code>file</code></th><td><a class="taught" href="lesson/file-command.html">file</a> <a class="" href="lesson/downloading-files.html">Downloading files</a> <a class="" href="lesson/other-languages-and-programs.html">Other languages and programs</a></td></tr>
+<tr data-cmd="find"><th><code>find</code></th><td><a class="taught" href="lesson/find-command.html">find</a></td></tr>
+<tr data-cmd="fsck"><th><code>fsck</code></th><td><a class="" href="lesson/filesystem-repair.html">Filesystem Repair</a></td></tr>
+<tr data-cmd="grep"><th><code>grep</code></th><td><a class="taught" href="lesson/grep-command.html">grep</a> <a class="" href="lesson/regular-expressions-regex.html">regex (Regular Expressions)</a></td></tr>
+<tr data-cmd="gunzip"><th><code>gunzip</code></th><td><a class="" href="lesson/compressed-archives-tar.html">tar and gzip</a></td></tr>
+<tr data-cmd="gzip"><th><code>gzip</code></th><td><a class="taught" href="lesson/compressed-archives-tar.html">tar and gzip</a></td></tr>
+<tr data-cmd="head"><th><code>head</code></th><td><a class="taught" href="lesson/head-command.html">head</a></td></tr>
+<tr data-cmd="help"><th><code>help</code></th><td><a class="taught" href="lesson/help-command.html">help</a></td></tr>
+<tr data-cmd="history"><th><code>history</code></th><td><a class="taught" href="lesson/history-and-tab-completion.html">Tab completion and history</a></td></tr>
+<tr data-cmd="htop"><th><code>htop</code></th><td><a class="taught" href="lesson/monitoring-with-htop.html">Monitoring with htop</a> <a class="" href="lesson/running-many-jobs.html">Running many jobs</a></td></tr>
+<tr data-cmd="ifconfig"><th><code>ifconfig</code></th><td><a class="" href="lesson/network-interfaces.html">Network Interfaces</a></td></tr>
+<tr data-cmd="ifdown"><th><code>ifdown</code></th><td><a class="" href="lesson/network-interfaces.html">Network Interfaces</a></td></tr>
+<tr data-cmd="ifup"><th><code>ifup</code></th><td><a class="" href="lesson/network-interfaces.html">Network Interfaces</a></td></tr>
+<tr data-cmd="initctl"><th><code>initctl</code></th><td><a class="" href="lesson/upstart-jobs.html">Upstart Jobs</a></td></tr>
+<tr data-cmd="ip"><th><code>ip</code></th><td><a class="" href="lesson/network-interfaces.html">Network Interfaces</a> <a class="" href="lesson/arp-command.html">arp</a> <a class="" href="lesson/route.html">route</a></td></tr>
+<tr data-cmd="jobs"><th><code>jobs</code></th><td><a class="taught" href="lesson/background-jobs.html">Background jobs</a> <a class="" href="lesson/job-control.html">Job Control</a></td></tr>
+<tr data-cmd="join"><th><code>join</code></th><td><a class="taught" href="lesson/join-split-command.html">join and split</a></td></tr>
+<tr data-cmd="kill"><th><code>kill</code></th><td><a class="taught" href="lesson/killing-processes.html">kill (Terminate)</a></td></tr>
+<tr data-cmd="less"><th><code>less</code></th><td><a class="taught" href="lesson/less-command.html">less</a></td></tr>
+<tr data-cmd="ln"><th><code>ln</code></th><td><a class="" href="lesson/symlinks.html">symlinks</a></td></tr>
+<tr data-cmd="logout"><th><code>logout</code></th><td><a class="" href="lesson/exit-command.html">exit</a></td></tr>
+<tr data-cmd="ls"><th><code>ls</code></th><td><a class="" href="lesson/help-command.html">help</a> <a class="taught" href="lesson/list-directories-ls-command.html">ls (List Directories)</a> <a class="" href="lesson/dev-directory.html">/dev directory</a> <a class="" href="lesson/device-types.html">device types</a> <a class="" href="lesson/proc-filesystem.html">/proc filesystem</a> <a class="" href="lesson/downloading-files.html">Downloading files</a> <a class="" href="lesson/file-permissions.html">File Permissions</a> <a class="" href="lesson/process-permissions.html">Process Permissions</a> <a class="" href="lesson/setgid-set-group-id.html">Setgid</a> <a class="" href="lesson/setuid-set-user-id.html">Setuid</a> <a class="" href="lesson/sticky-bit.html">The Sticky Bit</a> <a class="" href="lesson/exit-codes-and-chaining.html">Exit codes and chaining</a> <a class="" href="lesson/running-many-jobs.html">Running many jobs</a> <a class="" href="lesson/shell-variables.html">Shell variables</a> <a class="" href="lesson/grep-command.html">grep</a> <a class="" href="lesson/pipe-tee-redirect.html">pipe and tee</a> <a class="" href="lesson/stderr-standard-error-redirect.html">stderr (Standard Error)</a> <a class="" href="lesson/stdout-standard-out-redirect.html">stdout (Standard Out)</a> <a class="" href="lesson/users-and-groups.html">Users and Groups</a></td></tr>
+<tr data-cmd="lsmod"><th><code>lsmod</code></th><td><a class="" href="lesson/kernel-modules.html">Kernel Modules</a></td></tr>
+<tr data-cmd="lspci"><th><code>lspci</code></th><td><a class="taught" href="lesson/listing-devices.html">lsusb, lspci, lssci</a></td></tr>
+<tr data-cmd="lsscsi"><th><code>lsscsi</code></th><td><a class="" href="lesson/listing-devices.html">lsusb, lspci, lssci</a></td></tr>
+<tr data-cmd="lsusb"><th><code>lsusb</code></th><td><a class="taught" href="lesson/listing-devices.html">lsusb, lspci, lssci</a></td></tr>
+<tr data-cmd="make"><th><code>make</code></th><td><a class="" href="lesson/compile-source-code.html">Compile Source Code</a></td></tr>
+<tr data-cmd="man"><th><code>man</code></th><td><a class="taught" href="lesson/man-command.html">man</a> <a class="" href="lesson/route.html">route</a> <a class="" href="lesson/tail-command.html">tail</a></td></tr>
+<tr data-cmd="md5sum"><th><code>md5sum</code></th><td><a class="" href="lesson/downloading-files.html">Downloading files</a></td></tr>
+<tr data-cmd="mkdir"><th><code>mkdir</code></th><td><a class="taught" href="lesson/make-directory-mkdir-command.html">mkdir (Make Directory)</a> <a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a> <a class="" href="lesson/samba.html">Samba</a> <a class="" href="lesson/exit-codes-and-chaining.html">Exit codes and chaining</a></td></tr>
+<tr data-cmd="mkfs"><th><code>mkfs</code></th><td><a class="" href="lesson/creating-filesystems.html">Creating Filesystems</a></td></tr>
+<tr data-cmd="mknod"><th><code>mknod</code></th><td><a class="" href="lesson/udev.html">udev</a></td></tr>
+<tr data-cmd="modprobe"><th><code>modprobe</code></th><td><a class="" href="lesson/kernel-modules.html">Kernel Modules</a></td></tr>
+<tr data-cmd="module"><th><code>module</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a></td></tr>
+<tr data-cmd="mount"><th><code>mount</code></th><td><a class="taught" href="lesson/mounting-and-unmounting-filesystems.html">mount and umount</a> <a class="" href="lesson/nfs-network-file-share.html">NFS</a> <a class="" href="lesson/samba.html">Samba</a></td></tr>
+<tr data-cmd="mv"><th><code>mv</code></th><td><a class="taught" href="lesson/move-mv-command.html">mv (Move)</a></td></tr>
+<tr data-cmd="nano"><th><code>nano</code></th><td><a class="taught" href="lesson/nano-text-editor.html">nano</a> <a class="" href="lesson/path-and-export.html">PATH and export</a> <a class="" href="lesson/your-first-script.html">Your first script</a></td></tr>
+<tr data-cmd="nice"><th><code>nice</code></th><td><a class="" href="lesson/process-niceness.html">niceness</a></td></tr>
+<tr data-cmd="nl"><th><code>nl</code></th><td><a class="taught" href="lesson/nl-wc-command.html">wc and nl</a></td></tr>
+<tr data-cmd="nproc"><th><code>nproc</code></th><td><a class="" href="lesson/monitoring-with-htop.html">Monitoring with htop</a> <a class="" href="lesson/running-many-jobs.html">Running many jobs</a></td></tr>
+<tr data-cmd="parallel"><th><code>parallel</code></th><td><a class="" href="lesson/running-many-jobs.html">Running many jobs</a></td></tr>
+<tr data-cmd="parted"><th><code>parted</code></th><td><a class="" href="lesson/disk-partitioning.html">Disk Partitioning</a></td></tr>
+<tr data-cmd="passwd"><th><code>passwd</code></th><td><a class="" href="lesson/setuid-set-user-id.html">Setuid</a> <a class="" href="lesson/user-management-tools.html">User Management Tools</a></td></tr>
+<tr data-cmd="paste"><th><code>paste</code></th><td><a class="taught" href="lesson/paste-command.html">paste</a></td></tr>
+<tr data-cmd="printf"><th><code>printf</code></th><td><a class="" href="lesson/expand-unexpand-command.html">expand and unexpand</a> <a class="" href="lesson/regular-expressions-regex.html">regex (Regular Expressions)</a></td></tr>
+<tr data-cmd="ps"><th><code>ps</code></th><td><a class="" href="lesson/process-creation.html">Process Creation</a> <a class="" href="lesson/process-states.html">Process States</a> <a class="taught" href="lesson/monitor-processes-ps-command.html">ps (Processes)</a></td></tr>
+<tr data-cmd="pwd"><th><code>pwd</code></th><td><a class="taught" href="lesson/print-working-directory-pwd-command.html">pwd (Print Working Directory)</a></td></tr>
+<tr data-cmd="python"><th><code>python</code></th><td><a class="" href="lesson/simple-http-server.html">Simple HTTP Server</a></td></tr>
+<tr data-cmd="python3"><th><code>python3</code></th><td><a class="" href="lesson/other-languages-and-programs.html">Other languages and programs</a></td></tr>
+<tr data-cmd="quota"><th><code>quota</code></th><td><a class="" href="lesson/disk-space.html">Disk space</a></td></tr>
+<tr data-cmd="reboot"><th><code>reboot</code></th><td><a class="" href="lesson/power-states.html">Power States</a></td></tr>
+<tr data-cmd="ref"><th><code>ref</code></th><td><a class="" href="lesson/shell-variables.html">Shell variables</a></td></tr>
+<tr data-cmd="renice"><th><code>renice</code></th><td><a class="" href="lesson/process-niceness.html">niceness</a></td></tr>
+<tr data-cmd="rm"><th><code>rm</code></th><td><a class="" href="lesson/filenames-and-quoting.html">Filenames and quoting</a> <a class="taught" href="lesson/remove-rm-command.html">rm (Remove)</a></td></tr>
+<tr data-cmd="rmdir"><th><code>rmdir</code></th><td><a class="" href="lesson/remove-rm-command.html">rm (Remove)</a></td></tr>
+<tr data-cmd="route"><th><code>route</code></th><td><a class="taught" href="lesson/route.html">route</a></td></tr>
+<tr data-cmd="rscript"><th><code>Rscript</code></th><td><a class="" href="lesson/other-languages-and-programs.html">Other languages and programs</a></td></tr>
+<tr data-cmd="rsync"><th><code>rsync</code></th><td><a class="taught" href="lesson/rsync.html">rsync</a></td></tr>
+<tr data-cmd="sar"><th><code>sar</code></th><td><a class="" href="lesson/continuous-monitoring.html">Continuous Monitoring</a></td></tr>
+<tr data-cmd="scp"><th><code>scp</code></th><td><a class="" href="lesson/network-file-sharing.html">File Sharing Overview</a></td></tr>
+<tr data-cmd="screen"><th><code>screen</code></th><td><a class="taught" href="lesson/screen-sessions.html">screen sessions</a></td></tr>
+<tr data-cmd="sed"><th><code>sed</code></th><td><a class="taught" href="lesson/sed-command.html">sed (Stream Editor)</a></td></tr>
+<tr data-cmd="service"><th><code>service</code></th><td><a class="taught" href="lesson/sysv-services.html">System V Service</a> <a class="" href="lesson/nfs-network-file-share.html">NFS</a> <a class="" href="lesson/samba.html">Samba</a></td></tr>
+<tr data-cmd="shutdown"><th><code>shutdown</code></th><td><a class="" href="lesson/power-states.html">Power States</a></td></tr>
+<tr data-cmd="sleep"><th><code>sleep</code></th><td><a class="" href="lesson/job-control.html">Job Control</a></td></tr>
+<tr data-cmd="smbclient"><th><code>smbclient</code></th><td><a class="" href="lesson/samba.html">Samba</a></td></tr>
+<tr data-cmd="smbpasswd"><th><code>smbpasswd</code></th><td><a class="" href="lesson/samba.html">Samba</a></td></tr>
+<tr data-cmd="sort"><th><code>sort</code></th><td><a class="taught" href="lesson/sort-command.html">sort</a> <a class="" href="lesson/stdin-standard-in-redirect.html">stdin (Standard In)</a> <a class="" href="lesson/uniq-unique-command.html">uniq (Unique)</a></td></tr>
+<tr data-cmd="source"><th><code>source</code></th><td><a class="" href="lesson/path-and-export.html">PATH and export</a></td></tr>
+<tr data-cmd="split"><th><code>split</code></th><td><a class="taught" href="lesson/join-split-command.html">join and split</a></td></tr>
+<tr data-cmd="ssh"><th><code>ssh</code></th><td><a class="" href="lesson/ssh-config-and-agents.html">ssh config and agents</a> <a class="taught" href="lesson/connecting-with-ssh.html">Connecting with ssh</a> <a class="" href="lesson/ssh-keys.html">ssh keys</a></td></tr>
+<tr data-cmd="ssh-add"><th><code>ssh-add</code></th><td><a class="" href="lesson/ssh-config-and-agents.html">ssh config and agents</a></td></tr>
+<tr data-cmd="ssh-copy-id"><th><code>ssh-copy-id</code></th><td><a class="" href="lesson/ssh-keys.html">ssh keys</a></td></tr>
+<tr data-cmd="ssh-keygen"><th><code>ssh-keygen</code></th><td><a class="" href="lesson/ssh-keys.html">ssh keys</a></td></tr>
+<tr data-cmd="strace"><th><code>strace</code></th><td><a class="" href="lesson/system-calls.html">System Calls</a></td></tr>
+<tr data-cmd="su"><th><code>su</code></th><td><a class="" href="lesson/root-user.html">root</a></td></tr>
+<tr data-cmd="systemctl"><th><code>systemctl</code></th><td><a class="" href="lesson/systemd-goals.html">Systemd Goals</a></td></tr>
+<tr data-cmd="tail"><th><code>tail</code></th><td><a class="taught" href="lesson/tail-command.html">tail</a></td></tr>
+<tr data-cmd="tar"><th><code>tar</code></th><td><a class="taught" href="lesson/compressed-archives-tar.html">tar and gzip</a> <a class="" href="lesson/compile-source-code.html">Compile Source Code</a></td></tr>
+<tr data-cmd="tcpdump"><th><code>tcpdump</code></th><td><a class="" href="lesson/packet-analysis.html">Packet Analysis</a></td></tr>
+<tr data-cmd="top"><th><code>top</code></th><td><a class="" href="lesson/process-niceness.html">niceness</a> <a class="" href="lesson/monitor-processes-ps-command.html">ps (Processes)</a> <a class="taught" href="lesson/tracking-processes-top.html">Tracking processes: top</a></td></tr>
+<tr data-cmd="touch"><th><code>touch</code></th><td><a class="taught" href="lesson/touch-command.html">touch</a></td></tr>
+<tr data-cmd="tr"><th><code>tr</code></th><td><a class="taught" href="lesson/tr-translate-command.html">tr (Translate)</a></td></tr>
+<tr data-cmd="traceroute"><th><code>traceroute</code></th><td><a class="taught" href="lesson/traceroute.html">traceroute</a></td></tr>
+<tr data-cmd="type"><th><code>type</code></th><td><a class="" href="lesson/path-and-export.html">PATH and export</a> <a class="" href="lesson/ssh-keys.html">ssh keys</a></td></tr>
+<tr data-cmd="udevadm"><th><code>udevadm</code></th><td><a class="" href="lesson/udev.html">udev</a></td></tr>
+<tr data-cmd="umask"><th><code>umask</code></th><td><a class="taught" href="lesson/umask.html">Umask</a></td></tr>
+<tr data-cmd="umount"><th><code>umount</code></th><td><a class="taught" href="lesson/mounting-and-unmounting-filesystems.html">mount and umount</a></td></tr>
+<tr data-cmd="unalias"><th><code>unalias</code></th><td><a class="" href="lesson/alias-command.html">alias</a></td></tr>
+<tr data-cmd="uname"><th><code>uname</code></th><td><a class="" href="lesson/kernel-installation.html">Kernel Installation</a></td></tr>
+<tr data-cmd="unexpand"><th><code>unexpand</code></th><td><a class="taught" href="lesson/expand-unexpand-command.html">expand and unexpand</a></td></tr>
+<tr data-cmd="uniq"><th><code>uniq</code></th><td><a class="taught" href="lesson/uniq-unique-command.html">uniq (Unique)</a></td></tr>
+<tr data-cmd="useradd"><th><code>useradd</code></th><td><a class="" href="lesson/user-management-tools.html">User Management Tools</a></td></tr>
+<tr data-cmd="userdel"><th><code>userdel</code></th><td><a class="" href="lesson/user-management-tools.html">User Management Tools</a></td></tr>
+<tr data-cmd="vi"><th><code>vi</code></th><td><a class="" href="lesson/samba.html">Samba</a></td></tr>
+<tr data-cmd="wc"><th><code>wc</code></th><td><a class="" href="lesson/stdin-standard-in-redirect.html">stdin (Standard In)</a> <a class="taught" href="lesson/nl-wc-command.html">wc and nl</a></td></tr>
+<tr data-cmd="wget"><th><code>wget</code></th><td><a class="" href="lesson/installing-your-own-tools.html">Installing your own tools</a> <a class="" href="lesson/downloading-files.html">Downloading files</a></td></tr>
+<tr data-cmd="whatis"><th><code>whatis</code></th><td><a class="taught" href="lesson/whatis-command.html">whatis</a></td></tr>
+<tr data-cmd="which"><th><code>which</code></th><td><a class="" href="lesson/path-and-export.html">PATH and export</a></td></tr>
+      </tbody>
+    </table>
+    <p class="none" id="none">Nothing matches that.</p>
+  </div>
+
+  <script>
+    (function () {
+      var box = document.getElementById('filter');
+      var rows = Array.prototype.slice.call(
+        document.querySelectorAll('#rows tr'));
+      var count = document.getElementById('count');
+      var none = document.getElementById('none');
+
+      function apply() {
+        var q = box.value.trim().toLowerCase();
+        var shown = 0;
+        rows.forEach(function (row) {
+          var hit = !q || row.getAttribute('data-cmd').indexOf(q) !== -1;
+          row.style.display = hit ? '' : 'none';
+          if (hit) shown++;
+        });
+        count.textContent = q ? shown + ' of ' + rows.length + ' commands'
+                              : rows.length + ' commands';
+        none.style.display = shown ? 'none' : 'block';
+      }
+
+      box.addEventListener('input', apply);
+      // support linking straight to a command, e.g. commands.html#grep
+      if (location.hash.length > 1) {
+        box.value = decodeURIComponent(location.hash.slice(1));
+        apply();
+      }
+    })();
+  </script>
+</body>
+
+</html>

@@ -4,7 +4,9 @@
 
 This section is not needed to follow the course. It is here for when the basics start to chafe, which for most people is around the time they are typing the same long ssh command twenty times a day.
 
-<b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike:
+<b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike.
+
+Two things before you edit it. It lives on <b>your own machine</b>, not on the server, which is easy to forget once you spend most of your day logged in. And you cannot lock yourself out with it: it only affects the shortcuts you define, so if a Host block misbehaves, plain <b>ssh user@full.hostname</b> still works exactly as before. Edit it freely.
 
 <pre>
 Host work
@@ -42,7 +44,7 @@ Now <b>ssh work</b> goes through the gateway on its own, and so do scp and rsync
 
 <pre>$ ssh -L 8888:localhost:8888 work</pre>
 
-Read it as: take port 8888 on my machine, and connect it to port 8888 as seen from the server. With that running, opening http://localhost:8888 in your own browser reaches the notebook on the server. The connection lasts as long as the ssh session does.
+A <b>port</b> is just a numbered door on a machine, so that one computer can offer several services at once; a web server usually listens on one, and a notebook on another. Read the command as: take port 8888 on my machine, and connect it to port 8888 as seen from the server. With that running, opening http://localhost:8888 in your own browser reaches the notebook on the server. The connection lasts as long as the ssh session does.
 
 If the port is already taken on your side, change the first number only:
 
@@ -65,7 +67,7 @@ The quotes matter. Without them the redirect or the pipe would be applied on you
 <li>Add ServerAliveInterval to your Host block and see whether idle disconnections stop.</li>
 <li>Check what your agent is holding with ssh-add -l.</li>
 <li>If your site uses a gateway, set up ProxyJump and confirm scp works through it in one step.</li>
-<li>Forward a port for something running on the server and reach it from your own browser.</li>
+<li>Try forwarding with something you can start yourself. On the server run <b>python3 -m http.server 8888</b>, which serves the current directory. Then from your own machine run <b>ssh -L 8888:localhost:8888 work</b> and open http://localhost:8888 in your browser. Ctrl-C stops the server when you are done.</li>
 </ol>
 
 ## Quiz Question

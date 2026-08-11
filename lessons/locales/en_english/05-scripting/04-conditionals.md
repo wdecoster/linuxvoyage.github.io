@@ -13,7 +13,7 @@ then
 fi
 </pre>
 
-Read it as: if this test passes, run the commands between then and fi. <b>fi</b> is if backwards, which is the shell's idea of a joke, and it closes the block the way done closes a loop.
+Read it as: if this test passes, run the commands between then and fi. <b>fi</b> is if backwards, which is the shell's idea of a joke, and it marks the end of the block.
 
 You will also see it written on one line, which is what you get inside scripts most often. The semicolons stand in for the line breaks:
 
@@ -61,7 +61,14 @@ For text, using the symbols instead:
 <li>-n string - the string is not empty</li>
 </ul>
 
-Note that numbers use -lt while text uses =. Mixing them up is a rite of passage. <b>[ 10 -gt 9 ]</b> is true, while <b>[ "10" &gt; "9" ]</b> compares them as text and is false, because "1" sorts before "9".
+Note that numbers use -lt while text uses =. Mixing them up is a rite of passage:
+
+<pre>
+$ [ 10 -gt 9 ] && echo yes        # yes, 10 is greater than 9
+$ [ "10" = "9" ] && echo yes      # nothing, they are different strings
+</pre>
+
+And do not reach for &gt; and &lt; to compare text inside single brackets. They are still the shell's redirection operators there, so <b>[ "10" &gt; "9" ]</b> does not compare anything at all: it tests whether "10" is a non-empty string, which it is, and quietly creates a file called 9 in your current directory. If you ever need to compare text in sort order, that is what the double brackets at the end of this lesson are for.
 
 <b>Reverse a test with !</b>, which is much more useful than testing the positive case, because most checks in scripts are "stop if something is wrong":
 
@@ -73,7 +80,7 @@ then
 fi
 </pre>
 
-That is the guard from the first script lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.
+That is the guard you saw in the exit codes lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.
 
 <b>Quote your variables in tests.</b> If $1 is empty and unquoted, the shell removes it entirely and test sees <b>[ ! -f ]</b>, which is a different expression and behaves oddly rather than failing cleanly. "$1" with quotes stays one empty argument and the test does what you meant.
 

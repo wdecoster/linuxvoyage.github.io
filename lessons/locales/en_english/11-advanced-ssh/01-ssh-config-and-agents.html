@@ -874,7 +874,8 @@ body .markdown-body
             <h3>ssh config and agents</h3>
 
 <p>This section is not needed to follow the course. It is here for when the basics start to chafe, which for most people is around the time they are typing the same long ssh command twenty times a day.</p>
-<p><b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike:</p>
+<p><b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike.</p>
+<p>Two things before you edit it. It lives on <b>your own machine</b>, not on the server, which is easy to forget once you spend most of your day logged in. And you cannot lock yourself out with it: it only affects the shortcuts you define, so if a Host block misbehaves, plain <b>ssh <a href="mailto:user@full.hostname">user@full.hostname</a></b> still works exactly as before. Edit it freely.</p>
 <pre>
 Host work
     HostName bigserver.university.example
@@ -904,7 +905,7 @@ Host work
 <p><b>Port forwarding.</b> Sometimes a program on the server offers a web interface — a Jupyter notebook, an RStudio server, a genome browser — that is only reachable from the server itself. Forwarding brings it to your own machine:</p>
 <pre>$ ssh -L 8888:localhost:8888 work</pre>
 
-<p>Read it as: take port 8888 on my machine, and connect it to port 8888 as seen from the server. With that running, opening <a href="http://localhost:8888">http://localhost:8888</a> in your own browser reaches the notebook on the server. The connection lasts as long as the ssh session does.</p>
+<p>A <b>port</b> is just a numbered door on a machine, so that one computer can offer several services at once; a web server usually listens on one, and a notebook on another. Read the command as: take port 8888 on my machine, and connect it to port 8888 as seen from the server. With that running, opening <a href="http://localhost:8888">http://localhost:8888</a> in your own browser reaches the notebook on the server. The connection lasts as long as the ssh session does.</p>
 <p>If the port is already taken on your side, change the first number only:</p>
 <pre>$ ssh -L 9999:localhost:8888 work</pre>
 
@@ -921,7 +922,7 @@ $ ssh work "cat /data/results.tsv" | sort -k2 -n | head
 <li>Add ServerAliveInterval to your Host block and see whether idle disconnections stop.</li>
 <li>Check what your agent is holding with ssh-add -l.</li>
 <li>If your site uses a gateway, set up ProxyJump and confirm scp works through it in one step.</li>
-<li>Forward a port for something running on the server and reach it from your own browser.</li>
+<li>Try forwarding with something you can start yourself. On the server run <b>python3 -m http.server 8888</b>, which serves the current directory. Then from your own machine run <b>ssh -L 8888:localhost:8888 work</b> and open http://localhost:8888 in your browser. Ctrl-C stops the server when you are done.</li>
 </ol>
 
 <h3>Quiz Question</h3>

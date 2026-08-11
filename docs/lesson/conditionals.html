@@ -92,6 +92,9 @@
                             <a class="btn btn-default btn-sm" href="../index.html">
                                 Home
                             </a>
+                            <a class="btn btn-default btn-sm" href="../commands.html">
+                                Commands
+                            </a>
                         </div>
 
                         <div class="lesson-content">
@@ -105,7 +108,7 @@ then
     echo "found it"
 fi
 </pre>
-<p>Read it as: if this test passes, run the commands between then and fi. <b>fi</b> is if backwards, which is the shell's idea of a joke, and it closes the block the way done closes a loop.</p>
+<p>Read it as: if this test passes, run the commands between then and fi. <b>fi</b> is if backwards, which is the shell's idea of a joke, and it marks the end of the block.</p>
 <p>You will also see it written on one line, which is what you get inside scripts most often. The semicolons stand in for the line breaks:</p>
 <pre>if [ -f reads.fastq ]; then echo "found it"; fi</pre>
 <p><b>The square brackets are a command.</b> This is the part that makes everything else make sense. <b>[</b> is not punctuation, it is a program, another name for <b>test</b>. It runs, it looks at what you gave it, and it exits 0 if the condition holds and non-zero if it does not. if then branches on that exit code, exactly the one from the previous lesson.</p>
@@ -138,7 +141,12 @@ fi
 <li>-z string - the string is empty</li>
 <li>-n string - the string is not empty</li>
 </ul>
-<p>Note that numbers use -lt while text uses =. Mixing them up is a rite of passage. <b>[ 10 -gt 9 ]</b> is true, while <b>[ "10" &gt; "9" ]</b> compares them as text and is false, because "1" sorts before "9".</p>
+<p>Note that numbers use -lt while text uses =. Mixing them up is a rite of passage:</p>
+<pre>
+$ [ 10 -gt 9 ] &amp;&amp; echo yes        # yes, 10 is greater than 9
+$ [ "10" = "9" ] &amp;&amp; echo yes      # nothing, they are different strings
+</pre>
+<p>And do not reach for &gt; and &lt; to compare text inside single brackets. They are still the shell's redirection operators there, so <b>[ "10" &gt; "9" ]</b> does not compare anything at all: it tests whether "10" is a non-empty string, which it is, and quietly creates a file called 9 in your current directory. If you ever need to compare text in sort order, that is what the double brackets at the end of this lesson are for.</p>
 <p><b>Reverse a test with !</b>, which is much more useful than testing the positive case, because most checks in scripts are "stop if something is wrong":</p>
 <pre>
 if [ ! -f "$1" ]
@@ -147,7 +155,7 @@ then
     exit 1
 fi
 </pre>
-<p>That is the guard from the first script lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.</p>
+<p>That is the guard you saw in the exit codes lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.</p>
 <p><b>Quote your variables in tests.</b> If $1 is empty and unquoted, the shell removes it entirely and test sees <b>[ ! -f ]</b>, which is a different expression and behaves oddly rather than failing cleanly. "$1" with quotes stays one empty argument and the test does what you meant.</p>
 <p><b>else and elif</b> do what you would expect:</p>
 <pre>

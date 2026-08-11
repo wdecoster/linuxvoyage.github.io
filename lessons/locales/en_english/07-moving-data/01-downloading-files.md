@@ -54,8 +54,13 @@ One last thing: check where you are putting it. Home directories are usually sma
 ## Exercise
 
 <ol>
-<li>Download something small with wget, then run ls -lh and file on it.</li>
-<li>Download the same thing with curl -O and confirm you get the same file.</li>
+<li>Download a small real file with wget and check it, for example:
+<pre>
+$ wget https://www.gnu.org/licenses/gpl-3.0.txt
+$ ls -lh gpl-3.0.txt
+$ file gpl-3.0.txt
+</pre></li>
+<li>Download the same URL with curl -O and confirm you get the same file. Compare them with md5sum on both.</li>
 <li>Try curl without -O on a web page and watch it print to the screen instead. Stop it with Ctrl-C if it is long.</li>
 </ol>
 

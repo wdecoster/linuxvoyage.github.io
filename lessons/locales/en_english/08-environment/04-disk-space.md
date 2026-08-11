@@ -44,6 +44,10 @@ Now you can see where it went. When a directory has a lot in it, sort the answer
 
 The biggest offender ends up at the bottom, next to your prompt, which is exactly where you want it. This one line is the answer to "why is my quota full" nine times out of ten.
 
+One catch: <b>*</b> does not match names beginning with a dot, so hidden directories are invisible to that command, and some of the largest things in your home directory are hidden. ~/.conda and ~/.cache are the usual culprits. If the numbers do not add up to what du -sh reports for the whole directory, that is why. Include them with:
+
+<pre>$ du -sh .[!.]* * | sort -h</pre>
+
 A warning worth having: du on a large directory tree takes a while, because it really does look at everything. On a network filesystem it can take minutes. That is normal, and Ctrl-C stops it.
 
 <b>Quotas.</b> On many shared servers you are not limited by the disk being full but by a quota, a per-user limit set by the administrators. If you get "Disk quota exceeded" while df cheerfully reports terabytes free, that is what has happened. Check yours with:

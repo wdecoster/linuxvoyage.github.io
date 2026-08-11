@@ -910,8 +910,13 @@ d41d8cd98f00b204e9800998ecf8427e  reference.fa.gz
 <p>One last thing: check where you are putting it. Home directories are usually small and reference data usually is not, so download into your project or scratch area rather than filling up your home directory.</p>
 <h3>Exercise</h3>
 <ol>
-<li>Download something small with wget, then run ls -lh and file on it.</li>
-<li>Download the same thing with curl -O and confirm you get the same file.</li>
+<li>Download a small real file with wget and check it, for example:
+<pre>
+$ wget https://www.gnu.org/licenses/gpl-3.0.txt
+$ ls -lh gpl-3.0.txt
+$ file gpl-3.0.txt
+</pre></li>
+<li>Download the same URL with curl -O and confirm you get the same file. Compare them with md5sum on both.</li>
 <li>Try curl without -O on a web page and watch it print to the screen instead. Stop it with Ctrl-C if it is long.</li>
 </ol>
 

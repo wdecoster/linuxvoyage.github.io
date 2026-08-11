@@ -6,7 +6,7 @@ The packages section later in this course covers apt and yum, the usual way soft
 
 That does not stop you installing anything. It just means installing into your own home directory rather than into the system, and the tool for that is <b>conda</b>.
 
-<b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, as covered in the Moving Data section, and run it:
+<b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, from the previous section, and run it:
 
 <pre>
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh

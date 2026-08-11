@@ -44,11 +44,11 @@ $ chmod +x analysis.py
 $ ./analysis.py
 </pre>
 
-The <b>#!/usr/bin/env python3</b> form is worth preferring over a hard-coded path, because it finds whichever python3 is first on your PATH — which, after the previous section, means the one in your activated conda environment rather than the system one.
+The <b>#!/usr/bin/env python3</b> form is worth preferring over writing out a full path such as /usr/bin/python3, because it finds whichever python3 the shell would find if you typed it yourself. Once you start installing your own software, in the Your Environment section, that matters: it means your script uses your python rather than the system's.
 
 <b>Compiled programs.</b> Python, R, Perl and bash are all <i>interpreted</i>: another program reads your file and does what it says, every time you run it. Languages like <b>C</b>, <b>C++</b> and <b>Rust</b> work differently. They are <i>compiled</i>: a compiler translates the source code once, ahead of time, into a file of machine instructions that the processor runs directly.
 
-That file is a <b>binary</b>, and it is what most of the commands you have been using actually are. ls, grep and sort are compiled C programs. You saw this in the file lesson:
+That file is a <b>binary</b>, and it is what most of the commands you have been using actually are. ls, grep and sort are compiled C programs. The file command, from the command line section, will tell you:
 
 <pre>
 $ file /bin/ls
@@ -63,7 +63,7 @@ The practical consequences for you:
 <li>Compiled programs are typically much faster, which is why aligners and variant callers are written in C or C++ rather than Python.</li>
 <li>You cannot read one. Opening a binary with cat or nano gives you rubbish and may leave your terminal in a mess (run reset if that happens). A script is just text, so you can always read it and see what it does.</li>
 <li>A binary is built for a particular kind of machine. A binary compiled for Linux on x86 will not run on your Mac, whereas the same Python script runs anywhere that has Python.</li>
-<li>When software has to be compiled from source, that is what the packages section means by "compile from source" — and it is exactly the pain conda saves you, since bioconda ships things already built.</li>
+<li>Some software is distributed as source code rather than as a ready-made binary, and has to be compiled before you can run it. That is a job, and it is exactly the pain that package managers spare you by shipping things already built.</li>
 </ul>
 
 None of this changes how you run them. Whether a command is a shell script, a Python script or a compiled binary, you type its name, it needs the execute bit set, and it has to be somewhere on your PATH. That is the whole point of the design: from the outside, they all look the same.

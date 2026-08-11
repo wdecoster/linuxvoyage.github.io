@@ -147,6 +147,9 @@
                             <a class="btn btn-default btn-sm" href="../index.html">
                                 Home
                             </a>
+                            <a class="btn btn-default btn-sm" href="../commands.html">
+                                Commands
+                            </a>
                         </div>
 
                         <div class="lesson-content">
@@ -181,7 +184,7 @@ $ awk '{print $3, $1}' samples.tsv
 $ awk '$3 &gt; 10000 {print $1}' samples.tsv
 sample1
 </pre>
-<p>Read it as: for lines where field 3 is greater than 10000, print field 1. Conditions can be numeric comparisons or regular expressions, and with no braces at all awk prints the whole matching line, which makes it a grep that understands columns:</p>
+<p>Read it as: for lines where field 3 is greater than 10000, print field 1. The single quotes are doing double duty here: as well as protecting $3 from the shell, they stop that &gt; being read as a redirect. Inside the quotes it is awk's greater-than, and no file gets overwritten. Conditions can be numeric comparisons or regular expressions, and with no braces at all awk prints the whole matching line, which makes it a grep that understands columns:</p>
 <pre>
 $ awk '$2 == "control"' samples.tsv
 sample1   control   12000
@@ -192,6 +195,7 @@ sample3   control   8000
 $ awk '{sum += $3} END {print sum}' samples.tsv
 29500
 </pre>
+<p>Three things happen there that are unlike the shell. awk variables need no declaration, an unset one starts at zero, and <b>+=</b> means "add this to what is already there". So sum accumulates down the file, and END prints it once at the bottom. Note also that awk's own variables have no dollar sign: sum is a variable, while $3 is a field.</p>
 <p><b>NR</b> is the current line number and <b>NF</b> is the number of fields on this line. Both are more useful than they look:</p>
 <pre>
 $ awk 'NR &gt; 1' data.tsv              skip the header line
