@@ -207,6 +207,68 @@ def build_lessons():
     return len(built)
 
 
+SECTIONS_REQUIRED = ("Lesson Content", "Exercise", "Quiz Question", "Quiz Answer")
+TAGS = ("ol", "ul", "li", "pre", "b", "i")
+
+
+def validate():
+    """Check the things that have actually gone wrong here before.
+
+    Each of these corresponds to a defect that reached the published site, so
+    they are worth failing the build over rather than trusting to review."""
+    problems = []
+    for d, _category, menu in sections_on_disk():
+        for name in menu:
+            md = d / name
+            rel = f"{d.name}/{name}"
+            text = md.read_text(encoding="utf-8")
+
+            # an unclosed <pre> once swallowed a lesson's whole quiz panel
+            for tag in TAGS:
+                opens = len(re.findall(rf'<{tag}>', text))
+                closes = len(re.findall(rf'</{tag}>', text))
+                if opens != closes:
+                    problems.append(f"{rel}: <{tag}> {opens} open, {closes} closed")
+
+            # the page renderer splits on these, and crashes without them.
+            # Anchored to a whole line: '## Exercises' is not '## Exercise'.
+            for section in SECTIONS_REQUIRED:
+                if not re.search(rf'^## {re.escape(section)}s?$', text, re.M):
+                    problems.append(f"{rel}: missing '## {section}'")
+
+            # a quiz answer of '>>' rendered as empty nested blockquotes
+            m = re.search(r'## Quiz Questions?\n(.*?)(?=\n## |\Z)', text, re.S)
+            a = re.search(r'## Quiz Answers?\n(.*)\Z', text, re.S)
+            asked = m and m.group(1).strip()
+            if asked and not asked.lower().startswith("no question"):
+                rendered = md.with_suffix(".html")
+                if rendered.exists():
+                    frag = rendered.read_text(encoding="utf-8")
+                    i = frag.find("<h3>Quiz Answer")
+                    body = frag[i:].split("            </div>")[0] if i != -1 else ""
+                    if not re.sub(r'<[^>]+>|\s|&nbsp;', '', body.split("</h3>", 1)[-1]):
+                        problems.append(
+                            f"{rel}: quiz answer renders empty. Characters such as > and #"
+                            " are markdown; write them as entities (&gt;)")
+                if not (a and a.group(1).strip()):
+                    problems.append(f"{rel}: asks a quiz question with no answer")
+
+    # src/convert.py rewrites every h1/h2 to h3 with a blind string replace,
+    # so those two-character sequences cannot survive anywhere in a lesson
+    for d, _category, menu in sections_on_disk():
+        for name in menu:
+            text = (d / name).read_text(encoding="utf-8")
+            for bad in ("h1", "h2"):
+                for hit in re.finditer(rf'\w*{bad}\w*', text):
+                    word = hit.group(0)
+                    if word not in (bad,) and not word.startswith("<"):
+                        problems.append(
+                            f"{d.name}/{name}: {word!r} contains '{bad}', which the converter "
+                            f"rewrites to 'h3'. Reword it.")
+                        break
+    return problems
+
+
 def git_dirty():
     out = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"],
                          capture_output=True, text=True, check=True).stdout
@@ -227,6 +289,14 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "tools" / "build_command_index.py")],
                    check=True)
     print(f"built {n} lessons")
+
+    problems = validate()
+    if problems:
+        print(f"\n{len(problems)} problem(s) in the lesson sources:")
+        for p in problems:
+            print(f"  {p}")
+        return 1
+    print("lesson sources validate")
 
     if args.check:
         changed = sorted(set(git_dirty()) - before)

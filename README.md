@@ -61,6 +61,32 @@ Other things you may want to change:
 
 Only `lessons/locales/en_english` is part of this course; the other language directories are unmaintained upstream translations, explained in [`lessons/locales/README.md`](lessons/locales/README.md).
 
+### Things that will bite you
+
+Written down because each one already caused a defect that reached the published site. `tools/build.py` now fails on all of them, so you should not have to rediscover any of it — but knowing *why* the build is complaining saves time.
+
+**The lessons are not really markdown.** They use raw HTML — `<pre>`, `<ul>`, `<li>`, `<b>` — because the converter's markdown support is thin. Two consequences:
+
+* An unbalanced tag does more than look wrong. An unclosed `<pre>` once swallowed a lesson's entire quiz panel, because the converter never emitted the `<h3>Quiz Question</h3>` that the page renderer splits on.
+* Characters that mean something to markdown still do. A quiz answer written as `>>` became two empty nested blockquotes and the reader saw a blank answer. Write such characters as entities: `&gt;&gt;`.
+
+**`src/convert.py` rewrites `h1` and `h2` to `h3` with a blind string replace**, inherited from upstream. It does not look at tags. Any occurrence of those two characters anywhere in a lesson is rewritten, so a duration like `8h20m` silently becomes `8h30m`, and `echo h2o` becomes `echo h3o`. The build refuses lessons containing them.
+
+**A lesson needs all four `##` headings**, and the page renderer splits on them positionally. Plural forms (`## Quiz Questions`) are accepted because some inherited lessons use them.
+
+**Lesson slugs are URLs.** `NN-my-lesson.md` is published at `docs/lesson/my-lesson.html`, and that is what the home page, the sidebar and the command index all link to. Renaming a lesson file breaks any link anyone has saved. Renumbering it is free.
+
+**`docs/index.html` and `docs/about.html` are hand-edited and preserved.** The build replaces only the region between `<div class="container content">` and `</div><!-- end of wrap -->` in `index.html`. Change that markup and the build will not find its markers.
+
+**Quiz answers are hidden at build time**, not in the source. The `<details>` wrapper is injected by `hide_answer()`, so lesson markdown stays plain.
+
+### Reviewing new lessons
+
+Two things worth doing before a new lesson goes out, because between them they caught defects that ordinary proofreading did not:
+
+1. **Run every command and compare against the claimed output.** Lessons written from memory are confidently wrong in ways that read fine. Real examples caught this way: a `sort -k 3` block listing its lines in the wrong order, the `jobs` output with `+` and `-` reversed, `curl -O` described as failing on a 404 when it actually saves the error page and exits 0, and a `[ "10" > "9" ]` example that does not compare anything and silently creates a file called `9`.
+2. **Read it as someone who knows only the earlier lessons.** The course introduces terms in a fixed order, and moving a lesson breaks that quietly. This is how it was noticed that Ctrl-C was taught four sections after the first lesson that hangs the terminal, that `sudo` appeared in Permissions and was defined nowhere, and that `$PATH` was used two sections before it was explained.
+
 Two other Actions run on their own: `check-links.yml` verifies every external link weekly, and opens an issue if one dies.
 
 ### Based on
