@@ -79,26 +79,40 @@ def fetch(url, method):
         return r.status
 
 
+def classify(detail):
+    """Only fail on evidence a link is actually gone.
+
+    A 404 means the page is not there, and a DNS failure means the host is not
+    there. Everything else - bot filters, rate limits, server errors, TLS
+    complaints, timeouts, and the runner having no route to a host - says
+    something about the network or the far end's mood, not about whether the
+    link still points at anything. Those are reported and eyeballed rather
+    than failing the build, because a checker that cries wolf gets ignored.
+    """
+    if detail.startswith("HTTP "):
+        code = int(detail.split()[1])
+        return "broken" if 400 <= code < 500 and code not in (403, 405, 408, 429) else "warn"
+    if "Name or service not known" in detail or "nodename nor servname" in detail:
+        return "broken"
+    return "warn"
+
+
 def check(url):
     """Return (state, detail) where state is ok, warn or broken."""
     last = ""
-    for attempt in range(2):
+    for _attempt in range(2):
         for method in ("HEAD", "GET"):
             try:
                 return "ok", str(fetch(url, method))
             except urllib.error.HTTPError as e:
                 last = f"HTTP {e.code}"
-                if e.code in (403, 405, 429, 503):
-                    # blocked or rate limited rather than missing; try a GET,
-                    # then give up and report it as something to eyeball
-                    continue
-                return "broken", last
+                if classify(last) == "broken":
+                    return "broken", last
             except urllib.error.URLError as e:
                 last = f"{type(e.reason).__name__}: {e.reason}"
             except Exception as e:  # noqa: BLE001 - report anything else as-is
                 last = f"{type(e).__name__}: {e}"
-    state = "warn" if last.startswith("HTTP ") else "broken"
-    return state, last
+    return classify(last), last
 
 
 def main():
