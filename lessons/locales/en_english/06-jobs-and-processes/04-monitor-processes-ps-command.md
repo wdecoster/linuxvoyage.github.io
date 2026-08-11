@@ -29,6 +29,16 @@ If you look at the man page for ps you'll see that there are lots of command opt
 
 The <b>a</b> displays all processes running, including the ones being ran by other users. The <b>u</b> shows more details about the processes. And finally the <b>x</b> lists all processes that don't have a TTY associated with it, these programs will show a ? in the TTY field, they are most common in daemon processes that launch as part of the system startup.
 
+Be ready for the volume. On a shared server ps aux prints every process belonging to everybody, which is typically several hundred lines flying past. That is normal. Three ways to make it usable:
+
+<pre>
+$ ps aux | less           page through it
+$ ps aux | grep mytool    only lines mentioning your tool
+$ ps -u $USER             only your own processes
+</pre>
+
+That last one is usually what you actually wanted. And if you are looking at this interactively rather than in a script, htop from the previous lesson is easier to read than any of them.
+
 You'll notice you're seeing a lot more fields now, no need to memorize them all, in a later course on advanced processes, we'll go over some of these again:
 
 <ul>
