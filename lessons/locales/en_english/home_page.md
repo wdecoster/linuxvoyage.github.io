@@ -6,15 +6,15 @@
 
 * Command Line - The fundamentals: navigating files and directories, and editing them with nano.
 
-* Text-Fu - Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut.
+* Text-Fu - Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut, sed, awk.
 
 * Permissions - Read, write and execute, and how to change them.
 
 * Scripting - Variables, your first script, loops, exit codes, and how R and Python fit in.
 
-* Jobs and Processes - Ctrl-C, background jobs, and screen sessions that survive a dropped connection.
+* Jobs and Processes - Background jobs, screen sessions that survive a dropped connection, and htop.
 
-* Your Environment - Environment variables, PATH, and installing software with conda.
+* Your Environment - Environment variables, PATH, installing software with conda, and disk space.
 
 * Moving Data - Getting files on and off the server: wget, scp, rsync and tar.
 
@@ -24,7 +24,7 @@
 
 * Packages - Package managers, repositories, and building from source.
 
-* Editors - Navigate text like a Linux spider monkey with vim and emacs.
+* Advanced ssh - Config files, agents, jump hosts and port forwarding, once the basics chafe.
 
 * Linux Distributions - Where Linux came from, and how Ubuntu, Debian, Red Hat and the rest differ.
 

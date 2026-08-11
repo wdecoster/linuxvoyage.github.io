@@ -39,7 +39,11 @@ Two things worth doing before you trust a parallel command. <b>--dry-run</b> pri
 
 And start with <b>-j 2</b> on a couple of files rather than -j 32 on all of them. Which brings us to the thing that will make you unpopular.
 
-<b>Do not saturate a shared machine.</b> The login node of a shared server is for editing files and launching work, not for running it. Sixteen parallel jobs there will slow the machine down for everyone else on it, and administrators notice. Find out what your site expects: usually there is a job scheduler such as Slurm, and the parallel work belongs there rather than on the machine you ssh into. If you are on a server with no scheduler, agree with the other users what a reasonable -j is, and remember that memory usually runs out before cores do. Sixteen copies of a tool that each want 8 GB will need 128 GB.
+<b>Do not saturate a shared machine.</b> You are not the only person on the server. Take every core with -j 32 and everyone else's work crawls, including the interactive session of whoever is trying to work out why the machine got slow.
+
+On a server without a job scheduler, which is the situation for most of this course, there is nothing stopping you doing this, so the restraint has to come from you. Two rules of thumb: leave cores for other people rather than taking all of them, and remember that <b>memory runs out before cores do</b>. Sixteen copies of a tool that each want 8 GB need 128 GB, and when that is not there the machine starts swapping and becomes unusable for everybody. Check with htop, from the Jobs and Processes section, what the machine is already doing before you add to it.
+
+Larger shared systems solve this with a <b>job scheduler</b>, most commonly <a href="https://slurm.schedmd.com/quickstart.html">Slurm</a>. Instead of running work yourself, you describe what it needs and submit it to a queue, and the scheduler decides when and where it runs so that the machine is shared fairly. You do not need it here, but you will meet it the moment you move to a cluster, and it is worth knowing the word.
 
 If parallel is not installed, <b>xargs</b> is on every machine and does a cruder version of the same thing:
 

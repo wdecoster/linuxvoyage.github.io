@@ -871,33 +871,26 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Emacs Buffer Navigation</h3>
+            <h3>expand and unexpand</h3>
 
-<p>To move around buffers (or files you're visiting) use the following commands:</p>
-<p><b>Switch buffers</b></p>
-<pre>
-C-x b - switch buffer
-C-x right arrow - right-cycle through buffer
-C-x left arrow - left-cycle through buffer
-</pre>
+<p>This lesson needs a file with a real TAB character in it. The easiest way to make one is with printf, where \t means a tab:</p>
+<pre>$ printf 'name\tcount\ngene1\t42\n' > tabs.txt</pre>
 
-<p><b>Close the buffer</b></p>
-<pre>C-x k</pre>
+<p>Look at it with cat tabs.txt and the columns line up. TABs would usually show a noticeable difference but some text files don't show that well enough, and having TABs in a text file may not be the desired spacing you want. To change your TABs to spaces, use the expand command. </p>
+<pre>$ expand tabs.txt</pre>
 
-<p><b>Split the current buffer</b></p>
-<pre>C-x 2</pre>
+<p>The command above will print output with each TAB converted into a group of spaces. To save this output in a file, use output redirection like below.</p>
+<pre>$ expand tabs.txt > result.txt</pre>
 
-<p>This allows you see multiple buffers on one screen. To move between these buffers use: C-x o</p>
-<p><b>Set a single buffer as the current screen</b></p>
-<pre>C-x 1</pre>
+<p>Opposite to expand, we can convert back each group of spaces to a TAB with the unexpand command: </p>
+<pre>$ unexpand -a result.txt</pre>
 
-<p>If you ever used a terminal multiplexer like screen and tmux, the buffer commands will feel very familiar.</p>
 <h3>Exercise</h3>
-<p>Play around with buffers.</p>
+<p>What happens if you just type expand with no file input?</p>
 <h3>Quiz Question</h3>
-<p>How do you kill a buffer?</p>
+<p>What command is used to convert TABs to spaces? </p>
 <h3>Quiz Answer</h3>
-<p>C-x k</p>
+<p>expand</p>
             </div>
             </body>
             </html>

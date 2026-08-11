@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>stdout-standard-out-redirect</title>
+    <title>awk-command</title>
     <script
         src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
         data-turbolinks-track="true"></script>
@@ -43,7 +43,7 @@
             <ul class="sidebar-nav" id="sidebar">
                 
                 <li>
-                    <a class="current" href="stdout-standard-out-redirect.html">
+                    <a class="" href="stdout-standard-out-redirect.html">
                         1. Stdout standard out redirect</a>
                 </li>
                 
@@ -108,7 +108,7 @@
                 </li>
                 
                 <li>
-                    <a class="" href="awk-command.html">
+                    <a class="current" href="awk-command.html">
                         14. Awk command</a>
                 </li>
                 
@@ -151,20 +151,55 @@
 
                         <div class="lesson-content">
                             
-<h3>stdout (Standard Out)</h3>
-<p>By now, we've become familiar with many commands and their output and that brings us to our next subject I/O (input/output) streams. Let's run the following command and we'll discuss how this works. </p>
-<pre>$ echo Hello World &gt; peanuts.txt</pre>
-<p>What just happened? Well check the directory where you ran that command and lo and behold you should see a file called peanuts.txt, look inside that file and you should see the text Hello World. Lots of things just happened in one command so let's break it down. </p>
-<p>First let's break down the first part: </p>
-<pre>$ echo Hello World</pre>
-<p>We know this prints out Hello World to the screen, but how? Processes use I/O streams to receive input and return output. By default the echo command takes the input (standard input or stdin) from the keyboard and returns the output (standard output or stdout) to the screen. So that's why when you type echo Hello World in your shell, you get Hello World on the screen. However, I/O redirection allows us to change this default behavior giving us greater file flexibility. </p>
-<p>Let's proceed to the next part of the command: </p>
-<pre> &gt; </pre>
-<p>The &gt; is a redirection operator that allows us the change where standard output goes. It allows us to send the output of echo Hello World to a file instead of the screen. If the file does not already exist it will create it for us. However, if it does exist it will overwrite it (you can add a shell flag to prevent this depending on what shell you are using).</p>
-<p>And that's basically how stdout redirection works!</p>
-<p>Well let's say I didn't want to overwrite my peanuts.txt, luckily there is a redirection operator for that as well, &gt;&gt;: </p>
-<pre>$ echo Hello World &gt;&gt; peanuts.txt</pre>
-<p>This will append Hello World to the end of the peanuts.txt file, if the file doesn't already exist it will create it for us like it did with the &gt; redirector! </p>
+<h3>awk</h3>
+<p>cut pulls out columns. <b>awk</b> pulls out columns, and also does arithmetic on them, filters rows by a condition, and adds things up. It is where you go when cut is not quite enough, which happens quickly with real data.</p>
+<p>awk splits every line into fields and names them <b>$1</b>, <b>$2</b> and so on, with <b>$0</b> meaning the whole line. The program goes in single quotes, in curly braces:</p>
+<pre>
+samples.tsv
+sample1   control   12000
+sample2   treated   9500
+sample3   control   8000
+</pre>
+<pre>
+$ awk '{print $1}' samples.tsv
+sample1
+sample2
+sample3
+</pre>
+<p>Print several fields, in whatever order you like, which is the thing cut cannot do:</p>
+<pre>
+$ awk '{print $3, $1}' samples.tsv
+12000 sample1
+9500 sample2
+8000 sample3
+</pre>
+<p>The comma puts a space between them. Note that these dollar signs are awk's field numbers, not shell variables. That is exactly why the program is in single quotes: it stops the shell trying to expand $1 before awk ever sees it.</p>
+<p><b>Whitespace is handled sensibly.</b> Unlike cut, awk treats any run of spaces or tabs as one separator, so it works on data lined up with spaces. For anything else, <b>-F</b> sets the separator:</p>
+<pre>$ awk -F "," '{print $2}' samples.csv</pre>
+<p><b>Filtering.</b> Put a condition before the braces and only matching lines are processed:</p>
+<pre>
+$ awk '$3 &gt; 10000 {print $1}' samples.tsv
+sample1
+</pre>
+<p>Read it as: for lines where field 3 is greater than 10000, print field 1. Conditions can be numeric comparisons or regular expressions, and with no braces at all awk prints the whole matching line, which makes it a grep that understands columns:</p>
+<pre>
+$ awk '$2 == "control"' samples.tsv
+sample1   control   12000
+sample3   control   8000
+</pre>
+<p><b>Arithmetic and totals.</b> awk keeps variables between lines, so you can accumulate. <b>END</b> runs once, after the last line:</p>
+<pre>
+$ awk '{sum += $3} END {print sum}' samples.tsv
+29500
+</pre>
+<p><b>NR</b> is the current line number and <b>NF</b> is the number of fields on this line. Both are more useful than they look:</p>
+<pre>
+$ awk 'NR &gt; 1' data.tsv              skip the header line
+$ awk '{print NF}' data.tsv          how many columns does each row have?
+$ awk 'NF != 3' data.tsv             show rows that do not have three columns
+</pre>
+<p>That last one is a small gift. Malformed rows in a large file are miserable to find by eye, and this pulls them straight out.</p>
+<p>awk is a complete programming language and this is a fraction of it. But the handful above covers most of what people actually use it for day to day, and between grep, sed and awk you can do a great deal to a text file without ever opening it.</p>
 
                         </div>
                     </div>
@@ -172,23 +207,21 @@
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>Try a couple of commands: </p>
-<pre>
-$ ls -l /var/log &gt; myoutput.txt
-$ echo Hello World &gt; rm
-$ &gt; somefile.txt 
-</pre>
-<p>The second one looks alarming and is not. It creates an ordinary file named rm in your current directory. It does not touch the rm command, which lives elsewhere on the system and which you do not have permission to change. Run ls to see your new file, cat rm to read it, and then remove it with rm ./rm, which is a fair test of the quoting lesson.</p>
-<p>The third has no command at all, only a redirect. The shell creates an empty file, which is a quick way to make one.</p>
+<ol>
+<li>Create samples.tsv and print the second and first columns, in that order.</li>
+<li>Filter for rows where the third column is above some threshold.</li>
+<li>Sum the third column with the END pattern.</li>
+<li>Use NF to check every row has the number of columns you expect.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What redirector do you use to append output to a file? </p>
+<p>In awk, what does $0 refer to?</p>
 <details class="quiz-answer">
 <summary>Show answer</summary>
-<p>&gt;&gt;</p>
+<p>the whole line</p>
 </details></div>
 
                         </div>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ssh-config-and-agents</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+    <style>
+        /* The answer is hidden until asked for, so there is a moment to think. */
+        details.quiz-answer > summary {
+            cursor: pointer;
+            display: inline-block;
+            margin: 8px 0;
+            padding: 6px 14px;
+            border: 1px solid #BDC3C7;
+            border-radius: 3px;
+            color: #2C3E50;
+            font-weight: bold;
+            list-style: none;
+            user-select: none;
+        }
+        details.quiz-answer > summary::-webkit-details-marker { display: none; }
+        details.quiz-answer > summary:hover { background-color: #ECF0F1; }
+        details.quiz-answer > summary:before { content: "\25B8\00a0\00a0"; }
+        details.quiz-answer[open] > summary:before { content: "\25BE\00a0\00a0"; }
+        details.quiz-answer[open] > summary { margin-bottom: 4px; }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Advanced Ssh</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="current" href="ssh-config-and-agents.html">
+                        1. Ssh config and agents</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>ssh config and agents</h3>
+<p>This section is not needed to follow the course. It is here for when the basics start to chafe, which for most people is around the time they are typing the same long ssh command twenty times a day.</p>
+<p><b>The config file.</b> The keys lesson introduced ~/.ssh/config with a single hostname alias. It does considerably more, and every option you set there applies to ssh, scp and rsync alike:</p>
+<pre>
+Host work
+    HostName bigserver.university.example
+    User pdecoster
+    IdentityFile ~/.ssh/id_ed25519_work
+    ServerAliveInterval 60
+</pre>
+<p><b>ServerAliveInterval</b> is the one people wish they had known about sooner. It sends a small packet every sixty seconds, which stops an idle connection being silently dropped by a firewall or a home router. If your sessions die whenever you make a cup of tea, this fixes it.</p>
+<p>You can set defaults for everything with a <b>Host <em></em></b> block at the bottom of the file, and patterns work too, so <b>Host .university.example</b> covers a whole site.</p>
+<p><b>The agent.</b> If you gave your key a passphrase, and you should have, you would otherwise type it on every connection. <b>ssh-agent</b> holds the unlocked key in memory for the rest of your session:</p>
+<pre>
+$ eval "$(ssh-agent)"
+$ ssh-add ~/.ssh/id_ed25519
+</pre>
+<p>Most desktop systems start an agent for you at login, so often you only need ssh-add, or nothing at all. Check what it is holding with <b>ssh-add -l</b>.</p>
+<p><b>Jump hosts.</b> Many institutions do not expose their servers to the internet directly. You reach a gateway machine first, and only from there can you reach anything else. Doing that by hand means logging in twice, and it breaks scp entirely. <b>ProxyJump</b> makes it one step:</p>
+<pre>
+Host work
+    HostName internal.university.example
+    User pdecoster
+    ProxyJump gateway.university.example
+</pre>
+<p>Now <b>ssh work</b> goes through the gateway on its own, and so do scp and rsync. This is also what makes VS Code's Remote-SSH work against a machine behind a gateway, which is otherwise one of the things that defeats it.</p>
+<p><b>Port forwarding.</b> Sometimes a program on the server offers a web interface — a Jupyter notebook, an RStudio server, a genome browser — that is only reachable from the server itself. Forwarding brings it to your own machine:</p>
+<pre>$ ssh -L 8888:localhost:8888 work</pre>
+<p>Read it as: take port 8888 on my machine, and connect it to port 8888 as seen from the server. With that running, opening <a href="http://localhost:8888">http://localhost:8888</a> in your own browser reaches the notebook on the server. The connection lasts as long as the ssh session does.</p>
+<p>If the port is already taken on your side, change the first number only:</p>
+<pre>$ ssh -L 9999:localhost:8888 work</pre>
+<p>and use <a href="http://localhost:9999">http://localhost:9999</a> instead.</p>
+<p><b>Running a command without a shell.</b> You saw this in the first ssh lesson, and it becomes much more useful in combination with pipes, since the output arrives on your own machine:</p>
+<pre>
+$ ssh work "ls /data/project" &gt; listing.txt
+$ ssh work "cat /data/results.tsv" | sort -k2 -n | head
+</pre>
+<p>The quotes matter. Without them the redirect or the pipe would be applied on your own machine rather than passed to the server, which is the same distinction as in the quoting lesson.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Add ServerAliveInterval to your Host block and see whether idle disconnections stop.</li>
+<li>Check what your agent is holding with ssh-add -l.</li>
+<li>If your site uses a gateway, set up ProxyJump and confirm scp works through it in one step.</li>
+<li>Forward a port for something running on the server and reach it from your own browser.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Which ssh config option keeps an idle connection from being dropped?</p>
+<details class="quiz-answer">
+<summary>Show answer</summary>
+<p>ServerAliveInterval</p>
+</details></div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

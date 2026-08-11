@@ -871,31 +871,63 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Emacs Editing</h3>
+            <h3>sed (Stream Editor)</h3>
 
-<p><b>Text Navigation</b></p>
+<p>grep finds lines. <b>sed</b> changes them. It reads its input a line at a time, applies an instruction to each one, and prints the result, which makes it the tool for "replace this with that in a whole file" without opening an editor.</p>
+<p>The instruction you will use ninety per cent of the time is <b>s</b>, for substitute:</p>
+<pre>$ sed 's/chr1/chromosome1/' variants.txt</pre>
+
+<p>Read it as: <b>s</b>ubstitute, then the thing to look for, then what to replace it with, separated by slashes. Every line that contains chr1 comes out with chromosome1 instead.</p>
+<p>Two things to know immediately.</p>
+<p><b>It does not change the file.</b> sed prints the modified text to standard output and leaves your file exactly as it was. That is a feature, not a limitation: you get to look at the result before committing to it. To keep it, redirect to a new file, which you already know how to do:</p>
+<pre>$ sed 's/chr1/chromosome1/' variants.txt > renamed.txt</pre>
+
+<p>Never redirect onto the file you are reading. <b>sed 's/a/b/' file.txt &gt; file.txt</b> empties the file before sed gets to read it, and your data is gone.</p>
+<p><b>It replaces the first match on each line only.</b> Add a <b>g</b> on the end, for global, to get all of them:</p>
 <pre>
-C-up arrow : move up one paragraph
-C-down arrow: move down one paragraph
-C-left arrow: move one word left
-C-right arrow: move one word right
-M-> : move to the end of the buffer
+$ echo "one two one two" | sed 's/one/1/'
+1 two one two
+
+$ echo "one two one two" | sed 's/one/1/g'
+1 two 1 two
 </pre>
 
-<p>With text navigation, your regular text buttons work as they should, home, end, page up, page down and the arrow keys, etc.</p>
-<p><b>Cutting and Pasting</b></p>
-<p>To cut (kill) or paste (yank) in Emacs you'll need to be able to select text first. To select text, move your cursor to where you want to cut or paste and hit <pre>C-space key</pre> then you can use the navigation keys to select the text you want. Now you can do the cut and paste like so:</p>
+<p><b>The slash is not sacred.</b> Whatever character comes after the s is the separator, so when your text contains slashes, pick something else and avoid a thicket of backslashes:</p>
+<pre>$ sed 's|/home/pete|/data/pete|' paths.txt</pre>
+
+<p><b>It takes regular expressions</b>, the ones from the regex lesson, which is where it gets its power:</p>
 <pre>
-C-w : cut
-C-y : yank
+$ sed 's/^chr//' variants.txt          strip a leading chr from every line
+$ sed 's/  *$//' messy.txt             remove trailing spaces
 </pre>
+
+<p>A few other instructions worth knowing:</p>
+<pre>
+$ sed -n '5p' file.txt        print only line 5 (-n means print nothing else)
+$ sed -n '10,20p' file.txt    print lines 10 to 20
+$ sed '1d' file.txt           delete the first line, useful for dropping a header
+$ sed '/^#/d' file.txt        delete every line starting with #, dropping comments
+</pre>
+
+<p>That last pair are genuinely useful on data files, where a header or comment lines get in the way of everything downstream.</p>
+<p>Finally, <b>-i</b> edits the file in place, changing it for real:</p>
+<pre>$ sed -i 's/chr1/chromosome1/g' variants.txt</pre>
+
+<p>Treat that with respect. There is no undo, and if your pattern was wrong you have now quietly damaged your data. Run it without -i first, look at the output, and only then add the flag. If the file matters, <b>-i.bak</b> keeps the original as variants.txt.bak, which costs nothing:</p>
+<pre>$ sed -i.bak 's/chr1/chromosome1/g' variants.txt</pre>
 
 <h3>Exercise</h3>
-<p>Play around with text navigation.</p>
+<ol>
+<li>Make a small file with a few repeated words and substitute one of them, with and without the g flag.</li>
+<li>Use sed -n with a line range to print just the middle of the file.</li>
+<li>Delete the first line with 1d and check the original file is untouched.</li>
+<li>Redirect a substitution into a new file, then compare the two with less.</li>
+</ol>
+
 <h3>Quiz Question</h3>
-<p>How do you move to the end of the buffer?</p>
+<p>What does the g at the end of s/old/new/g do?</p>
 <h3>Quiz Answer</h3>
-<p>M-&gt;</p>
+<p>replaces every match on the line rather than only the first</p>
             </div>
             </body>
             </html>

@@ -871,29 +871,31 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Emacs Manipulate Files</h3>
+            <h3>paste</h3>
 
-<p>In a lot (if not all) of Emacs documentation, you will see the syntax C-[letter]. This just means hit the Ctrl-letter, but for shorthand purposes, we'll call Ctrl with C. If you see syntax such as M-[letter], that means use the Meta key, most commonly the Alt key.</p>
-<p><b>Saving files</b></p>
+<p>The paste command is similar to the cat command, it merges lines together in a file. Let's create a new file with the following contents: </p>
 <pre>
-C-x C-s - Save a file
-C-x C-w - Save file as
-C-x s - Save all
+sample2.txt
+The
+quick
+brown
+fox
 </pre>
 
-<p>The save file options will prompt you if you want to save each file.</p>
-<p><b>Opening a file</b></p>
-<pre>
-C-x C-f
-</pre>
+<p>Let's combine all these lines into one line: </p>
+<pre>$ paste -s sample2.txt</pre>
 
-<p>This will prompt you to type a filename to open. If you do not have a file that already exists, it will create a new file. You can load up a directory as well.</p>
+<p>The default delimiter for paste is TAB, so now there is one line with TABs separating each word.</p>
+<p>Let's change this delimiter (-d) to something a little more readable: </p>
+<pre>$ paste -d ' ' -s sample2.txt</pre>
+
+<p>Now everything should be on one line delimited by spaces.</p>
 <h3>Exercise</h3>
-<p>Play around with opening files and saving files.</p>
+<p>Try to paste multiple files together, what happens?</p>
 <h3>Quiz Question</h3>
-<p>What command is used to open a file?</p>
+<p>What flag do you use with paste to make everything go on one line? </p>
 <h3>Quiz Answer</h3>
-<p>C-x C-f</p>
+<p>-s</p>
             </div>
             </body>
             </html>

@@ -103,23 +103,33 @@
                 </li>
                 
                 <li>
+                    <a class="" href="sed-command.html">
+                        13. Sed command</a>
+                </li>
+                
+                <li>
+                    <a class="" href="awk-command.html">
+                        14. Awk command</a>
+                </li>
+                
+                <li>
                     <a class="" href="tr-translate-command.html">
-                        13. Tr translate command</a>
+                        15. Tr translate command</a>
                 </li>
                 
                 <li>
                     <a class="" href="paste-command.html">
-                        14. Paste command</a>
+                        16. Paste command</a>
                 </li>
                 
                 <li>
                     <a class="" href="join-split-command.html">
-                        15. Join split command</a>
+                        17. Join split command</a>
                 </li>
                 
                 <li>
                     <a class="" href="expand-unexpand-command.html">
-                        16. Expand unexpand command</a>
+                        18. Expand unexpand command</a>
                 </li>
                 
             </ul>
@@ -191,7 +201,12 @@ will match patterns like dag, dbg, and dcg
 d<b>[A-C]</b>g
 will match dAg, dBg and dCg but not dag, dbg and dcg
 </pre>
-<p>And those are some basic regular expressions.</p>
+<p>And those are some basic regular expressions. There is a great deal more: repetition with * + and ?, alternation with |, grouping with parentheses, and a frankly confusing split between "basic" and "extended" syntax, which is why grep -E sometimes behaves differently from plain grep.</p>
+<p>This lesson is a starting point rather than a reference. Two places are worth knowing when you need more:</p>
+<ul>
+<li><a href="https://regexone.com/">RegexOne</a> is a short interactive tutorial that takes about an hour and covers the rest of the syntax properly.</li>
+<li><a href="https://regex101.com/">regex101</a> lets you paste a pattern and some text and watch it match, piece by piece, with an explanation of every character. Set the flavour to POSIX or PCRE depending on the tool you are using. For working out why a pattern does not do what you expected, nothing else comes close.</li>
+</ul>
 
                         </div>
                     </div>

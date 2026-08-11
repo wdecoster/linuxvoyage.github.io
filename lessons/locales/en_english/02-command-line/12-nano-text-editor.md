@@ -4,7 +4,7 @@
 
 Sooner or later you need to change a file rather than just read it. You could redirect output into it, but that is no good for editing one line in the middle of a config file. For that you need a text editor.
 
-Linux has powerful editors, vim and emacs, and there is a whole section on them later. They are worth learning eventually, but they both take a while before you can do anything useful. <b>nano</b> takes about a minute, works everywhere, and is perfectly good for the editing you will actually do.
+You may hear people talk about vim and emacs, which are powerful and which both take a long while before you can do anything useful in them. You do not need either. Between <b>nano</b> here and VS Code from the first section, you have everything this course asks of you. nano takes about a minute to learn, is on essentially every machine you will meet, and is perfectly good for the editing you will actually do.
 
 Open a file:
 

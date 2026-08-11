@@ -10,7 +10,9 @@
 10-uniq-unique-command.md
 11-nl-wc-command.md
 12-cut-command.md
-13-tr-translate-command.md
-14-paste-command.md
-15-join-split-command.md
-16-expand-unexpand-command.md
+13-sed-command.md
+14-awk-command.md
+15-tr-translate-command.md
+16-paste-command.md
+17-join-split-command.md
+18-expand-unexpand-command.md

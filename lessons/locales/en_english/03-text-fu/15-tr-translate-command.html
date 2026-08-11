@@ -871,19 +871,27 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Emacs</h3>
+            <h3>tr (Translate)</h3>
 
-<p>Emacs is for users who want an extremely powerful text editor, which may be an understatement because you essentially live in emacs. You can do all your code editing, file manipulation, etc all within emacs. It's a bit slower to load up and the learning curve is a bit steeper than vim, but if you want a powerful editor that is extremely extensible, this is the one for you. When I say extensible, I literally mean you can write up scripts for emacs that extend its functionality.</p>
-<p>To start emacs just use:</p>
-<pre>emacs</pre>
+<p>One thing before we start: tr does not take a filename. It reads whatever you feed it, and if you do not feed it anything it reads your keyboard and sits there waiting. That is why the examples below type a line and get a line back. When you have finished typing, press <b>Ctrl-D</b> to end the input, or <b>Ctrl-C</b> to give up. Most of the time you will feed it from another command with a pipe instead:</p>
+<pre>$ echo hello | tr a-z A-Z
+HELLO</pre>
 
-<p>You should be greeted with the default welcome buffer.</p>
-<p>Buffers in emacs is what your text resides in. So if you open up a file, a buffer is used to store that file's content. You can have multiple buffers open at the same time and you can easily switch between buffers.</p>
+<p>The tr (translate) command allows you to translate a set of characters into another set of characters. Let's try an example of translating all lower case characters to uppercase characters. </p>
+<pre>$ tr a-z A-Z
+hello
+HELLO</pre>
+
+<p>As you can see we made the ranges of a-z into A-Z and all text we type that is lowercase gets uppercased. </p>
 <h3>Exercise</h3>
-<p>No exercises for this lesson.</p>
+<p>Try the following command what happens? </p>
+<pre>$ tr -d ello
+hello</pre>
+
 <h3>Quiz Question</h3>
-<p>No questions move along!</p>
+<p>What command is used to translate characters?</p>
 <h3>Quiz Answer</h3>
+<p>tr</p>
             </div>
             </body>
             </html>

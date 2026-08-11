@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>stdout-standard-out-redirect</title>
+    <title>sed-command</title>
     <script
         src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
         data-turbolinks-track="true"></script>
@@ -43,7 +43,7 @@
             <ul class="sidebar-nav" id="sidebar">
                 
                 <li>
-                    <a class="current" href="stdout-standard-out-redirect.html">
+                    <a class="" href="stdout-standard-out-redirect.html">
                         1. Stdout standard out redirect</a>
                 </li>
                 
@@ -103,7 +103,7 @@
                 </li>
                 
                 <li>
-                    <a class="" href="sed-command.html">
+                    <a class="current" href="sed-command.html">
                         13. Sed command</a>
                 </li>
                 
@@ -151,20 +151,42 @@
 
                         <div class="lesson-content">
                             
-<h3>stdout (Standard Out)</h3>
-<p>By now, we've become familiar with many commands and their output and that brings us to our next subject I/O (input/output) streams. Let's run the following command and we'll discuss how this works. </p>
-<pre>$ echo Hello World &gt; peanuts.txt</pre>
-<p>What just happened? Well check the directory where you ran that command and lo and behold you should see a file called peanuts.txt, look inside that file and you should see the text Hello World. Lots of things just happened in one command so let's break it down. </p>
-<p>First let's break down the first part: </p>
-<pre>$ echo Hello World</pre>
-<p>We know this prints out Hello World to the screen, but how? Processes use I/O streams to receive input and return output. By default the echo command takes the input (standard input or stdin) from the keyboard and returns the output (standard output or stdout) to the screen. So that's why when you type echo Hello World in your shell, you get Hello World on the screen. However, I/O redirection allows us to change this default behavior giving us greater file flexibility. </p>
-<p>Let's proceed to the next part of the command: </p>
-<pre> &gt; </pre>
-<p>The &gt; is a redirection operator that allows us the change where standard output goes. It allows us to send the output of echo Hello World to a file instead of the screen. If the file does not already exist it will create it for us. However, if it does exist it will overwrite it (you can add a shell flag to prevent this depending on what shell you are using).</p>
-<p>And that's basically how stdout redirection works!</p>
-<p>Well let's say I didn't want to overwrite my peanuts.txt, luckily there is a redirection operator for that as well, &gt;&gt;: </p>
-<pre>$ echo Hello World &gt;&gt; peanuts.txt</pre>
-<p>This will append Hello World to the end of the peanuts.txt file, if the file doesn't already exist it will create it for us like it did with the &gt; redirector! </p>
+<h3>sed (Stream Editor)</h3>
+<p>grep finds lines. <b>sed</b> changes them. It reads its input a line at a time, applies an instruction to each one, and prints the result, which makes it the tool for "replace this with that in a whole file" without opening an editor.</p>
+<p>The instruction you will use ninety per cent of the time is <b>s</b>, for substitute:</p>
+<pre>$ sed 's/chr1/chromosome1/' variants.txt</pre>
+<p>Read it as: <b>s</b>ubstitute, then the thing to look for, then what to replace it with, separated by slashes. Every line that contains chr1 comes out with chromosome1 instead.</p>
+<p>Two things to know immediately.</p>
+<p><b>It does not change the file.</b> sed prints the modified text to standard output and leaves your file exactly as it was. That is a feature, not a limitation: you get to look at the result before committing to it. To keep it, redirect to a new file, which you already know how to do:</p>
+<pre>$ sed 's/chr1/chromosome1/' variants.txt &gt; renamed.txt</pre>
+<p>Never redirect onto the file you are reading. <b>sed 's/a/b/' file.txt &gt; file.txt</b> empties the file before sed gets to read it, and your data is gone.</p>
+<p><b>It replaces the first match on each line only.</b> Add a <b>g</b> on the end, for global, to get all of them:</p>
+<pre>
+$ echo "one two one two" | sed 's/one/1/'
+1 two one two
+
+$ echo "one two one two" | sed 's/one/1/g'
+1 two 1 two
+</pre>
+<p><b>The slash is not sacred.</b> Whatever character comes after the s is the separator, so when your text contains slashes, pick something else and avoid a thicket of backslashes:</p>
+<pre>$ sed 's|/home/pete|/data/pete|' paths.txt</pre>
+<p><b>It takes regular expressions</b>, the ones from the regex lesson, which is where it gets its power:</p>
+<pre>
+$ sed 's/^chr//' variants.txt          strip a leading chr from every line
+$ sed 's/  *$//' messy.txt             remove trailing spaces
+</pre>
+<p>A few other instructions worth knowing:</p>
+<pre>
+$ sed -n '5p' file.txt        print only line 5 (-n means print nothing else)
+$ sed -n '10,20p' file.txt    print lines 10 to 20
+$ sed '1d' file.txt           delete the first line, useful for dropping a header
+$ sed '/^#/d' file.txt        delete every line starting with #, dropping comments
+</pre>
+<p>That last pair are genuinely useful on data files, where a header or comment lines get in the way of everything downstream.</p>
+<p>Finally, <b>-i</b> edits the file in place, changing it for real:</p>
+<pre>$ sed -i 's/chr1/chromosome1/g' variants.txt</pre>
+<p>Treat that with respect. There is no undo, and if your pattern was wrong you have now quietly damaged your data. Run it without -i first, look at the output, and only then add the flag. If the file matters, <b>-i.bak</b> keeps the original as variants.txt.bak, which costs nothing:</p>
+<pre>$ sed -i.bak 's/chr1/chromosome1/g' variants.txt</pre>
 
                         </div>
                     </div>
@@ -172,23 +194,21 @@
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>Try a couple of commands: </p>
-<pre>
-$ ls -l /var/log &gt; myoutput.txt
-$ echo Hello World &gt; rm
-$ &gt; somefile.txt 
-</pre>
-<p>The second one looks alarming and is not. It creates an ordinary file named rm in your current directory. It does not touch the rm command, which lives elsewhere on the system and which you do not have permission to change. Run ls to see your new file, cat rm to read it, and then remove it with rm ./rm, which is a fair test of the quoting lesson.</p>
-<p>The third has no command at all, only a redirect. The shell creates an empty file, which is a quick way to make one.</p>
+<ol>
+<li>Make a small file with a few repeated words and substitute one of them, with and without the g flag.</li>
+<li>Use sed -n with a line range to print just the middle of the file.</li>
+<li>Delete the first line with 1d and check the original file is untouched.</li>
+<li>Redirect a substitution into a new file, then compare the two with less.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What redirector do you use to append output to a file? </p>
+<p>What does the g at the end of s/old/new/g do?</p>
 <details class="quiz-answer">
 <summary>Show answer</summary>
-<p>&gt;&gt;</p>
+<p>replaces every match on the line rather than only the first</p>
 </details></div>
 
                         </div>

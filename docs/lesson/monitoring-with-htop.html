@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>controlling-terminal</title>
+    <title>monitoring-with-htop</title>
     <script
         src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
         data-turbolinks-track="true"></script>
@@ -53,7 +53,7 @@
                 </li>
                 
                 <li>
-                    <a class="" href="monitoring-with-htop.html">
+                    <a class="current" href="monitoring-with-htop.html">
                         3. Monitoring with htop</a>
                 </li>
                 
@@ -78,7 +78,7 @@
                 </li>
                 
                 <li>
-                    <a class="current" href="controlling-terminal.html">
+                    <a class="" href="controlling-terminal.html">
                         8. Controlling terminal</a>
                 </li>
                 
@@ -131,13 +131,33 @@
 
                         <div class="lesson-content">
                             
-<h3>Controlling Terminal</h3>
-<p>We discussed how there is a TTY field in the ps output. The TTY is the terminal that executed the command.</p>
-<p>There are two types of terminals, regular <b>terminal devices</b> and <b>pseudoterminal devices</b>. A regular terminal device is a native terminal device that you can type into and send output to your system, this sounds like the terminal application you've been launching to get to your shell, but it's not. </p>
-<p>We're gonna segue so you can see this action, go ahead and type Ctrl-Alt-F1 to get into TTY1 (the first virtual console), you'll notice how you don't have anything except the terminal, no graphics, etc. This is considered a regular terminal device, you can exit this with Ctrl-Alt-F7. </p>
-<p>A pseudoterminal is what you've been used to working in, they emulate terminals with the shell terminal window and are denoted by PTS . If you look at ps again, you'll see your shell process under pts/*.</p>
-<p>Ok, now circling back to the controlling terminal, processes are usually bound to a controlling terminal. For example, if you were running a program on your shell window such as find and you closed the window, your process would also go with it. </p>
-<p>There are processes such as daemon processes, which are special processes that are essentially keeping the system running. They often start at system boot and usually get terminated when the system is shutdown. They run in the background and since we don't want these special processes to get terminated they are not bound to a controlling terminal. In the ps output, the TTY is listed as a <b>?</b> meaning it does not have a controlling terminal.</p>
+<h3>Monitoring with htop</h3>
+<p>You have started a job. Is it actually doing anything? Is it using the memory you expected? Is somebody else already using the whole machine? <b>htop</b> answers all three, and it is the tool to reach for before any of the others in this section.</p>
+<pre>$ htop</pre>
+<p>If it is not installed, <b>top</b> is always there and shows the same information in a less friendly way. On a machine where you can install things, or inside a conda environment, htop is worth having.</p>
+<p>The screen splits in two. Along the top are meters for the machine as a whole, and below is the list of running processes, refreshing every couple of seconds.</p>
+<p><b>The meters at the top.</b> One bar per processor core, then memory, then swap. The core bars tell you how busy the machine is: on a sixteen-core server, one full bar and fifteen empty ones means a single-threaded job, which is normal, and all sixteen full means either your parallel work or somebody else's. The memory bar is the one to watch most closely. When it fills and swap starts filling too, the machine is about to become extremely slow for everybody, because it has started shuffling memory out to disk.</p>
+<p><b>The process list.</b> The columns that matter:</p>
+<ul>
+<li><b>USER</b> - who owns it. On a shared server most of what you see is not yours.</li>
+<li><b>RES</b> - resident memory, the actual RAM this process is using right now. This is the memory number to trust.</li>
+<li><b>VIRT</b> - virtual memory, which is usually an alarmingly large number and rarely means anything. Ignore it.</li>
+<li><b>CPU%</b> - how much processor it is using. Note that 100% means one core fully busy, not the whole machine, so a well-behaved multithreaded tool can legitimately show 800%.</li>
+<li><b>MEM%</b> - the same as RES, as a share of the machine's total.</li>
+<li><b>TIME+</b> - how much processor time it has consumed since it started, which is not the same as how long ago you launched it.</li>
+</ul>
+<p><b>Making it useful.</b> The list is long and mostly other people's. Two keys fix that:</p>
+<ul>
+<li><b>u</b> then your username - show only your own processes. This is the first thing to do.</li>
+<li><b>F6</b> or <b>&gt;</b> - choose what to sort by. Sorting by RES or by CPU% puts the heavy things at the top.</li>
+<li><b>F5</b> or <b>t</b> - tree view, which groups a process with the ones it started. Useful when a script has launched a tool and you want to see which is which.</li>
+<li><b>F4</b> - filter the list by a piece of text, such as the name of your tool.</li>
+<li><b>q</b> - quit. As ever, worth knowing before you go in.</li>
+</ul>
+<p><b>What you are looking for.</b> A few patterns are worth recognising:</p>
+<p>If your job is at 100% CPU and its memory is steady, it is working normally. If it is at 0% CPU, it is waiting for something, usually reading or writing a file, and if it stays there the disk is your bottleneck rather than the processor. If RES is climbing steadily and never levels off, the job is consuming more and more memory, and on a shared machine it will eventually be killed, or take the machine down with it. Notice that early rather than at three in the morning.</p>
+<p><b>Killing something.</b> Select a process with the arrow keys and press <b>F9</b>, then confirm. htop offers a list of signals; the default, SIGTERM, is the polite one that asks the program to stop and clean up. Only use SIGKILL if that does nothing, since it gives the program no chance to finish writing its output. The killing processes lesson later in this section covers what those signals actually are.</p>
+<p>You can only kill your own processes. Attempting somebody else's simply fails, which is the permissions system doing its job.</p>
 
                         </div>
                     </div>
@@ -145,16 +165,21 @@
                     <div class="col-md-6 practice">
                         <div class="exercise-content">
                             <h3>Exercise</h3>
-<p>Look at your ps output and list all the unique TTY values.</p>
+<ol>
+<li>Start something that takes a while, then open htop in another window, press u and filter to your own processes.</li>
+<li>Sort by memory and by CPU, and find your job in the list.</li>
+<li>Look at the core meters and work out how many cores your job is using.</li>
+<li>Quit with q, then try top and compare.</li>
+</ol>
 
                         </div>
 
                         <div class="quiz-content">
                             <h3>Quiz Question</h3>
-<p>What value is given for a process that does not have a controlling terminal?</p>
+<p>Which memory column shows the RAM a process is actually using?</p>
 <details class="quiz-answer">
 <summary>Show answer</summary>
-<p>?</p>
+<p>RES</p>
 </details></div>
 
                         </div>
