@@ -59,6 +59,8 @@ Other things you may want to change:
 | lesson page layout | `templates/lesson.html` |
 | home page outside the grid, About page | `docs/index.html`, `docs/about.html` (edited by hand, preserved by the build) |
 
+Only `lessons/locales/en_english` is part of this course; the other language directories are unmaintained upstream translations, explained in [`lessons/locales/README.md`](lessons/locales/README.md).
+
 Two other Actions run on their own: `check-links.yml` verifies every external link weekly, and opens an issue if one dies.
 
 ### Based on
