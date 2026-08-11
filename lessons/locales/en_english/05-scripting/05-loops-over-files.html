@@ -871,77 +871,68 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Your first script</h3>
+            <h3>Loops over files</h3>
 
-<p>Once you have typed the same three commands for the fourth time, it is time to put them in a file. A shell script is nothing more exotic than that: a list of commands, saved, so you can run them again without retyping.</p>
-<p>Open a new file with nano:</p>
-<pre>$ nano count_reads.sh</pre>
-
-<p>and put this in it:</p>
+<p>The real reason to learn scripting is this one: doing the same thing to a hundred files without typing a hundred commands.</p>
+<p>The for loop walks through a list, putting each item into a variable in turn:</p>
 <pre>
-#!/bin/bash
-
-echo "counting reads"
-wc -l reads.fastq
-echo "done"
-</pre>
-
-<p>The .sh ending is only a convention to help humans. What actually matters is the first line.</p>
-<p><b>#!/bin/bash</b> is called the shebang. Those first two characters tell the kernel that this file is not a program itself, it is a script, and the rest of the line says which interpreter should run it. Without it the system has to guess, and you may get a different shell than the one you wrote for.</p>
-<p>Everywhere else, a # starts a comment and the rest of the line is ignored. Use them.</p>
-<p>Now try to run it:</p>
-<pre>$ ./count_reads.sh
-bash: ./count_reads.sh: Permission denied</pre>
-
-<p>This is the payoff of the permissions section. New files are not executable, because it would be a bad idea if they were. Add the execute bit:</p>
-<pre>
-$ chmod +x count_reads.sh
-$ ./count_reads.sh
-counting reads
-...
+for sample in patient1 patient2 patient3
+do
+    echo "processing $sample"
 done
 </pre>
 
-<p>Why <b>./</b> in front? Because when you type a bare command name, the shell only looks for it in a fixed list of system directories, and the directory you are standing in is deliberately not one of them. Writing ./count_reads.sh says "the file right here", rather than asking the shell to go looking. That list is called $PATH, and the section on your environment covers how to change it.</p>
-<p>A script that always counts the same file is not very useful. You can pass arguments to it, and inside the script they arrive as $1, $2 and so on:</p>
+<p>Read it as: for each thing in this list, call it sample, and run the commands between do and done. You can type this straight at the prompt, and the shell will keep prompting until you finish with done.</p>
+<p>The list can be a wildcard, which is where it gets useful:</p>
 <pre>
-#!/bin/bash
-
-# $1 is the first thing typed after the script name
-echo "counting reads in $1"
-wc -l "$1"
+for f in *.fastq
+do
+    echo "$f has $(wc -l < "$f") lines"
+done
 </pre>
 
+<p>Remember that the shell expands *.fastq into the list of matching filenames before the loop starts, so the loop simply walks a list of names.</p>
+<p>A very common pattern is turning input names into output names. Say you want a .txt report next to every .fastq. The problem is stripping the old extension, and <b>basename</b> does that:</p>
 <pre>
-$ ./count_reads.sh sample1.fastq
-counting reads in sample1.fastq
-4000 sample1.fastq
+for f in *.fastq
+do
+    name=$(basename "$f" .fastq)
+    wc -l "$f" > "${name}_count.txt"
+done
 </pre>
 
-<p>Note the quotes around "$1". If someone hands your script a filename with a space in it, unquoted $1 falls apart in exactly the way you saw earlier.</p>
-<p>A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one. The syntax below is covered properly in the conditionals lesson shortly, so read it as "if fewer than one argument was given, complain and stop" and do not worry about the brackets yet:</p>
+<p>basename "$f" .fastq takes sample1.fastq and gives back sample1, so ${name}_count.txt becomes sample1_count.txt. The curly braces matter here, exactly as in the variables lesson.</p>
+<p>Two habits will save you a lot of grief.</p>
+<p><b>Quote the variable.</b> "$f" and not $f. The moment one file in the directory has a space in its name, an unquoted loop starts doing things to files you did not mean.</p>
+<p><b>Echo before you act.</b> When the loop body deletes, moves or overwrites, run it once with echo in front of the real command so it prints what it <i>would</i> do:</p>
 <pre>
-#!/bin/bash
-
-if [ $# -lt 1 ]; then
-    echo "usage: $0 FASTQ_FILE"
-    exit 1
-fi
-
-wc -l "$1"
+for f in *.fastq
+do
+    echo rm "$f"
+done
 </pre>
 
+<p>Read the output, convince yourself it is right, then take the echo away. This takes five seconds and has saved a great many people from deleting a directory they cared about.</p>
+<p>If the list is in a file rather than on disk, a while loop reads it a line at a time:</p>
+<pre>
+while read sample
+do
+    echo "processing $sample"
+done < samples.txt
+</pre>
+
+<p>The <b>&lt; samples.txt</b> at the end is the stdin redirection you already know, feeding the file into the loop.</p>
 <h3>Exercise</h3>
 <ol>
-<li>Write a script that prints a message and runs pwd and ls.</li>
-<li>Try to run it, get the Permission denied error, then fix it with chmod +x.</li>
-<li>Change it to take a directory as $1 and list that directory instead.</li>
+<li>Make a few files with touch, then write a loop that echoes each filename.</li>
+<li>Change it to print the line count of each file alongside its name.</li>
+<li>Write a loop that would rename each .txt file to .bak, using echo first to check it before running it for real.</li>
 </ol>
 
 <h3>Quiz Question</h3>
-<p>What do you call the #!/bin/bash line at the top of a script?</p>
+<p>Which keywords open and close the body of a for loop?</p>
 <h3>Quiz Answer</h3>
-<p>the shebang</p>
+<p>do and done</p>
             </div>
             </body>
             </html>

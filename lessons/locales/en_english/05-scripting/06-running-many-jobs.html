@@ -871,77 +871,72 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Your first script</h3>
+            <h3>Running many jobs</h3>
 
-<p>Once you have typed the same three commands for the fourth time, it is time to put them in a file. A shell script is nothing more exotic than that: a list of commands, saved, so you can run them again without retyping.</p>
-<p>Open a new file with nano:</p>
-<pre>$ nano count_reads.sh</pre>
-
-<p>and put this in it:</p>
+<p>You know how to run a command on every file in a directory:</p>
 <pre>
-#!/bin/bash
-
-echo "counting reads"
-wc -l reads.fastq
-echo "done"
-</pre>
-
-<p>The .sh ending is only a convention to help humans. What actually matters is the first line.</p>
-<p><b>#!/bin/bash</b> is called the shebang. Those first two characters tell the kernel that this file is not a program itself, it is a script, and the rest of the line says which interpreter should run it. Without it the system has to guess, and you may get a different shell than the one you wrote for.</p>
-<p>Everywhere else, a # starts a comment and the rest of the line is ignored. Use them.</p>
-<p>Now try to run it:</p>
-<pre>$ ./count_reads.sh
-bash: ./count_reads.sh: Permission denied</pre>
-
-<p>This is the payoff of the permissions section. New files are not executable, because it would be a bad idea if they were. Add the execute bit:</p>
-<pre>
-$ chmod +x count_reads.sh
-$ ./count_reads.sh
-counting reads
-...
+for f in *.fastq
+do
+    mytool "$f" > "$(basename "$f" .fastq).out"
 done
 </pre>
 
-<p>Why <b>./</b> in front? Because when you type a bare command name, the shell only looks for it in a fixed list of system directories, and the directory you are standing in is deliberately not one of them. Writing ./count_reads.sh says "the file right here", rather than asking the shell to go looking. That list is called $PATH, and the section on your environment covers how to change it.</p>
-<p>A script that always counts the same file is not very useful. You can pass arguments to it, and inside the script they arrive as $1, $2 and so on:</p>
-<pre>
-#!/bin/bash
+<p>That loop runs them <b>one after another</b>. With four samples, fine. With four hundred, each taking ten minutes, that is nearly three days of the server doing one thing at a time while fifteen of its sixteen processors sit idle.</p>
+<p>The saving grace is that these jobs usually do not depend on each other. Sample 7 does not need sample 6 to finish first. Work like that is called <i>embarrassingly parallel</i>, and it is most of what bioinformatics does.</p>
+<p><b>GNU parallel</b> runs the same command on many inputs at once. In its simplest form it looks like a loop turned inside out:</p>
+<pre>$ parallel mytool {} ::: *.fastq</pre>
 
-# $1 is the first thing typed after the script name
-echo "counting reads in $1"
-wc -l "$1"
-</pre>
+<p>The <b>{}</b> is where each input gets substituted, and <b>:::</b> separates the command from the list of things to run it on. By default parallel uses one job per processor core. Say how many you want with <b>-j</b>:</p>
+<pre>$ parallel -j 4 mytool {} ::: *.fastq</pre>
 
-<pre>
-$ ./count_reads.sh sample1.fastq
-counting reads in sample1.fastq
-4000 sample1.fastq
-</pre>
+<p>It can also read its inputs from another command, which is how you feed it something more selective than a wildcard:</p>
+<pre>$ ls *.fastq | parallel -j 4 mytool {}</pre>
 
-<p>Note the quotes around "$1". If someone hands your script a filename with a space in it, unquoted $1 falls apart in exactly the way you saw earlier.</p>
-<p>A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one. The syntax below is covered properly in the conditionals lesson shortly, so read it as "if fewer than one argument was given, complain and stop" and do not worry about the brackets yet:</p>
-<pre>
-#!/bin/bash
+<p>There are modifiers for building output names, and <b>{.}</b> is the one you will want most, since it gives the input with its extension removed:</p>
+<pre>$ parallel -j 4 'mytool {} > {.}.out' ::: *.fastq</pre>
 
-if [ $# -lt 1 ]; then
-    echo "usage: $0 FASTQ_FILE"
-    exit 1
-fi
+<p>Note the quotes. Without them the shell would apply the redirect once, to parallel itself, rather than inside each job.</p>
+<p>Two things worth doing before you trust a parallel command. <b>--dry-run</b> prints what it would run without running any of it, which is the same "echo before you act" habit from the loops lesson:</p>
+<pre>$ parallel --dry-run mytool {} ::: *.fastq</pre>
 
-wc -l "$1"
-</pre>
+<p>And start with <b>-j 2</b> on a couple of files rather than -j 32 on all of them. Which brings us to the thing that will make you unpopular.</p>
+<p><b>Do not saturate a shared machine.</b> The login node of a shared server is for editing files and launching work, not for running it. Sixteen parallel jobs there will slow the machine down for everyone else on it, and administrators notice. Find out what your site expects: usually there is a job scheduler such as Slurm, and the parallel work belongs there rather than on the machine you ssh into. If you are on a server with no scheduler, agree with the other users what a reasonable -j is, and remember that memory usually runs out before cores do. Sixteen copies of a tool that each want 8 GB will need 128 GB.</p>
+<p>If parallel is not installed, <b>xargs</b> is on every machine and does a cruder version of the same thing:</p>
+<pre>$ ls *.fastq | xargs -n 1 -P 4 mytool</pre>
 
+<p><b>-P 4</b> is the number of jobs at once and <b>-n 1</b> means one input per invocation.</p>
+<p><b>When to stop hand-rolling this.</b> Everything above works well for one command over many files. Real analyses are rarely one command. They are five or six steps, each depending on the last, over hundreds of samples, and then something fails at step four on sample 231 at two in the morning.</p>
+<p>At that point you want a <b>workflow manager</b>. The two common in bioinformatics are <a href="https://snakemake.readthedocs.io/">Snakemake</a>, which is Python-based, and <a href="https://www.nextflow.io/docs/latest/index.html">Nextflow</a>. Covering either properly is a course of its own, and this lesson does not try. What is worth knowing is what they buy you, so you can recognise when you have outgrown a shell script:</p>
+<ul>
+<li>You describe the steps and what each needs, and the tool works out the order and what can run at the same time.</li>
+<li><b>It resumes.</b> After a failure, rerunning does not redo the three days of work that already succeeded, only what is missing. This is the big one.</li>
+<li>It submits to the cluster scheduler for you, so the same workflow runs on your laptop and on a cluster with one flag changed.</li>
+<li>It can pin each step to a conda environment or container, so the analysis still runs the same way next year.</li>
+<li>It keeps a record of what ran, which is what you need when a reviewer asks how a figure was produced.</li>
+</ul>
+
+<p>A reasonable rule of thumb:</p>
+<ul>
+<li>A handful of files, one command: a <b>for loop</b>.</li>
+<li>Many files, one command, no dependencies between them: <b>parallel</b>.</li>
+<li>Several steps that depend on each other, and you will run it more than once: a <b>workflow manager</b>.</li>
+</ul>
+
+<p>Do not jump to the third one for a task the first one handles. But when you find yourself writing a shell script that checks whether each output already exists so it can skip it, you have started writing a bad workflow manager, and it is time to use a good one.</p>
+<p>When you get there, both have good tutorials to start from: the <a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">Snakemake tutorial</a> and <a href="https://training.nextflow.io/">Nextflow training</a>. GNU parallel's own <a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">tutorial</a> goes well beyond what is here too.</p>
+<p>Whichever you use, start it inside a <b>screen</b> session, as covered in Jobs and Processes. Work at this scale outlives your connection.</p>
 <h3>Exercise</h3>
 <ol>
-<li>Write a script that prints a message and runs pwd and ls.</li>
-<li>Try to run it, get the Permission denied error, then fix it with chmod +x.</li>
-<li>Change it to take a directory as $1 and list that directory instead.</li>
+<li>Make a few files with touch, and use parallel --dry-run to see what a command over them would run.</li>
+<li>Run something harmless over them with parallel -j 2, such as wc -l.</li>
+<li>Try the same with xargs -P 2 and compare.</li>
+<li>Find out whether your server has a job scheduler, and what it expects you to run on the login node.</li>
 </ol>
 
 <h3>Quiz Question</h3>
-<p>What do you call the #!/bin/bash line at the top of a script?</p>
+<p>When should you reach for a workflow manager instead of a shell loop?</p>
 <h3>Quiz Answer</h3>
-<p>the shebang</p>
+<p>when the analysis has several steps that depend on each other and you need it to resume after a failure rather than start over</p>
             </div>
             </body>
             </html>

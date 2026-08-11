@@ -59,7 +59,7 @@ counting reads in sample1.fastq
 
 Note the quotes around "$1". If someone hands your script a filename with a space in it, unquoted $1 falls apart in exactly the way you saw earlier.
 
-A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one:
+A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one. The syntax below is covered properly in the conditionals lesson shortly, so read it as "if fewer than one argument was given, complain and stop" and do not worry about the brackets yet:
 
 <pre>
 #!/bin/bash

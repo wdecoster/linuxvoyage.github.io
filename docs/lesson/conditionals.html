@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>conditionals</title>
+    <script
+        src="../static/assets/category/application-8013fdc35e4c79f95bcb3d655ff61f137ac05bcee52e6d96588427a84eddef12.js.download"
+        data-turbolinks-track="true"></script>
+    <link rel="stylesheet" media="all"
+        href="../static/assets/category/application-b0b91461d093aa2ed95d8a7467856e4dc16f55744d3c17a927c3598e5b26cd3f.css"
+        data-turbolinks-track="true">
+    <style>
+        /* The answer is hidden until asked for, so there is a moment to think. */
+        details.quiz-answer > summary {
+            cursor: pointer;
+            display: inline-block;
+            margin: 8px 0;
+            padding: 6px 14px;
+            border: 1px solid #BDC3C7;
+            border-radius: 3px;
+            color: #2C3E50;
+            font-weight: bold;
+            list-style: none;
+            user-select: none;
+        }
+        details.quiz-answer > summary::-webkit-details-marker { display: none; }
+        details.quiz-answer > summary:hover { background-color: #ECF0F1; }
+        details.quiz-answer > summary:before { content: "\25B8\00a0\00a0"; }
+        details.quiz-answer[open] > summary:before { content: "\25BE\00a0\00a0"; }
+        details.quiz-answer[open] > summary { margin-bottom: 4px; }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a>Scripting</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                
+                <li>
+                    <a class="" href="shell-variables.html">
+                        1. Shell variables</a>
+                </li>
+                
+                <li>
+                    <a class="" href="your-first-script.html">
+                        2. Your first script</a>
+                </li>
+                
+                <li>
+                    <a class="" href="exit-codes-and-chaining.html">
+                        3. Exit codes and chaining</a>
+                </li>
+                
+                <li>
+                    <a class="current" href="conditionals.html">
+                        4. Conditionals</a>
+                </li>
+                
+                <li>
+                    <a class="" href="loops-over-files.html">
+                        5. Loops over files</a>
+                </li>
+                
+                <li>
+                    <a class="" href="running-many-jobs.html">
+                        6. Running many jobs</a>
+                </li>
+                
+                <li>
+                    <a class="" href="other-languages-and-programs.html">
+                        7. Other languages and programs</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- End of Sidebar -->
+
+
+        <div id="page-content-wrapper">
+            <!-- Keep all page content within the page-content inset div! -->
+            <div class="page-content inset">
+                <div class="row">
+                    <div class="col-md-6 lesson">
+
+                        <div class="user-app">
+                            <a class="btn btn-default btn-sm" href="../index.html">
+                                Home
+                            </a>
+                        </div>
+
+                        <div class="lesson-content">
+                            
+<h3>Conditionals</h3>
+<p>A script that does the same thing no matter what is only half useful. Usually you want it to check something first: does the input file actually exist, did the previous step work, is this sample already done.</p>
+<p>That is what <b>if</b> is for:</p>
+<pre>
+if [ -f reads.fastq ]
+then
+    echo "found it"
+fi
+</pre>
+<p>Read it as: if this test passes, run the commands between then and fi. <b>fi</b> is if backwards, which is the shell's idea of a joke, and it closes the block the way done closes a loop.</p>
+<p>You will also see it written on one line, which is what you get inside scripts most often. The semicolons stand in for the line breaks:</p>
+<pre>if [ -f reads.fastq ]; then echo "found it"; fi</pre>
+<p><b>The square brackets are a command.</b> This is the part that makes everything else make sense. <b>[</b> is not punctuation, it is a program, another name for <b>test</b>. It runs, it looks at what you gave it, and it exits 0 if the condition holds and non-zero if it does not. if then branches on that exit code, exactly the one from the previous lesson.</p>
+<p>Two consequences follow immediately, and between them they account for most of the errors beginners hit:</p>
+<p><b>The spaces are compulsory.</b> Since [ is a command name, it needs a space after it, the same as any other command. And ] is an argument, so it needs a space before it. Writing <b>[-f reads.fastq]</b> gets you "command not found", because you have asked the shell to run a program called [-f.</p>
+<p><b>Anything can be the condition</b>, not just brackets. if will branch on any command's exit code:</p>
+<pre>
+if grep -q "chr1" variants.vcf
+then
+    echo "chromosome 1 is in there"
+fi
+</pre>
+<p>No brackets at all. grep -q searches quietly and exits 0 if it found something, and that is all if needs.</p>
+<p><b>The tests you will actually use.</b> For files:</p>
+<ul>
+<li>-f file - exists and is a regular file</li>
+<li>-d file - exists and is a directory</li>
+<li>-e file - exists, whatever kind of thing it is</li>
+<li>-s file - exists and is not empty, which is the one you want after a download</li>
+</ul>
+<p>For numbers, spelled out rather than symbols:</p>
+<ul>
+<li>-eq equal, -ne not equal</li>
+<li>-lt less than, -le less than or equal</li>
+<li>-gt greater than, -ge greater than or equal</li>
+</ul>
+<p>For text, using the symbols instead:</p>
+<ul>
+<li>= equal, != not equal</li>
+<li>-z string - the string is empty</li>
+<li>-n string - the string is not empty</li>
+</ul>
+<p>Note that numbers use -lt while text uses =. Mixing them up is a rite of passage. <b>[ 10 -gt 9 ]</b> is true, while <b>[ "10" &gt; "9" ]</b> compares them as text and is false, because "1" sorts before "9".</p>
+<p><b>Reverse a test with !</b>, which is much more useful than testing the positive case, because most checks in scripts are "stop if something is wrong":</p>
+<pre>
+if [ ! -f "$1" ]
+then
+    echo "no such file: $1"
+    exit 1
+fi
+</pre>
+<p>That is the guard from the first script lesson, and now you can read every piece of it: if not a regular file named whatever was passed as the first argument, complain and exit with a failure code.</p>
+<p><b>Quote your variables in tests.</b> If $1 is empty and unquoted, the shell removes it entirely and test sees <b>[ ! -f ]</b>, which is a different expression and behaves oddly rather than failing cleanly. "$1" with quotes stays one empty argument and the test does what you meant.</p>
+<p><b>else and elif</b> do what you would expect:</p>
+<pre>
+if [ -s results.txt ]
+then
+    echo "we have results"
+elif [ -f results.txt ]
+then
+    echo "the file is there but it is empty"
+else
+    echo "nothing ran yet"
+fi
+</pre>
+<p>One last thing you will see in other people's scripts. Bash also has <b>[[ ]]</b>, a double-bracket version with extra features and fewer traps around quoting. It works well and it is what many people use, but it is a bash extension rather than something every shell has. Single brackets work everywhere, so that is what this course uses.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 practice">
+                        <div class="exercise-content">
+                            <h3>Exercise</h3>
+<ol>
+<li>Write a script that takes a filename and prints whether it exists, using -f.</li>
+<li>Add an else branch for the missing case, and make the missing case exit 1.</li>
+<li>Run it on a real file and a made-up one, checking echo $? after each.</li>
+<li>Deliberately write [-f file] with no spaces and read the error you get.</li>
+</ol>
+
+                        </div>
+
+                        <div class="quiz-content">
+                            <h3>Quiz Question</h3>
+<p>Why do you need a space after the opening square bracket in a test?</p>
+<details class="quiz-answer">
+<summary>Show answer</summary>
+<p>because [ is a command, not punctuation, and a command name must be followed by a space</p>
+</details></div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

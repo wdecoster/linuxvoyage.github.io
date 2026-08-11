@@ -53,18 +53,28 @@
                 </li>
                 
                 <li>
-                    <a class="" href="loops-over-files.html">
-                        3. Loops over files</a>
+                    <a class="" href="exit-codes-and-chaining.html">
+                        3. Exit codes and chaining</a>
                 </li>
                 
                 <li>
-                    <a class="" href="exit-codes-and-chaining.html">
-                        4. Exit codes and chaining</a>
+                    <a class="" href="conditionals.html">
+                        4. Conditionals</a>
+                </li>
+                
+                <li>
+                    <a class="" href="loops-over-files.html">
+                        5. Loops over files</a>
+                </li>
+                
+                <li>
+                    <a class="" href="running-many-jobs.html">
+                        6. Running many jobs</a>
                 </li>
                 
                 <li>
                     <a class="" href="other-languages-and-programs.html">
-                        5. Other languages and programs</a>
+                        7. Other languages and programs</a>
                 </li>
                 
             </ul>
@@ -127,7 +137,7 @@ counting reads in sample1.fastq
 4000 sample1.fastq
 </pre>
 <p>Note the quotes around "$1". If someone hands your script a filename with a space in it, unquoted $1 falls apart in exactly the way you saw earlier.</p>
-<p>A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one:</p>
+<p>A couple of other useful ones: <b>$0</b> is the name of the script itself, and <b>$#</b> is how many arguments were given. That lets you catch the case where somebody forgets to pass one. The syntax below is covered properly in the conditionals lesson shortly, so read it as "if fewer than one argument was given, complain and stop" and do not worry about the brackets yet:</p>
 <pre>
 #!/bin/bash
 
