@@ -10,7 +10,7 @@ And boom, new file!
 
 Touch is also used to change timestamps on existing files and directories. Give it a try, do an ls -l on a file and note the timestamp, then touch that file and it will update the timestamp. 
 
-There are many other ways to create files, using redirection or a text editor, and both are coming up shortly: nano later in this section, and redirection in the Text-Fu section after it.
+There are many other ways to create files, using redirection or a text editor, and both are coming up shortly: nano later in this section, and redirection in the Text Manipulation section after it.
 
 ## Exercise
 

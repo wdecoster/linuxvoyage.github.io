@@ -20,7 +20,7 @@ If you search somewhere broad, such as the whole system, expect a lot of lines l
 
 <pre>find: '/root': Permission denied</pre>
 
-That is normal and it is not a mistake in your command. find walks into every directory it can see, and on a shared machine there are plenty you are not allowed to look inside. Your actual matches are in there among the complaints. The Text-Fu section later shows how to send those messages somewhere else so they stop cluttering the output. For now, read past them, or search a directory you own:
+That is normal and it is not a mistake in your command. find walks into every directory it can see, and on a shared machine there are plenty you are not allowed to look inside. Your actual matches are in there among the complaints. The Text Manipulation section later shows how to send those messages somewhere else so they stop cluttering the output. For now, read past them, or search a directory you own:
 
 <pre>$ find ~ -name "*.txt"</pre>
 

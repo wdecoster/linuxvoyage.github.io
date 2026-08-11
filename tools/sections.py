@@ -16,7 +16,7 @@ TIERS = [
          "What Linux actually is, then reaching your server with ssh, keys and VS Code."),
         ("Command Line", "the-shell", "command-line",
          "The fundamentals: navigating files and directories, and editing them with nano."),
-        ("Text-Fu", "stdout-standard-out-redirect", "text-fu",
+        ("Text Manipulation", "stdout-standard-out-redirect", "text-fu",
          "Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut, sed, awk."),
         ("Permissions", "file-permissions", "access",
          "Read, write and execute, and how to change them."),

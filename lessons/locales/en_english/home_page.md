@@ -6,7 +6,7 @@
 
 * Command Line - The fundamentals: navigating files and directories, and editing them with nano.
 
-* Text-Fu - Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut, sed, awk.
+* Text Manipulation - Redirection, pipes, and the tools for slicing text: grep, sort, uniq, cut, sed, awk.
 
 * Permissions - Read, write and execute, and how to change them.
 

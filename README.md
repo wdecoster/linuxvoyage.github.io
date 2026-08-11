@@ -19,7 +19,7 @@ Text and examples lean towards the kind of files these students will actually ha
 * the grep lesson served the env lesson's content ([PR #1](https://github.com/linuxvoyage/linuxvoyage.github.io/pull/1))
 * broken markup, a blank quiz answer, and five misleading statements ([PR #2](https://github.com/linuxvoyage/linuxvoyage.github.io/pull/2))
 
-**Resequenced.** The course now opens with connecting to a server instead of ten pages on choosing a distribution. Text editing moved into the beginner section, tab completion moved to lesson two, `grep` moved to the front of Text-Fu, and the distribution tour, init systems and networking became background reading.
+**Resequenced.** The course now opens with connecting to a server instead of ten pages on choosing a distribution. Text editing moved into the beginner section, tab completion moved to lesson two, `grep` moved to the front of Text Manipulation, and the distribution tour, init systems and networking became background reading.
 
 **New lessons**, none of which existed upstream:
 
