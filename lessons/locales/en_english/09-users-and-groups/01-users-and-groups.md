@@ -8,7 +8,7 @@ Each user has their own home directory where their user specific files get store
 
 The system uses user ids (UID) to manage users, usernames are the friendly way to associate users with identification, but the system identifies users by their UID. The system also uses groups to manage permissions, groups are just sets of users with permission set by that group, they are identified by the system with their group ID (GID).
 
-In Linux, you'll have users in addition to the normal humans that use the system. Sometimes these users are system daemons that continuously run processes to keep the system functioning. One of the most important users is root or superuser, root is the most powerful user on the system, root can access any file and start and terminate any process. For that reason, it can be dangerous to operate as root all the time, you could potentially remove system critical files. Luckily, if root access is needed and a user has root access, they can run a command as root instead with the sudo command. The sudo command (superuser do) is used to run a command with root access, we'll go more in depth on how a user receives root access in a later lesson.
+In Linux, you'll have users in addition to the normal humans that use the system. Sometimes these users are system daemons that continuously run processes to keep the system functioning. One of the most important users is root or superuser, root is the most powerful user on the system, root can access any file and start and terminate any process. For that reason, it can be dangerous to operate as root all the time, you could potentially remove system critical files. Luckily, if root access is needed and a user has root access, they can run a command as root instead with the sudo command. The sudo command (superuser do) is used to run a command with root access. The next lesson goes into how a user receives that access, and why on a server you share with other people you will not have it.
 
 Go ahead and try to view a protected file like /etc/shadow:
 
@@ -25,7 +25,7 @@ We haven't gone through permissions yet, but what's happening here is that root 
 
 <pre>$ sudo cat /etc/shadow</pre>
 
-Now you'll be able to see the contents of the file!
+If you have sudo, you'll now be able to see the contents of the file. On a server you share with other people you will not, and sudo will refuse. That is the normal situation, and the next lesson explains it.
 
 ## Exercise
 

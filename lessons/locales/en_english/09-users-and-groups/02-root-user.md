@@ -2,17 +2,99 @@
 
 ## Lesson Content
 
-We've looked at one way to get superuser access using the sudo command. You can also run commands as the superuser with the su command. This command will "substitute users" and open a root shell if no username is specified. You can use this command to substitute to any user as long as you know the password. 
+The previous lesson said that <b>root</b>, the superuser, can do anything on the machine, and that ordinary users borrow that power for a single command with <b>sudo</b>. This lesson is the promised explanation of where that permission comes from, and why you almost certainly do not have it.
+
+<b>Two ways to become root.</b> You have seen sudo. There is also <b>su</b>, which substitutes users: with a username it becomes that user, with no username it opens a root shell.
 
 <pre>$ su</pre>
 
-There are some downsides to using this method: it's much easier to make a critical mistake running everything in root, you won't have records of the commands you use to change system configurations, etc. Basically, if you need to run commands as the superuser, just stick to sudo.
+It asks for the password <i>of the account you are becoming</i>, so plain su needs the root password. On Debian and Ubuntu the root account has no usable password at all, by design, and su simply fails:
 
-Now that you know what commands to run as the superuser, the question is how do you know who has access to do that? The system doesn't let every single Joe Schmoe run commands as the superuser, so how does it know? There is a file called the /etc/sudoers file, this file lists users who can run sudo. You can edit this file with the <b>visudo</b> command.
+<pre>
+$ su
+Password: 
+su: Authentication failure
+</pre>
+
+That is not a misconfiguration, it is the point. Everything goes through sudo instead, and sudo asks for <i>your own</i> password. The difference matters for more than convenience:
+
+<ul>
+<li>A root shell stays root until you leave it, so every typo in it is a root typo. A sudo command is root for that one command.</li>
+<li>sudo records who ran what, in the system log. su records that someone became root and nothing after that.</li>
+<li>Taking sudo away from one person is a one line change. Sharing a root password means changing it for everybody.</li>
+</ul>
+
+If you genuinely need several root commands in a row, <b>sudo -i</b> gives you a root shell through the same mechanism, logged and with no shared password. Use it deliberately and leave it when you are done.
+
+<b>Where the permission is written down.</b> The system does not let just anyone run sudo. The list lives in <b>/etc/sudoers</b>. You cannot read it:
+
+<pre>
+$ cat /etc/sudoers
+cat: /etc/sudoers: Permission denied
+</pre>
+
+which is reasonable, since it is the file that decides who is trusted. A line in it looks like this:
+
+<pre>pete    ALL=(ALL:ALL) ALL</pre>
+
+Read as four answers to four questions: <b>who</b> (pete), <b>on which machines</b> this file is valid (ALL, since the same file can be copied to many), <b>as which user and group</b> they may run things (ALL:ALL, so anyone including root), and <b>which commands</b> (ALL, meaning anything).
+
+That last field is the interesting one, because it does not have to be ALL. An administrator can grant exactly one privilege and nothing else:
+
+<pre>pete    ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart nginx</pre>
+
+Now pete can restart that one service without a password and can do nothing else as root. If you ever need a single administrative action as part of your work, this is what to ask for. It is a much easier request to grant than "please give me sudo".
+
+<b>In practice it is a group, not a list of names.</b> Adding every user by name would be tedious, so the stock file grants sudo to a group instead. A percent sign means group:
+
+<pre>%sudo   ALL=(ALL:ALL) ALL</pre>
+
+On Debian and Ubuntu that group is called <b>sudo</b>; on Red Hat, Fedora and their relatives it is <b>wheel</b>. So "giving someone sudo" is almost always just adding them to that group, and taking it away is removing them. This is why the first account you create when you install Linux yourself has sudo: the installer puts it in that group. Accounts made for you on someone else's server are not.
+
+You can check where you stand without any special access:
+
+<pre>
+$ groups
+pete students rnaseq
+</pre>
+
+No sudo or wheel in that list means no root access, whatever else you may have been told. To see who does have it:
+
+<pre>
+$ getent group sudo
+sudo:x:27:jane
+</pre>
+
+<b>Editing the file: use visudo.</b> If you do administer a machine of your own, do not open /etc/sudoers in an editor directly. Use:
+
+<pre>$ sudo visudo</pre>
+
+It opens the file in your editor, and then checks the syntax before it saves. That check exists because a syntax error in sudoers makes sudo refuse to work at all, and on a system where root has no password and sudo is the only route to root, a broken sudoers file can lock every administrator out of their own machine permanently. visudo turns that into a message telling you which line is wrong. Modern systems also read /etc/sudoers.d/, so the usual practice is to put a small file per grant there, with visudo -f, rather than editing the main file.
+
+<b>What this means for you on a shared server.</b> You will not have sudo, and asking for it is unlikely to work. Not because anyone doubts you: the machine has other people's data on it, and root can read and destroy all of it, so administrators hand it out narrowly. When you hit something that needs root, there are better moves than asking:
+
+<ul>
+<li><b>Installing software</b> is the usual reason people think they need root, and it is the one case where you simply do not. Conda installs into your home directory as an ordinary user, which is what the Your Environment section covered.</li>
+<li><b>Reading a colleague's data</b> is a group problem, not a root problem. Ask to be added to the group that owns the files. That is a small, safe request.</li>
+<li><b>A tool that must be installed system wide</b>, or a service that must be restarted, is a request to the administrator: name the exact command, and mention that a single sudoers line will do it.</li>
+</ul>
+
+And if you try anyway, you get the message from the permissions section:
+
+<pre>pete is not in the sudoers file. This incident will be reported.</pre>
+
+It is not an idle threat, though it is a mild one: the attempt is written to the system log, which is what "reported" means. Nobody minds you finding out where the edge is. It is worth knowing that the edge is watched.
+
+<b>Finally, respect it.</b> On a machine where you <i>do</i> have sudo, your own laptop or a virtual machine, remember that root has no safety net: no confirmation, no undo, no permission to protect you from yourself. The classic disaster is a stray space in <b>sudo rm -rf /</b> something. Pasting a command from the internet with sudo in front of it deserves the same suspicion as running an unknown program as an administrator on any other system, because that is exactly what it is.
 
 ## Exercise
 
-Open up the /etc/sudoers file and see what superuser permissions other users on the machine have.
+<ol>
+<li>Run groups and id, and see whether you are in a sudo or wheel group.</li>
+<li>Run getent group sudo to see who on this machine is.</li>
+<li>Try cat /etc/sudoers and note which error you get, then work out from the earlier permissions lessons why.</li>
+<li>Look at the first line of /etc/passwd and find root's UID.</li>
+</ol>
 
 ## Quiz Question
 

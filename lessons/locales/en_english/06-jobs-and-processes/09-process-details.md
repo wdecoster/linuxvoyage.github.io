@@ -12,7 +12,7 @@ The kernel is in charge of processes, when we run a program the kernel loads up 
 <li>The status of the process</li>
 <li>The resources the process is using and receives</li>
 <li>The process owner</li>
-<li>Signal handling (more on that later)</li>
+<li>Signal handling, from the process signals lesson</li>
 <li>And basically everything else</li>
 </ul>
 

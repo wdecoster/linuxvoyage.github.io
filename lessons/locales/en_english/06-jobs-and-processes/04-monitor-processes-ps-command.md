@@ -39,7 +39,7 @@ $ ps -u $USER             only your own processes
 
 That last one is usually what you actually wanted. And if you are looking at this interactively rather than in a script, htop from the previous lesson is easier to read than any of them.
 
-You'll notice you're seeing a lot more fields now, no need to memorize them all, in a later course on advanced processes, we'll go over some of these again:
+You'll notice you're seeing a lot more fields now, no need to memorize them all:
 
 <ul>
 <li>USER: The effective user (the one whose access we are using)</li>
