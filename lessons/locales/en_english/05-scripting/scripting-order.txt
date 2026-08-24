@@ -4,4 +4,5 @@
 04-conditionals.md
 05-loops-over-files.md
 06-running-many-jobs.md
-07-other-languages-and-programs.md
+07-when-you-have-outgrown-shell-scripts.md
+08-other-languages-and-programs.md

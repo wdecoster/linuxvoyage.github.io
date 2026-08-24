@@ -57,31 +57,9 @@ If parallel is not installed, <b>xargs</b> is on every machine and does a cruder
 
 <b>-P 4</b> is the number of jobs at once and <b>-n 1</b> means one input per invocation.
 
-<b>When to stop hand-rolling this.</b> Everything above works well for one command over many files. Real analyses are rarely one command. They are five or six steps, each depending on the last, over hundreds of samples, and then something fails at step four on sample 231 at two in the morning.
+This is as far as one command over many files will take you, and for a great deal of work that is far enough. When it stops being enough, the next lesson is about what to reach for instead.
 
-At that point you want a <b>workflow manager</b>. The two common in bioinformatics are <a href="https://snakemake.readthedocs.io/">Snakemake</a>, which is Python-based, and <a href="https://www.nextflow.io/docs/latest/index.html">Nextflow</a>. Covering either properly is a course of its own, and this lesson does not try. What is worth knowing is what they buy you, so you can recognise when you have outgrown a shell script:
-
-<ul>
-<li>You describe the steps and what each needs, and the tool works out the order and what can run at the same time.</li>
-<li><b>It resumes.</b> After a failure, rerunning does not redo the three days of work that already succeeded, only what is missing. This is the big one.</li>
-<li>It submits to the cluster scheduler for you, so the same workflow runs on your laptop and on a cluster with one flag changed.</li>
-<li>It can pin each step to an exact set of installed software, so the analysis still runs the same way next year. The Your Environment section later covers how that software gets installed.</li>
-<li>It keeps a record of what ran, which is what you need when a reviewer asks how a figure was produced.</li>
-</ul>
-
-A reasonable rule of thumb:
-
-<ul>
-<li>A handful of files, one command: a <b>for loop</b>.</li>
-<li>Many files, one command, no dependencies between them: <b>parallel</b>.</li>
-<li>Several steps that depend on each other, and you will run it more than once: a <b>workflow manager</b>.</li>
-</ul>
-
-Do not jump to the third one for a task the first one handles. But when you find yourself writing a shell script that checks whether each output already exists so it can skip it, you have started writing a bad workflow manager, and it is time to use a good one.
-
-When you get there, both have good tutorials to start from: the <a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">Snakemake tutorial</a> and <a href="https://training.nextflow.io/">Nextflow training</a>. GNU parallel's own <a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">tutorial</a> goes well beyond what is here too.
-
-One last thing, whichever route you take. Work at this scale takes longer than your connection will stay up, so it needs to survive you closing your laptop. The next section covers <b>screen</b>, which is how you do that; until you have read it, do not start a long run and walk away.
+One last thing before you set any of this going. Work at this scale takes longer than your connection will stay up, so it needs to survive you closing your laptop. The next section covers <b>screen</b>, which is how you do that; until you have read it, do not start a long run and walk away.
 
 ## Exercise
 
@@ -95,8 +73,8 @@ One last thing, whichever route you take. Work at this scale takes longer than y
 
 ## Quiz Question
 
-When should you reach for a workflow manager instead of a shell loop?
+Why should you always pass -j when you run parallel on a shared machine?
 
 ## Quiz Answer
 
-when the analysis has several steps that depend on each other and you need it to resume after a failure rather than start over
+Without it parallel runs one job per processor core, which takes the whole machine and slows everyone else on it to a crawl.
