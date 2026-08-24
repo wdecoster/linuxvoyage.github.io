@@ -871,70 +871,106 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Installing your own tools</h3>
+            <h3>Startup files</h3>
 
-<p>The packages section later in this course covers apt and yum, the usual way software gets installed on Linux. Both need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it.</p>
-<p>That does not stop you installing anything. It just means installing into your own home directory rather than into the system, and the tool for that is <b>conda</b>.</p>
-<p><b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, from the previous section, and run it:</p>
+<p>Everything you set in a shell, a PATH addition, an exported variable, a umask, lasts only until you log out. A <b>startup file</b> is how you make it stick. It is an ordinary file in your home directory containing shell commands, and bash runs it for you every time a shell starts.</p>
+<p>The complication, and it is the source of a great deal of confusion, is that there is more than one such file, and which one bash reads depends on <i>how</i> the shell was started. Nearly every "I put it in my bashrc and it did not work" is really this.</p>
+<p><b>Three kinds of shell.</b> Bash cares about two questions: did this shell come from logging in, and is a human typing at it.</p>
 <pre>
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-$ bash Miniconda3-latest-Linux-x86_64.sh
+how it started                          what bash calls it     what it reads
+ssh server                              login shell            ~/.bash_profile, or ~/.profile
+bash, screen, a second terminal         interactive shell      ~/.bashrc
+ssh server 'samtools --version'         non-interactive        in effect, nothing
 </pre>
 
-<p>The installer asks a few questions and offers to modify your ~/.bashrc so that conda is on your PATH in new shells. Say yes. Then open a new shell, or run source ~/.bashrc, and conda is available.</p>
-<p><b>Environments are the important idea.</b> An environment is a self-contained set of installed software. You can have several, they do not see each other, and you switch between them.</p>
-<p>Here is the problem they solve. Say one tool you need was written years ago and only works with Python 3.8. Another is actively developed and needs Python 3.12. If everything is installed in one pile, these two requirements cannot both be satisfied, and installing the second tool quietly breaks the first. This is not a rare edge case, it is a normal Tuesday in bioinformatics, and it is worse than it sounds because the breakage often shows up as a confusing error in a tool you were not touching.</p>
-<p>With environments, each project gets its own:</p>
+<p>The first two are the ones that matter day to day. When you ssh in, you get a login shell, and it does <b>not</b> read ~/.bashrc. When you then start screen, or type bash, you get an interactive shell, and it reads ~/.bashrc and none of the others. So a change can easily work in one and not the other.</p>
+<p><b>A login shell reads exactly one of the three.</b> It looks for ~/.bash_profile, then ~/.bash_login, then ~/.profile, and runs the first one that exists. Not all of them, the first. This trips people up: a machine works fine with the ~/.profile it shipped with, someone creates a ~/.bash_profile to hold one line, and everything that was in ~/.profile silently stops happening.</p>
+<p><b>Why ~/.bashrc usually works anyway.</b> Debian and Ubuntu ship a ~/.profile that reads ~/.bashrc itself:</p>
 <pre>
-$ conda create -n oldpipeline python=3.8
-$ conda create -n myproject python=3.12
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
 </pre>
 
-<p>Activate the one you want, and your PATH is rearranged so that environment's software comes first:</p>
-<pre>
-$ conda activate myproject
-(myproject) $ conda install -c bioconda samtools
-(myproject) $ conda deactivate
-$ </pre>
+<p>That dot is the <b>source</b> command under its older name. It means the login shell ends up reading ~/.bashrc after all, which is why the advice "put it in ~/.bashrc" holds on these systems. Check it on your server with:</p>
+<pre>$ grep bashrc ~/.profile</pre>
 
-<p>Notice the prompt. When an environment is active its name appears in front, which is a constant reminder of which set of tools you are using. When a command works for a colleague and not for you, "which environment are you in" is a very good first question. If a command is not found and you expected it to be, check with conda env list and conda activate the right one before assuming anything is broken.</p>
-<p>The <b>-c bioconda</b> above says which channel to install from. Channels are collections of packages, and most bioinformatics software lives in bioconda rather than in the default channel. You will type it a lot.</p>
-<p>A few habits worth forming early:</p>
+<p>If that finds nothing, your login shells are not reading ~/.bashrc, and things you put there will not be set when you ssh in.</p>
+<p>The same stock ~/.profile ends with a piece you have already met:</p>
+<pre>
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+</pre>
+
+<p>So on Ubuntu you often do not have to add ~/bin to your PATH at all. Creating the directory is enough. Note the condition though: the test runs at login, so a directory you make now is picked up at your <i>next</i> login, not in the shell you are sitting in.</p>
+<p><b>The system's files run first.</b> Before any of yours, a login shell reads /etc/profile and an interactive one reads /etc/bash.bashrc. These belong to the administrators and you cannot change them, but they explain things you will notice: the shape of the default prompt, the colours ls uses, and on Ubuntu the "To run a command as administrator (user root), use sudo" message. Your own file runs afterwards, so anything you set in it wins.</p>
+<p><b>What goes in a startup file.</b> Four things, in practice.</p>
 <ul>
-<li>One environment per project, not one big environment for everything. They are cheap to make and painful to untangle.</li>
-<li>Record what you used. conda env export &gt; environment.yml writes out the exact set of packages and versions, and conda env create -f environment.yml rebuilds it. This is what makes your analysis reproducible six months later, and it is the difference between a result you can defend and one you cannot.</li>
-<li>Watch your disk. Environments are not small, home directories usually are. If your server has a scratch or project area, put your environments there and check where before you fill your home directory up, because a full home directory breaks things in confusing ways.</li>
+<li><b>PATH and other exported variables</b>, as in the previous lesson: <b>export PATH=$HOME/bin:$PATH</b>.</li>
+<li><b>Aliases</b>, from the command line section. This is the file the alias lesson told you to put them in. The stock ~/.bashrc already defines a few of its own, such as <b>alias ll='ls -alF'</b>, and that is where ll comes from if you have ever wondered.</li>
+<li><b>umask</b>, which is what the permissions section promised would be explained here. Put <b>umask 007</b> in your ~/.bashrc and every file you create afterwards is 660 rather than 644, so your group can write to your files and nobody outside it can read them. On a shared server with a group per project this is worth setting deliberately.</li>
+<li><b>Blocks that installers add for you.</b> The next lesson installs conda, which offers to append a dozen lines to your ~/.bashrc so its tools are on your PATH in new shells. That block is doing exactly what this lesson describes, written for you rather than by you.</li>
 </ul>
 
-<p><b>Modules.</b> Some shared servers also have a module system, which exposes software the administrators have already installed. It is worth knowing it exists, since it costs nothing to check:</p>
+<p><b>Aliases and umask are inherited differently, and it matters.</b> A umask is a property of the process, so a script you run inherits it:</p>
 <pre>
-$ module avail
-$ module load samtools
-$ module list
+$ umask 007
+$ ./analyse.sh
+$ ls -l results.txt
+-rw-rw---- 1 pete pete 0 Aug 24 13:27 results.txt
 </pre>
 
-<p>Loading a module simply adjusts your PATH, which is why the previous lesson matters. The catch is that you get whichever versions the administrators chose, which may not be the ones your analysis needs, and you cannot record a module list as precisely as an environment file. Useful for common tools, not a substitute for managing your own environments.</p>
-<p><b>By hand.</b> Occasionally you just have a single program and want to run it. Put it in a bin directory in your home and add that to your PATH:</p>
+<p>An alias is not. It is a shell convenience that is never passed on, so the same alias that works when you type it is a command not found inside a script:</p>
 <pre>
-$ mkdir -p ~/bin
-$ cp mytool ~/bin/
-$ chmod +x ~/bin/mytool
-$ export PATH=$HOME/bin:$PATH
+$ ll
+total 16
+drwxrwxr-x 2 pete pete 4096 Aug 24 13:27 ./
+drwx------ 4 pete pete 4096 Aug 24 13:27 ../
+-rwxrwxr-x 1 pete pete   15 Aug 24 13:27 myscript.sh*
+-rw-rw-r-- 1 pete pete   13 Aug 24 13:27 notes.txt
+$ ./myscript.sh
+./myscript.sh: line 2: ll: command not found
 </pre>
 
-<p>Whichever route you take, the mechanism underneath is the same one from the previous lesson: something lands in a directory, and that directory goes on your PATH. When software mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.</p>
+<p>Write out the real command in scripts. An alias is for your fingers, not for anything that has to run somewhere else.</p>
+<p><b>Never print anything unconditionally.</b> Look at the first lines of the stock ~/.bashrc:</p>
+<pre>
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+</pre>
+
+<p>That says: if this shell has no human at it, stop reading this file now. It is there for a real reason. Bash reads ~/.bashrc when sshd runs a command on your behalf, and scp, rsync and sftp all work by running a command over ssh and speaking a protocol on that connection. Anything your ~/.bashrc prints goes into that conversation and corrupts it. The symptom is memorable: interactive ssh is completely fine, and scp fails with a protocol error that says nothing about your shell. So add your lines at the <b>end</b> of the file, below that check, and if you want a welcome banner, know what you are trading for it.</p>
+<p><b>Rereading a file you changed.</b> A startup file is read when the shell starts, so the shell you are in now has not seen your change. Either open a new one, or reread it in place:</p>
+<pre>$ source ~/.bashrc</pre>
+
+<p><b>source</b> runs the file in your current shell, which is the whole point: a variable set by a separate shell would vanish when that shell exited. This is also why you cannot simply run the file. It has no execute permission and no shebang, and ./.bashrc only gets you a Permission denied.</p>
+<p><b>Do not lock yourself out.</b> A mistake in ~/.bashrc affects every new shell, including every new ssh login, so it is entirely possible to make yourself unable to log in comfortably. Two habits:</p>
+<ol>
+<li>Keep your current session open while you test. Open a <i>second</i> connection to check the change, and only close the first once the second works.</li>
+<li>If you do break it, a remote command usually still runs, because that path stops at the check above. From your own machine, <b>ssh server 'mv ~/.bashrc ~/.bashrc.broken'</b> will normally put you back to a working login.</li>
+</ol>
+
 <h3>Exercise</h3>
 <ol>
-<li>Install conda if it is not already there, and check it works with conda --version.</li>
-<li>Create an environment with a specific Python version, activate it, and confirm your prompt changes and python --version matches what you asked for.</li>
-<li>Run conda env export in that environment and look at the file it produces.</li>
-<li>Deactivate, and check that python --version goes back to what it was.</li>
+<li>List the startup files you actually have with ls -a ~ and see which of ~/.bashrc, ~/.profile and ~/.bash_profile exist.</li>
+<li>Run grep bashrc ~/.profile and work out whether your login shells read ~/.bashrc.</li>
+<li>Add an alias to the end of ~/.bashrc, run source ~/.bashrc, and check it works. Then put the same alias in a small script, run the script, and confirm it does not.</li>
+<li>Add umask 007 to the end of ~/.bashrc, open a new shell, create a file, and compare its permissions to one you made before.</li>
 </ol>
 
 <h3>Quiz Question</h3>
-<p>Why would you put two tools in separate conda environments?</p>
+<p>You add a line to ~/.bashrc, but it has no effect when you ssh in. Why not?</p>
 <h3>Quiz Answer</h3>
-<p>because they need different versions of something, such as Python, and cannot both be satisfied in one environment</p>
+<p>An ssh login starts a login shell, which reads ~/.bash_profile or ~/.profile rather than ~/.bashrc. It only picks up ~/.bashrc if one of those files sources it, as the stock Ubuntu ~/.profile does.</p>
             </div>
             </body>
             </html>

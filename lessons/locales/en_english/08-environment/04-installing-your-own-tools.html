@@ -871,34 +871,70 @@ body .markdown-body
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
             <body>
             <div class='markdown-body'>
-            <h3>Umask</h3>
+            <h3>Installing your own tools</h3>
 
-<p>Every file that gets created comes with a default set of permissions. If you ever wanted to change that default set of permissions, you can do so with the umask command. This command takes the 3 bit permission set we see in numerical permissions. </p>
-<p>Instead of adding these permissions though, umask takes away these permissions. </p>
-<pre>$ umask 021</pre>
-
-<p>In the above example, we are taking nothing away from the user, taking the write permission away from the group, and taking the execute permission away from everyone else.</p>
-<p>Now, what is umask subtracting from? Not 777, as you might expect. The system starts from 666 for a new file and 777 for a new directory, and then removes the umask bits. Files start at 666 because it would be a bad idea to make every file you create executable.</p>
-<p>So with the common default umask of 022:</p>
+<p>The packages section later in this course covers apt and yum, the usual way software gets installed on Linux. Both need sudo. On a shared server you almost certainly do not have it, and you should not expect to get it.</p>
+<p>That does not stop you installing anything. It just means installing into your own home directory rather than into the system, and the tool for that is <b>conda</b>.</p>
+<p><b>Conda</b> installs software as a normal user, needs no admin rights, and works out dependencies for you. Fetch the installer onto the server with wget, from the previous section, and run it:</p>
 <pre>
-new file:      666 - 022 = 644  (rw-r--r--)
-new directory: 777 - 022 = 755  (rwxr-xr-x)
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+$ bash Miniconda3-latest-Linux-x86_64.sh
 </pre>
 
-<p>This is why a file you just made is not executable even though your umask leaves the user bits alone. If you want to run it as a program, you still have to add the execute bit yourself with chmod.</p>
-<p>When you run the umask command it will give that default set of permissions on any new file you make, for as long as that shell lasts. To make it stick, the umask line goes in one of the files your shell reads when it starts, usually ~/.bashrc. That is covered in the Startup files lesson in Your Environment, which also explains which of those files is read when.</p>
+<p>The installer asks a few questions and offers to modify your ~/.bashrc so that conda is on your PATH in new shells. Say yes. Then open a new shell, or run source ~/.bashrc, and conda is available.</p>
+<p><b>Environments are the important idea.</b> An environment is a self-contained set of installed software. You can have several, they do not see each other, and you switch between them.</p>
+<p>Here is the problem they solve. Say one tool you need was written years ago and only works with Python 3.8. Another is actively developed and needs Python 3.12. If everything is installed in one pile, these two requirements cannot both be satisfied, and installing the second tool quietly breaks the first. This is not a rare edge case, it is a normal Tuesday in bioinformatics, and it is worse than it sounds because the breakage often shows up as a confusing error in a tool you were not touching.</p>
+<p>With environments, each project gets its own:</p>
+<pre>
+$ conda create -n oldpipeline python=3.8
+$ conda create -n myproject python=3.12
+</pre>
+
+<p>Activate the one you want, and your PATH is rearranged so that environment's software comes first:</p>
+<pre>
+$ conda activate myproject
+(myproject) $ conda install -c bioconda samtools
+(myproject) $ conda deactivate
+$ </pre>
+
+<p>Notice the prompt. When an environment is active its name appears in front, which is a constant reminder of which set of tools you are using. When a command works for a colleague and not for you, "which environment are you in" is a very good first question. If a command is not found and you expected it to be, check with conda env list and conda activate the right one before assuming anything is broken.</p>
+<p>The <b>-c bioconda</b> above says which channel to install from. Channels are collections of packages, and most bioinformatics software lives in bioconda rather than in the default channel. You will type it a lot.</p>
+<p>A few habits worth forming early:</p>
+<ul>
+<li>One environment per project, not one big environment for everything. They are cheap to make and painful to untangle.</li>
+<li>Record what you used. conda env export &gt; environment.yml writes out the exact set of packages and versions, and conda env create -f environment.yml rebuilds it. This is what makes your analysis reproducible six months later, and it is the difference between a result you can defend and one you cannot.</li>
+<li>Watch your disk. Environments are not small, home directories usually are. If your server has a scratch or project area, put your environments there and check where before you fill your home directory up, because a full home directory breaks things in confusing ways.</li>
+</ul>
+
+<p><b>Modules.</b> Some shared servers also have a module system, which exposes software the administrators have already installed. It is worth knowing it exists, since it costs nothing to check:</p>
+<pre>
+$ module avail
+$ module load samtools
+$ module list
+</pre>
+
+<p>Loading a module simply adjusts your PATH, which is why the PATH lesson matters. The catch is that you get whichever versions the administrators chose, which may not be the ones your analysis needs, and you cannot record a module list as precisely as an environment file. Useful for common tools, not a substitute for managing your own environments.</p>
+<p><b>By hand.</b> Occasionally you just have a single program and want to run it. Put it in a bin directory in your home and add that to your PATH:</p>
+<pre>
+$ mkdir -p ~/bin
+$ cp mytool ~/bin/
+$ chmod +x ~/bin/mytool
+$ export PATH=$HOME/bin:$PATH
+</pre>
+
+<p>Whichever route you take, the mechanism underneath is the same one from the PATH lesson: something lands in a directory, and that directory goes on your PATH. When software mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.</p>
 <h3>Exercise</h3>
 <ol>
-<li>Create a new file, then note it's permissions.</li>
-<li>Modify the umask and then create another new file.</li>
-<li>Check the permissions once more on the new file, what do you expect to see?</li>
-<li>Make a new directory as well and compare its permissions to the new file's.</li>
+<li>Install conda if it is not already there, and check it works with conda --version.</li>
+<li>Create an environment with a specific Python version, activate it, and confirm your prompt changes and python --version matches what you asked for.</li>
+<li>Run conda env export in that environment and look at the file it produces.</li>
+<li>Deactivate, and check that python --version goes back to what it was.</li>
 </ol>
 
 <h3>Quiz Question</h3>
-<p>What command is used to change default file permissions?</p>
+<p>Why would you put two tools in separate conda environments?</p>
 <h3>Quiz Answer</h3>
-<p>umask</p>
+<p>because they need different versions of something, such as Python, and cannot both be satisfied in one environment</p>
             </div>
             </body>
             </html>

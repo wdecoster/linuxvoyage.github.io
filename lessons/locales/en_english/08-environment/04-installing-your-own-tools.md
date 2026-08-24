@@ -54,7 +54,7 @@ $ module load samtools
 $ module list
 </pre>
 
-Loading a module simply adjusts your PATH, which is why the previous lesson matters. The catch is that you get whichever versions the administrators chose, which may not be the ones your analysis needs, and you cannot record a module list as precisely as an environment file. Useful for common tools, not a substitute for managing your own environments.
+Loading a module simply adjusts your PATH, which is why the PATH lesson matters. The catch is that you get whichever versions the administrators chose, which may not be the ones your analysis needs, and you cannot record a module list as precisely as an environment file. Useful for common tools, not a substitute for managing your own environments.
 
 <b>By hand.</b> Occasionally you just have a single program and want to run it. Put it in a bin directory in your home and add that to your PATH:
 
@@ -65,7 +65,7 @@ $ chmod +x ~/bin/mytool
 $ export PATH=$HOME/bin:$PATH
 </pre>
 
-Whichever route you take, the mechanism underneath is the same one from the previous lesson: something lands in a directory, and that directory goes on your PATH. When software mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.
+Whichever route you take, the mechanism underneath is the same one from the PATH lesson: something lands in a directory, and that directory goes on your PATH. When software mysteriously stops working, echo $PATH and type -a are almost always the fastest way to see what happened.
 
 ## Exercise
 

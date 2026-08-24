@@ -16,7 +16,7 @@
 
 * Moving Data - Getting files on and off the server: wget, scp, rsync and tar.
 
-* Your Environment - Environment variables, PATH, installing software with conda, and disk space.
+* Your Environment - Environment variables, PATH, startup files, installing software with conda, and disk space.
 
 ## Going Further
 

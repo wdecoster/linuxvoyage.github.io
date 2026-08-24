@@ -51,7 +51,7 @@ export marks a variable to be passed on to any program the shell starts. Since P
 
 <pre>$ export PATH=$HOME/bin:$PATH</pre>
 
-There is still one thing missing. Everything above lasts only until you log out. To make it permanent, put the line in a file bash reads when it starts. The usual choice is <b>~/.bashrc</b>:
+There is still one thing missing. Everything above lasts only until you log out. To make it permanent, put the export line in a file bash reads when it starts. The usual choice is <b>~/.bashrc</b>:
 
 <pre>$ nano ~/.bashrc</pre>
 
@@ -59,15 +59,11 @@ and add at the end:
 
 <pre>export PATH=$HOME/bin:$PATH</pre>
 
-Which file bash reads is unfortunately not simple. When you log in over ssh you get a <i>login</i> shell, and that reads <b>~/.bash_profile</b> or <b>~/.profile</b> rather than ~/.bashrc. On Debian and Ubuntu the stock ~/.profile contains a line that reads ~/.bashrc as well, which is why putting things there usually just works. If your change does not take effect on a fresh ssh login, that is the first thing to check.
-
-The file is only read when a shell starts, so your current shell will not notice. Either open a new one, or reread it now:
+The file is only read when a shell starts, so your current shell will not notice. Either open a new one, or reread it now with <b>source</b>, which runs the file in the shell you are already sitting in:
 
 <pre>$ source ~/.bashrc</pre>
 
-<b>source</b> runs the file in your current shell, which is exactly what you want, because a variable set in a separate shell would vanish when that shell exits. This is also why you cannot just run the file as a command: it has no execute permission and no shebang, so ./.bashrc only gets you a Permission denied.
-
-A word of caution: a mistake in ~/.bashrc affects every new shell you open, including new ssh logins, and it is possible to break your own access. Keep an existing session open while you test changes, so you have a way back in.
+Which file bash reads, though, is not as simple as that makes it sound, and getting it wrong is the usual reason a PATH change works now and is gone after a fresh ssh login. The next lesson is about those files: which one is read when, what else belongs in them, and how to avoid locking yourself out of your own account with a typo.
 
 ## Exercise
 

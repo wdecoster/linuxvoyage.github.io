@@ -21,7 +21,7 @@ new directory: 777 - 022 = 755  (rwxr-xr-x)
 
 This is why a file you just made is not executable even though your umask leaves the user bits alone. If you want to run it as a program, you still have to add the execute bit yourself with chmod.
 
-When you run the umask command it will give that default set of permissions on any new file you make. However, if you want it to persist you'll have to modify your startup file (.profile), but we'll discuss that in a later lesson.
+When you run the umask command it will give that default set of permissions on any new file you make, for as long as that shell lasts. To make it stick, the umask line goes in one of the files your shell reads when it starts, usually ~/.bashrc. That is covered in the Startup files lesson in Your Environment, which also explains which of those files is read when.
 
 ## Exercise
 

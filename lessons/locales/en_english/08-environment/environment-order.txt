@@ -1,4 +1,5 @@
 01-env-environment.md
 02-path-and-export.md
-03-installing-your-own-tools.md
-04-disk-space.md
+03-startup-files.md
+04-installing-your-own-tools.md
+05-disk-space.md

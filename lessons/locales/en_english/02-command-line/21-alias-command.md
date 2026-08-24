@@ -10,7 +10,7 @@ Now instead of typing ls -la, you can type foobar and it will execute that comma
 
 <pre>~/.bashrc</pre>
 
-or similar files if you want to have it persist after reboot.
+That file is read every time a shell starts, which is what makes the alias come back. There are a few such files and which one your shell reads depends on how it was started, but ~/.bashrc is the right answer almost always. The Startup files lesson in Your Environment covers the rest.
 
 You can remove aliases with the unalias command: 
 
