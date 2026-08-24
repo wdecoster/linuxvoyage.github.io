@@ -19,6 +19,8 @@ The way DHCP gets all your dynamic host information is:
 
 DHCP gets more involved than this, but this is the gist of it.
 
+Nine lessons is an introduction to the vocabulary, not to the subject. Models and layers are the scaffolding that a networking course puts up in its first week before spending the rest of a term filling it in. If the scaffolding interested you, <a href="https://book.systemsapproach.org/">Computer Networks: A Systems Approach</a> is a full university text, free to read online, and it starts roughly where this section ends.
+
 ## Exercise
 
 No exercises for this lesson.

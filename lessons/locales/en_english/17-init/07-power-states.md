@@ -20,6 +20,8 @@ Or just use the reboot command:
 
 <pre>$ sudo reboot</pre>
 
+Init systems are one of the few corners of Linux where the disagreement was public and bad tempered. systemd won, and it does a great deal more than start services: logging, timers, device management and container plumbing all sit inside it, none of which these seven lessons touch. If you administer a machine of your own, <a href="https://wiki.archlinux.org/title/Systemd">ArchWiki's systemd page</a> is the practical reference, and <b>man systemd.service</b> is on the machine already.
+
 ## Exercise
 
 What do you think is happening with init when you shutdown your machine?

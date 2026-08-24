@@ -894,6 +894,7 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 $ ip neighbour show
 </pre>
 
+<p>This is the most immediately useful of the networking sections and the one most likely to be out of date on your machine, because how interfaces get configured is exactly what distributions keep changing: ifconfig gave way to ip, and NetworkManager, netplan and systemd-networkd all now exist and disagree. <a href="https://wiki.archlinux.org/title/Network_configuration">ArchWiki's network configuration page</a> is the best map of that landscape, and it is honest about which tool is doing what.</p>
 <h3>Exercise</h3>
 <p>Observe what happens to your ARP cache when you reboot your machine and then do something on the network.</p>
 <h3>Quiz Question</h3>

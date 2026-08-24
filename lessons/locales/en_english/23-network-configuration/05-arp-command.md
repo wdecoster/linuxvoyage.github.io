@@ -26,6 +26,7 @@ You can also view your arp cache via the ip command:
 $ ip neighbour show
 </pre>
 
+This is the most immediately useful of the networking sections and the one most likely to be out of date on your machine, because how interfaces get configured is exactly what distributions keep changing: ifconfig gave way to ip, and NetworkManager, netplan and systemd-networkd all now exist and disagree. <a href="https://wiki.archlinux.org/title/Network_configuration">ArchWiki's network configuration page</a> is the best map of that landscape, and it is honest about which tool is doing what.
 
 ## Exercise
 

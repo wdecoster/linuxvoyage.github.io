@@ -25,6 +25,8 @@ Our backup.img file is 10M, however, we are saying in this command to copy over 
 
 dd is extremely powerful, you can use it to make backups of anything, including whole disk drives, restoring disks images, and more. Be careful, that powerful tool can come at a price if you aren't sure what you are doing.
 
+Everything in this section has been the view from user space: files under /dev, and a few commands that read and write them. On the other side of those files are device drivers, kernel modules, and the udev rules that decide what appears, under which name, and who is allowed to touch it. That is where the subject really lives, and <a href="https://wiki.archlinux.org/title/Udev">ArchWiki's udev page</a> is the readable way into it. Little of it is specific to Arch.
+
 ## Exercise
 
 Use the dd command to make a backup of your drive and set the output to a .img file.

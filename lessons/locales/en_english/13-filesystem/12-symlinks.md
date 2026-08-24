@@ -63,6 +63,8 @@ $ ln somefile somelink</pre>
 
 Similar to a symlink creation, except this time you leave out the -s.
 
+This section stops where the ideas stop being simple. Partitions, inodes and symlinks are things you can hold in your head. How a journalling filesystem survives losing power halfway through a write, or why one filesystem suits millions of tiny files and another suits a few enormous ones, is a subject with a literature behind it, and it matters the day you are asked where to put ten terabytes of sequencing data. Two places to go on: <b>man hier</b> on any machine explains what each top level directory is for, and <a href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html">the Filesystem Hierarchy Standard</a> is where those conventions are actually written down.
+
 ## Exercise
 
 Play around with making symlinks and hardlinks, delete a couple and see what happens.

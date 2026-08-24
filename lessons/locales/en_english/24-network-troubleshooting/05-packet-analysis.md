@@ -56,6 +56,8 @@ $ sudo tcpdump -w /some/file
 
 Some final thoughts: we only scraped the surface of the subject of packet analysis. There is so much you can look at and we haven't even touched upon going even deeper with Hex and ASCII output. There are plenty of resources online to help you learn more about packet analyzers and I urge you to find them!
 
+Packet analysis is the point where this section stops being introductory. ping and traceroute you can pick up in an afternoon; reading a packet capture is a skill people are hired for, and the tool everyone uses is Wireshark, whose <a href="https://www.wireshark.org/docs/">documentation and guides</a> are thorough and free. For the work this course is aimed at, knowing that the tool exists and what kind of question it answers is usually enough.
+
 ## Exercise
 
 Download and install the Wireshark tool and play around with the interface.

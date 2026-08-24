@@ -40,6 +40,8 @@ You can also make sure a module does not load on bootup by adding a configuratio
 blacklist peanut_butter
 </pre>
 
+Measured against its subject this is the shallowest section in the course. The kernel is tens of millions of lines of code and the thing every other lesson here has been standing on. What these six lessons give you is vocabulary: enough to know what a module is, what a system call is, and to follow a conversation or an error message that mentions them. <a href="https://www.kernel.org/doc/html/latest/">The kernel's own documentation</a> is the real thing, and it is written for people building kernels rather than using them, which is a fair indication of the distance between here and there.
+
 ## Exercise
 
 Unload your bluetooth module with modprobe and see what happens. How will you fix this?

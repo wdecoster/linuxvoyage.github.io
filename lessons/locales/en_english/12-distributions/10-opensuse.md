@@ -14,6 +14,8 @@ openSUSE is a great choice for a new Linux user. It offers an easy to use graphi
 <b>Uses</b>
 openSUSE Leap is fully capable of being used on a desktop PC and laptop.
 
+That is the tour. Ten pages is enough to recognise the names, to know which package manager to expect and to not be surprised by a colleague's machine, and it is not meant to be more than that. The documentation worth reading is whichever belongs to the distribution in front of you, and for the kind of server this course is written around that is <a href="https://ubuntu.com/server/docs/">the Ubuntu server documentation</a>.
+
 ## Exercise
 
 If you're interested in having openSUSE as your operating system, head over to the download page and give it a try: <a href='https://software.opensuse.org/'>software.opensuse.org</a>

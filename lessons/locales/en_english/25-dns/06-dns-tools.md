@@ -48,6 +48,8 @@ www.google.com.         5       IN      A       74.125.239.148
 ;; MSG SIZE  rcvd: 123
 </pre>
 
+DNS is a small idea with an enormous amount of machinery under it, and this section has stayed firmly on the small idea. Caching, resolvers, zone transfers, DNSSEC and the reasons that "it is always DNS" is a running joke among people who run systems are all past where these six lessons stop. <a href="https://wiki.archlinux.org/title/Domain_name_resolution">ArchWiki's domain name resolution page</a> is a good next step, since it deals with what is actually configured on a Linux machine.
+
 ## Exercise
 
 Read up on the manpage for dig.

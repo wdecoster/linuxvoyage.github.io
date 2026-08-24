@@ -6,6 +6,8 @@ The last important protocol we'll discuss is BGP, BGP is basically how the Inter
 
 Let's say you were on your home network and I'm working from Starbucks, I want to be able to communicate with you, so I send an email and the network packet travels through Starbuck's network, it bounces around there and goes through the routing tables in Starbuck's network until it finally reaches a point at the border of the Starbucks network and passes it to a Border Gateway router. This router contains the information for my packet to leave the Starbucks network and traverse other networks.
 
+It is worth being honest about the depth here. BGP is the protocol by which every network on the internet tells every other network how to reach it, it runs on trust between operators, and a single mistyped announcement has taken large parts of the internet offline more than once. People spend careers on it. Seven lessons give you the words and the shape of the problem, which is all this course is trying to do. <a href="https://book.systemsapproach.org/">Computer Networks: A Systems Approach</a> is the place to go if the shape of it interested you.
+
 ## Exercise
 
 No exercises for this lesson.

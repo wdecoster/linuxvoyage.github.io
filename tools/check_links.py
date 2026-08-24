@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SEARCH = [
     ROOT / "lessons" / "locales" / "en_english",
     ROOT / "docs" / "index.html",
+    ROOT / "docs" / "about.html",
     ROOT / "README.md",
 ]
 SUFFIXES = {".md", ".html"}
