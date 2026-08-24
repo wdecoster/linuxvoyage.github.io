@@ -59,7 +59,7 @@ Other things you may want to change:
 | lesson page layout | `templates/lesson.html` |
 | home page outside the grid, About page | `docs/index.html`, `docs/about.html` (edited by hand, preserved by the build) |
 
-Only `lessons/locales/en_english` is part of this course; the other language directories are unmaintained upstream translations, explained in [`lessons/locales/README.md`](lessons/locales/README.md).
+`lessons/locales/en_english` is the whole course. The thirteen unmaintained upstream translations that used to sit beside it have been removed; [`lessons/locales/README.md`](lessons/locales/README.md) says why, and how to get at them if you ever need the original wording of a lesson.
 
 ### Things that will bite you
 
