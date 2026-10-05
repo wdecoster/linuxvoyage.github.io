@@ -26,6 +26,8 @@ So the honest summary is: use VS Code because it is comfortable, and learn nano 
 
 ## Exercise
 
+This exercise needs an account on a server. If you have already received login information, a username and a server address, try it now. If not, skip it and move on; you can come back once you have an account.
+
 <ol>
 <li>Install the Remote - SSH extension and connect to your server.</li>
 <li>Open your home directory on the server and confirm the bottom left corner shows the server name.</li>

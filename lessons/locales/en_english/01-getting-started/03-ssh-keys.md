@@ -54,6 +54,8 @@ Now <b>ssh work</b> is enough. That short name works with scp and rsync too, and
 
 ## Exercise
 
+This exercise needs an account on a server. If you have already received login information, a username and a server address, try it now. If not, do the first step only, then move on; you can come back for the rest once you have an account.
+
 <ol>
 <li>Generate a key pair with ssh-keygen -t ed25519.</li>
 <li>Copy the public half to your server with ssh-copy-id, then log in again and confirm you are not asked for your password.</li>

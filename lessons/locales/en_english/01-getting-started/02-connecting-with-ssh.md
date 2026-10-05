@@ -54,6 +54,8 @@ One thing to know early: if your network drops, or you close your laptop, your s
 
 ## Exercise
 
+This exercise needs an account on a server. If you have already received login information, a username and a server address, try it now. If not, skip it and move on; you can come back once you have an account.
+
 <ol>
 <li>Connect to your server with ssh.</li>
 <li>Run hostname and whoami. Both describe the server, not the machine in front of you: the name is the server's name, and the user is your account there.</li>
